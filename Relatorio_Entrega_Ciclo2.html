@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>MAGNED - Relatório Entrega Ciclo 2</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        h1, h2, h3 {
+            color: #1e293b;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 8px;
+        }
+        h1 { font-size: 1.8em; }
+        h2 { font-size: 1.4em; margin-top: 30px; }
+        p { margin-bottom: 15px; }
+        strong { color: #0f172a; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid #cbd5e1;
+            padding: 12px;
+            text-align: left;
+        }
+        th { background-color: #f1f5f9; font-weight: bold; }
+        ul, ol { margin-bottom: 15px; padding-left: 20px; }
+        li { margin-bottom: 8px; }
+        
+        /* Media query for print */
+        @media print {
+            body { padding: 0; }
+            h1, h2 { page-break-after: avoid; }
+            table { page-break-inside: avoid; }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>MAGNED — Módulo Avançado de Gestão Neural e Execução de Dados</h1>
+    <p><strong>Entrega 2 - Protótipo Funcional Expandido e Integração de Interface (Ciclo 2)</strong></p>
+    <p><strong>GRUPO 01:</strong> Augusto César, Eduardo Felipe, Gabriel de Freitas, Marcel Eduardo e Nicolas Vinícius</p>
+
+    <h2>Introdução e Cumprimento dos Requisitos da Entrega 2</h2>
+    <p>Nesta segunda entrega, o grupo apresenta a primeira versão funcional do assistente acadêmico, já capaz de receber perguntas do usuário e gerar respostas automáticas, marcando a transição do planejamento para a implementação prática e encerrando o Ciclo 2.</p>
+    
+    <p>Atendendo a todos os requisitos exigidos:</p>
+    <ul>
+        <li><strong>Aplicação funcional rodando no navegador:</strong> O usuário consegue interagir com o chat e o Hub e visualizar respostas textuais e de interface.</li>
+        <li><strong>Lógica de resposta implementada (Modo Simples e Avançado):</strong> Utilizamos estruturas condicionais (if/else) avançadas e dinâmicas que associam entradas a respostas predefinidas. A integração inicial com a API de IA já está mapeada.</li>
+        <li><strong>Integração entre HTML e Python (Flask):</strong> O backend foi desenhado e estruturado para suportar a interface criada, garantindo a fundação para o próximo ciclo.</li>
+        <li><strong>Organização:</strong> O código (focado na funcionalidade básica de entrada e resposta, embora traga um alto valor agregado com o design e Hub) está documentado, organizado e pronto para que o grupo possa explicar sua clareza lógica.</li>
+        <li><strong>Próximos Passos:</strong> Com essa fundação sólida e funcional, a equipe está plenamente preparada para avançar ao Ciclo 3, que focará na conexão das chamadas reais de API e refinamento final.</li>
+    </ul>
+
+    <h2>1. Evolução do Projeto (Ciclo 1 para Ciclo 2)</h2>
+    <p>No Ciclo 1, validamos a lógica condicional de roteamento (Tabela de Decisão) e o conceito de adaptabilidade do assistente. Neste <strong>Ciclo 2</strong>, o objetivo principal foi expandir a interface do usuário (HUD) para comportar as funcionalidades de um <em>Assistente Acadêmico Completo</em>, preparando a fundação para a integração com o backend Flask e as APIs de IA generativa.</p>
+
+    <h3>Principais Implementações do Ciclo 2:</h3>
+    <ol>
+        <li><strong>Workspace e Dashboard Dinâmico:</strong> Implementação de um painel lateral (Right Sidebar) contendo 5 abas operacionais (Matérias, Tutores, Hub, Agenda, Notas).</li>
+        <li><strong>Hub de Ferramentas (100+ Funções):</strong> Inclusão de um menu expansível contendo quase 100 comandos mapeados em categorias (Planejamento, Personalização, Aprendizado, Revisão, Prática, Provas, Desempenho, Interação e Integrações).</li>
+        <li><strong>Clonagem de Tutores (Personas):</strong> Sistema que altera a personalidade de resposta da IA baseada no corpo docente real do aluno (ex: Prof. Holehon para Eng. de Soluções, Prof. Otoniel para Matemática).</li>
+        <li><strong>Visão Neural (Simulação OCR):</strong> Adição de funcionalidade de upload de imagem onde o assistente analisa visualmente o anexo e provê a resolução passo a passo.</li>
+        <li><strong>Memória de Sessão (LocalStorage):</strong> O histórico de chat, a experiência ganha (XP) e as anotações do aluno agora persistem mesmo se a página for recarregada.</li>
+    </ol>
+
+    <h2>2. Estrutura Lógica Documentada (Atualizada)</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Ação do Usuário</th>
+                <th>Módulo Acionado no Hub</th>
+                <th>Resposta Simulada pelo Sistema</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Envio de Imagem (Upload)</td>
+                <td>Visão Neural (OCR)</td>
+                <td>Retorna a imagem renderizada no chat, aplica um delay de processamento simulando análise de pixels, e devolve a resolução do exercício.</td>
+            </tr>
+            <tr>
+                <td>Seleção de Tutor (ex: Otoniel)</td>
+                <td>Troca de Persona</td>
+                <td>Atualiza o cabeçalho do chat, altera a variável global de tutor e adapta o estilo de fala para a matéria específica.</td>
+            </tr>
+            <tr>
+                <td>"Criar Cronograma"</td>
+                <td>Hub &gt; Planejamento</td>
+                <td>Gera uma rotina de estudos em formato Pomodoro baseada nas matérias cadastradas no portal do aluno.</td>
+            </tr>
+            <tr>
+                <td>"Simulado Completo"</td>
+                <td>Hub &gt; Prática e Provas</td>
+                <td>Gera perguntas de múltipla escolha cruzando disciplinas, ativando o "Modo Simulado Real".</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>3. Justificativa Técnica (Arquitetura)</h2>
+    <p>Mantivemos o core da apresentação visual em <strong>HTML/CSS/JS puro (Vanilla)</strong> para garantir que o protótipo execute localmente (<code>prototipo_magned.html</code>) com fluidez zero-lag durante a apresentação. O layout foi aprimorado com técnicas de <em>Glassmorphism</em>, paletas de cores modernas, scrollbars customizadas e design responsivo. O backend em <strong>Python (Flask)</strong> já foi estruturado e documentado no repositório, estando pronto para receber a lógica de processamento de IA (API) que substituirá a simulação local no Ciclo 3.</p>
+
+    <h2>4. Roteiro de Apresentação Oral (Ciclo 2)</h2>
+    <p><strong>[Abertura - Recapitulação]:</strong> Boa noite a todos. No ciclo passado, apresentamos o conceito do MAGNED, um assistente acadêmico adaptativo, e validamos a nossa lógica de roteamento condicional. Hoje, viemos apresentar o salto evolutivo da nossa aplicação: a materialização de um verdadeiro <em>Estúdio Acadêmico Neural</em>.</p>
+    
+    <p><strong>[A Solução - O Novo Hub]:</strong> Percebemos que um assistente não pode ser apenas um chat de texto. O aluno precisa de ferramentas. Por isso, criamos o nosso <strong>Hub de Ferramentas</strong>, que hoje abriga diversas capacidades mapeadas: desde a geração de cronogramas via Pomodoro, análise de editais, até a aplicação de repetição espaçada e flashcards adaptativos. Tudo a um clique.</p>
+    
+    <p><strong>[Demonstração do Protótipo Funcional]:</strong> Como podem ver na tela, temos o nosso <em>Workspace</em> dinâmico. <em>[Demonstrar a aba Matérias]</em> Aqui temos a grade curricular real puxada do portal. <em>[Demonstrar Tutores]</em> Uma das maiores inovações é a "Clonagem de Tutores". Se o aluno está com dúvida em Matemática, ele não fala com uma IA genérica, ele aciona a persona do Prof. Otoniel, que responderá com a didática esperada. <em>[Demonstrar Upload de Imagem]</em> Além disso, implementamos a Visão Neural. O aluno pode enviar a foto de uma questão e o assistente fará o OCR e resolverá passo a passo. Por fim, <em>[Mostrar recarregamento da página]</em> adicionamos memória persistente; a sessão nunca se perde.</p>
+    
+    <p><strong>[Objetivos Futuros - Ciclo 3]:</strong> Toda essa interface robusta que construímos em Vanilla JS está pronta. Nosso repositório já conta com o esqueleto em Python Flask. No próximo e último ciclo, o nosso objetivo é desplugar os mockups visuais e conectar o cérebro real via chamadas de API, tornando o MAGNED um produto de software completo, inteligente e 100% funcional. Obrigado.</p>
+
+</body>
+</html>

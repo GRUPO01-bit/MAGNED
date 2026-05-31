@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MAGNED - Estúdio Acadêmico Neural</title>
+    <meta name="description" content="A evolução do aprendizado com IA.">
+    <!-- PWA -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0c0c10">
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@vladmandic/face-api/dist/face-api.js"></script>
+
+<style>
+/* Design System - Obsidian Ember (Ciclo 3) with Glassmorphism */
+:root {
+    --bg-void:     #0c0c10;
+    --bg-surface:  #17171e;
+    --bg-elevated: #21212c;
+    --bg-card:     rgba(23, 23, 30, 0.7);
+    --bg-input:    #2a2a38;
+    
+    --ember:       #ff6b35; 
+    --ember-soft:  rgba(255,107,53,.10);
+    --ember-glow:  rgba(255,107,53,.40);
+    
+    --amber:       #ffd166; 
+    --mint:        #06d6a0; 
+    --rose:        #fb4f7b; 
+    
+    --text-1:      #f0ece4;
+    --text-2:      #b8b4bf;
+    --text-3:      #6b6875;
+    
+    --border:      rgba(255,255,255,.07);
+    --glass-border:rgba(255,107,53,.15);
+    
+    --radius-lg: 24px;
+    --radius-md: 16px;
+    --radius-sm: 8px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+    font-family: 'Outfit', sans-serif;
+    background-color: var(--bg-void);
+    color: var(--text-1);
+    overflow-x: hidden;
+    line-height: 1.6;
+}
+
+/* ═══════════════════════════════════════════════════
+   SPLASH / INTRO ANIMATION
+   ═══════════════════════════════════════════════════ */
+.splash-screen {
+    position: fixed; inset: 0;
+    background: var(--bg-void);
+    z-index: 9999;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    overflow: hidden;
+    transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.splash-screen.hide {
+    opacity: 0;
+    transform: scale(1.05);
+    pointer-events: none;
+}
+
+/* Particle canvas behind logo */
+#splashParticles {
+    position: absolute; inset: 0;
+    z-index: 0;
+}
+
+/* Animated Brain Icon */
+.splash-logo {
+    position: relative; z-index: 1;
+    width: 120px; height: 120px;
+    background: linear-gradient(135deg, var(--ember), var(--amber));
+    border-radius: 32px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 3.5rem; color: white;
+    animation: splashPulse 2s ease-in-out infinite, splashEntry 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    box-shadow: 0 0 60px var(--ember-glow), 0 0 120px rgba(255,107,53,0.15);
+    opacity: 0;
+    transform: scale(0) rotate(-15deg);
+}
+@keyframes splashEntry {
+    to { opacity: 1; transform: scale(1) rotate(0deg); }
+}
+@keyframes splashPulse {
+    0%, 100% { box-shadow: 0 0 60px var(--ember-glow), 0 0 120px rgba(255,107,53,0.15); }
+    50% { box-shadow: 0 0 80px var(--ember-glow), 0 0 160px rgba(255,107,53,0.25); }
+}
+
+/* Animated Title */
+.splash-title {
+    position: relative; z-index: 1;
+    font-size: 3rem; font-weight: 800;
+    margin-top: 30px;
+    background: linear-gradient(90deg, #fff, var(--amber), var(--ember));
+    background-size: 200%;
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    animation: splashTextEntry 0.6s 0.3s ease forwards, splashGradientShift 3s ease infinite;
+    opacity: 0; transform: translateY(20px);
+    letter-spacing: 4px;
+}
+@keyframes splashTextEntry {
+    to { opacity: 1; transform: translateY(0); }
+}
+@keyframes splashGradientShift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+/* Tagline */
+.splash-tagline {
+    position: relative; z-index: 1;
+    font-size: 1.1rem; color: var(--text-3);
+    margin-top: 12px; font-weight: 400;
+    animation: splashTextEntry 0.6s 0.6s ease forwards;
+    opacity: 0; transform: translateY(20px);
+}
+
+/* Loading bar */
+.splash-loader {
+    position: relative; z-index: 1;
+    width: 200px; height: 3px;
+    background: var(--border);
+    border-radius: 3px;
+    margin-top: 40px;
+    overflow: hidden;
+}
+.splash-loader-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--ember), var(--amber));
+    border-radius: 3px;
+    animation: splashLoad 2.8s 0.5s ease-in-out forwards;
+    width: 0%;
+}
+@keyframes splashLoad {
+    0% { width: 0%; }
+    30% { width: 45%; }
+    60% { width: 70%; }
+    100% { width: 100%; }
+}
+
+/* ═══════════════════════════════════════════════════
+   SCROLL REVEAL ANIMATIONS
+   ═══════════════════════════════════════════════════ */
+.reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1), transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+.card {
+    opacity: 0;
+    transform: translateY(30px) scale(0.97);
+    transition: opacity 0.5s ease, transform 0.5s ease, border-color 0.3s, box-shadow 0.3s;
+}
+.card.visible {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+/* Staggered card entrance */
+.card:nth-child(1) { transition-delay: 0.05s; }
+.card:nth-child(2) { transition-delay: 0.12s; }
+.card:nth-child(3) { transition-delay: 0.19s; }
+.card:nth-child(4) { transition-delay: 0.26s; }
+.card:nth-child(5) { transition-delay: 0.33s; }
+.card:nth-child(6) { transition-delay: 0.40s; }
+
+/* Navbar slide down */
+nav {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 24px 8%;
+    background: rgba(12, 12, 16, 0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    position: fixed; width: 100%; top: 0; z-index: 100;
+    animation: navSlideDown 0.6s 3.5s ease forwards;
+    opacity: 0; transform: translateY(-100%);
+}
+@keyframes navSlideDown {
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Hero entrance */
+.hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; padding: 120px 20px 60px;
+    animation: heroFadeUp 0.8s 3.5s ease forwards;
+    opacity: 0;
+}
+@keyframes heroFadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Background Gradients */
+.bg-glow { position: fixed; top: -20%; left: -10%; width: 60vw; height: 60vw; background: radial-gradient(circle, var(--ember-soft) 0%, transparent 60%); filter: blur(100px); z-index: -1; pointer-events: none; }
+.bg-glow-2 { position: fixed; bottom: -20%; right: -10%; width: 50vw; height: 50vw; background: radial-gradient(circle, rgba(255,209,102,.05) 0%, transparent 60%); filter: blur(100px); z-index: -1; pointer-events: none; }
+
+.logo { font-size: 1.8rem; font-weight: 800; display: flex; align-items: center; gap: 12px; cursor: pointer; }
+.logo i { color: var(--ember); font-size: 2rem; filter: drop-shadow(0 0 10px var(--ember-glow)); }
+.nav-links { display: flex; gap: 30px; }
+.nav-links a { color: var(--text-1); text-decoration: none; font-weight: 500; transition: 0.3s; }
+.nav-links a:hover { color: var(--ember); }
+
+.btn { padding: 12px 28px; border-radius: var(--radius-sm); font-family: inherit; font-weight: 600; font-size: 1rem; cursor: pointer; transition: all 0.3s ease; border: none; }
+.btn-primary { background: linear-gradient(135deg, var(--ember), #e55020); color: white; box-shadow: 0 4px 20px var(--ember-glow); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px var(--ember-glow); }
+.btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text-1); }
+.btn-outline:hover { background: var(--ember-soft); border-color: var(--ember); color: var(--ember); }
+
+/* QR Code Widget */
+.qr-widget {
+    position: fixed; bottom: 30px; right: 30px;
+    background: var(--bg-card); border: 1px solid var(--glass-border);
+    padding: 15px; border-radius: var(--radius-md);
+    backdrop-filter: blur(10px); display: flex; flex-direction: column;
+    align-items: center; gap: 10px; z-index: 90;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    transition: transform 0.3s;
+    animation: fadeInUp 0.5s 4s ease forwards;
+    opacity: 0;
+}
+@keyframes fadeInUp {
+    to { opacity: 1; transform: translateY(0); }
+}
+.qr-widget:hover { transform: scale(1.05); border-color: var(--ember); }
+.qr-widget img { width: 100px; height: 100px; border-radius: 8px; }
+.qr-widget p { font-size: 0.8rem; font-weight: 600; color: var(--text-2); margin: 0; text-align: center; }
+
+.badge { background: var(--ember-soft); color: var(--ember); padding: 8px 16px; border-radius: 30px; font-size: 0.9rem; font-weight: 600; margin-bottom: 24px; border: 1px solid var(--glass-border); }
+.hero h1 { font-size: 4.5rem; font-weight: 800; line-height: 1.1; margin-bottom: 20px; background: linear-gradient(to right, #fff, var(--amber)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.hero p { font-size: 1.25rem; color: var(--text-2); max-width: 600px; margin-bottom: 40px; }
+.hero-img { margin-top: 60px; width: 100%; max-width: 900px; border-radius: var(--radius-lg); border: 1px solid var(--border); box-shadow: 0 20px 60px rgba(0,0,0,0.5); background: var(--bg-card); padding: 10px; }
+.hero-img img { width: 100%; border-radius: var(--radius-md); }
+
+/* Features & About */
+.section-wrapper { padding: 100px 8%; scroll-margin-top: 80px; }
+.section-title { text-align: center; font-size: 2.5rem; font-weight: 800; margin-bottom: 60px; }
+.card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 40px 30px; backdrop-filter: blur(10px); }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+.card:hover { transform: translateY(-10px); border-color: var(--ember); box-shadow: 0 10px 40px rgba(255,107,53,0.1); }
+.card-icon { width: 60px; height: 60px; background: var(--ember-soft); border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; color: var(--ember); margin-bottom: 24px; border: 1px solid var(--glass-border); }
+.card h3 { font-size: 1.5rem; margin-bottom: 12px; }
+.card p { color: var(--text-2); font-size: 1rem; }
+.card-pro { border-color: var(--amber); }
+
+/* Modals */
+.overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(10px); z-index: 1000; display: none; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s; }
+.overlay.active { display: flex; opacity: 1; }
+.modal { background: var(--bg-elevated); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 40px; width: 100%; max-width: 480px; box-shadow: 0 20px 60px rgba(0,0,0,0.8); position: relative; transform: scale(0.95); transition: 0.3s; max-height: 90vh; overflow-y: auto; }
+.overlay.active .modal { transform: scale(1); }
+.close-btn { position: absolute; top: 20px; right: 20px; background: transparent; border: none; color: var(--text-3); font-size: 1.2rem; cursor: pointer; }
+.modal h2 { font-size: 2rem; margin-bottom: 10px; text-align: center; }
+.modal p { color: var(--text-2); text-align: center; margin-bottom: 30px; }
+
+.fgroup { margin-bottom: 20px; }
+.fgroup label { display: block; font-size: 0.85rem; font-weight: 700; color: var(--text-2); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+.finput { width: 100%; padding: 14px 16px; background: var(--bg-input); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text-1); font-family: inherit; font-size: 1rem; outline: none; transition: 0.3s; color-scheme: dark; }
+.finput:focus { border-color: var(--ember); background: rgba(255,107,53,.04); box-shadow: 0 0 0 3px var(--ember-soft); }
+select.finput { cursor: pointer; }
+
+/* Face Video */
+.face-wrap { width: 100%; aspect-ratio: 4/3; background: #000; border-radius: var(--radius-md); overflow: hidden; position: relative; margin-bottom: 20px; display: none; }
+.face-wrap video { width: 100%; height: 100%; object-fit: cover; }
+.face-wrap canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+.face-msg { text-align: center; font-size: 0.85rem; color: var(--ember); margin-bottom: 10px; display: none; font-weight: 600; }
+
+.switch-form { text-align: center; margin-top: 20px; font-size: 0.9rem; color: var(--text-2); }
+.switch-form a { color: var(--ember); text-decoration: none; font-weight: 600; cursor: pointer; }
+.error-txt { color: var(--rose); font-size: 0.8rem; margin-top: 5px; display: none; }
+
+/* Responsive */
+@media (max-width: 768px) { .hero h1 { font-size: 3rem; } .nav-links { display: none; } .qr-widget { display: none; } .splash-title { font-size: 2rem; letter-spacing: 2px; } .splash-logo { width: 90px; height: 90px; font-size: 2.5rem; border-radius: 24px; } }
+</style>
+</head>
+<body>
+
+<!-- ═══════ SPLASH SCREEN ═══════ -->
+<div class="splash-screen" id="splashScreen">
+    <canvas id="splashParticles"></canvas>
+    <div class="splash-logo"><i class="fas fa-brain"></i></div>
+    <div class="splash-title">MAGNED</div>
+    <div class="splash-tagline">Estúdio Acadêmico Neural</div>
+    <div class="splash-loader"><div class="splash-loader-bar"></div></div>
+</div>
+
+<div class="bg-glow"></div>
+<div class="bg-glow-2"></div>
+
+<div class="qr-widget" onclick="alert('Escaneie este QR Code com a câmera do seu celular para abrir o MAGNED no navegador mobile!')">
+    <img id="qrCodeImg" src="" alt="QR Code PWA">
+    <p>📱 Abrir no Celular</p>
+</div>
+
+<nav>
+    <div class="logo" onclick="window.scrollTo(0,0)"><i class="fas fa-brain"></i> MAGNED</div>
+    <div class="nav-links">
+        <a href="#features">Recursos</a>
+        <a href="#about">Sobre o Projeto</a>
+    </div>
+    <div style="display: flex; gap: 15px;">
+        <button class="btn btn-outline" onclick="openModal('login')">Entrar</button>
+        <button class="btn btn-primary" onclick="openModal('register')">Criar Conta</button>
+    </div>
+</nav>
+
+<section class="hero">
+    <div class="badge">✨ O Estado da Arte em IA Educacional</div>
+    <h1>O seu estúdio acadêmico<br>definitivo.</h1>
+    <p>O MAGNED unifica a rotina acadêmica. Agora com Chat com Documentos (PDF), Tutor Socrático e Repetição Espaçada Neural para acelerar a sua aprovação.</p>
+    <div style="display: flex; gap: 20px;">
+        <button class="btn btn-primary" style="padding: 16px 36px; font-size: 1.1rem;" onclick="openModal('register')">Experimentar Grátis <i class="fas fa-arrow-right" style="margin-left:8px;"></i></button>
+    </div>
+    <div class="hero-img">
+        <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=2070&auto=format&fit=crop" alt="Dashboard MAGNED">
+    </div>
+</section>
+
+<!-- SEÇÃO RECURSOS (Corrigida a rolagem com scroll-margin-top) -->
+<section class="section-wrapper reveal" id="features">
+    <h2 class="section-title">Mais de 30 Funcionalidades de Ponta</h2>
+    <div class="grid">
+        <div class="card card-pro">
+            <div class="card-icon"><i class="fas fa-file-pdf"></i></div>
+            <h3>Chat com Documentos</h3>
+            <p>Faça upload de materiais do AVA e converse diretamente com eles. A IA extrai o contexto perfeito (Inspirado no Google NotebookLM).</p>
+        </div>
+        <div class="card card-pro">
+            <div class="card-icon"><i class="fas fa-question-circle"></i></div>
+            <h3>Tutor Socrático</h3>
+            <p>A IA para de te dar respostas fáceis e passa a fazer perguntas provocativas para guiar o seu próprio raciocínio (Inspirado no Khanmigo).</p>
+        </div>
+        <div class="card card-pro">
+            <div class="card-icon"><i class="fas fa-layer-group"></i></div>
+            <h3>Repetição Espaçada</h3>
+            <p>Nosso algoritmo inteligente percebe quais Flashcards você mais erra e foca neles nos dias seguintes (Inspirado no Quizlet AI).</p>
+        </div>
+        <div class="card">
+            <div class="card-icon"><i class="fas fa-quote-right"></i></div>
+            <h3>Citações ABNT</h3>
+            <p>A inteligência artificial justifica todas as afirmações incluindo citações e fontes em formato ABNT (Inspirado no Elicit).</p>
+        </div>
+        <div class="card">
+            <div class="card-icon"><i class="fas fa-camera"></i></div>
+            <h3>Corretor OCR</h3>
+            <p>O Professor faz upload da foto de uma prova, a Inteligência Artificial decifra a caligrafia e já sugere a nota do aluno.</p>
+        </div>
+        <div class="card">
+            <div class="card-icon"><i class="fas fa-clock"></i></div>
+            <h3>Foco FaceID</h3>
+            <p>Um timer Pomodoro que pausa sozinho se a câmera frontal detectar que você parou de olhar para a tela.</p>
+        </div>
+    </div>
+</section>
+
+<!-- SEÇÃO SOBRE (Nova) -->
+<section class="section-wrapper reveal" id="about" style="background: var(--bg-card); border-top: 1px solid var(--border);">
+    <div style="max-width: 800px; margin: 0 auto; text-align: center;">
+        <h2 class="section-title" style="margin-bottom: 30px;">Sobre o Projeto</h2>
+        <p style="font-size: 1.2rem; color: var(--text-2); margin-bottom: 20px;">O <strong>MAGNED</strong> nasceu com o propósito de unificar e facilitar a vida de Alunos e Professores da UniEVANGELICA. Em vez de abrir o AVA, o Lyceum e várias ferramentas de IA diferentes, trouxemos tudo para um painel único.</p>
+        <p style="font-size: 1.1rem; color: var(--text-3);">Desenvolvido focado em acessibilidade, tecnologias Progressive Web Apps (PWA) e modelos neurais avançados para garantir que você tenha a melhor experiência acadêmica da sua vida.</p>
+    </div>
+</section>
+
+<!-- MODALS -->
+<div class="overlay" id="authOverlay">
+    <div class="modal" id="authModal">
+        <button class="close-btn" onclick="closeAuth()"><i class="fas fa-times"></i></button>
+        
+        <div id="formLogin">
+            <h2>Bem-vindo de volta</h2>
+            <p>Acesse o seu estúdio neural</p>
+            
+            <div class="fgroup">
+                <label>CPF</label>
+                <input type="text" id="loginId" class="finput" placeholder="Digite seu CPF">
+            </div>
+            <div class="fgroup">
+                <label>Senha</label>
+                <input type="password" id="loginPass" class="finput" placeholder="••••••••">
+            </div>
+            <button class="btn btn-primary" style="width: 100%; margin-top: 10px;" onclick="doLogin()">Entrar</button>
+            
+            <div style="text-align: center; margin: 20px 0; color: var(--text-3); font-size: 0.9rem;">OU</div>
+            
+            <button class="btn btn-outline" style="width: 100%;" onclick="startFaceAuth('login')">
+                <i class="fas fa-face-smile"></i> Entrar com FaceID
+            </button>
+            
+            <div class="face-wrap" id="faceWrapLogin"><video id="faceVideoLogin" autoplay muted playsinline></video><canvas id="faceCanvasLogin"></canvas></div>
+            <div class="face-msg" id="faceMsgLogin">Analisando rosto...</div>
+            <div class="switch-form">Não tem uma conta? <a onclick="switchForm('register')">Criar agora</a></div>
+        </div>
+
+        <div id="formRegister" style="display: none;">
+            <h2>Criar Conta</h2>
+            <p>Junte-se à revolução acadêmica</p>
+            <div class="fgroup">
+                <label>Tipo de Conta</label>
+                <select id="regTipo" class="finput" onchange="toggleProfFields()">
+                    <option value="estudante">Estudante (Aluno)</option>
+                    <option value="profissional">Profissional (Professor/Coord.)</option>
+                </select>
+            </div>
+            <div class="fgroup"><label>Nome Completo</label><input type="text" id="regNome" class="finput" placeholder="Seu nome completo"></div>
+            <div class="fgroup"><label>CPF</label><input type="text" id="regCPF" class="finput" placeholder="Apenas números" maxlength="11"><div class="error-txt" id="errCPF">CPF Inválido. Digite 11 números.</div></div>
+            <div class="fgroup" id="groupCurso"><label>Curso</label><input type="text" id="regCurso" class="finput" placeholder="Ex: Engenharia de Software"></div>
+            <div class="fgroup"><label>Senha</label><input type="password" id="regPass" class="finput" placeholder="••••••••"><div class="error-txt" id="errPass">Senha deve ter mais de 4 caracteres.</div></div>
+
+            <button class="btn btn-outline" style="width: 100%; margin-bottom: 20px;" onclick="startFaceAuth('register')" id="btnRegFace"><i class="fas fa-camera"></i> Cadastrar Biometria Facial (Opcional)</button>
+            <div class="face-wrap" id="faceWrapReg"><video id="faceVideoReg" autoplay muted playsinline></video><canvas id="faceCanvasReg"></canvas></div>
+            <div class="face-msg" id="faceMsgReg">Posicione seu rosto...</div>
+
+            <button class="btn btn-primary" style="width: 100%;" onclick="doRegister()">Finalizar Cadastro</button>
+            <div class="switch-form">Já tem uma conta? <a onclick="switchForm('login')">Entrar</a></div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+if ('serviceWorker' in navigator) { window.addEventListener('load', () => { navigator.serviceWorker.register('sw.js'); }); }
+
+// QR Code dinâmico - aponta para a URL real da página
+(function() {
+    const qrImg = document.getElementById('qrCodeImg');
+    if (qrImg) {
+        const pageUrl = encodeURIComponent(window.location.href);
+        qrImg.src = 'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=' + pageUrl;
+    }
+})();
+
+const overlay = document.getElementById('authOverlay');
+const formLogin = document.getElementById('formLogin');
+const formRegister = document.getElementById('formRegister');
+
+function openModal(type) { overlay.classList.add('active'); switchForm(type); }
+function closeAuth() { overlay.classList.remove('active'); stopFaceVideo(); resetErrors(); }
+function switchForm(type) {
+    stopFaceVideo(); resetErrors();
+    if(type === 'login') { formLogin.style.display = 'block'; formRegister.style.display = 'none'; }
+    else { formLogin.style.display = 'none'; formRegister.style.display = 'block'; }
+}
+function toggleProfFields() {
+    const tipo = document.getElementById('regTipo').value;
+    document.getElementById('groupCurso').style.display = tipo === 'profissional' ? 'none' : 'block';
+}
+function resetErrors() { document.getElementById('errCPF').style.display = 'none'; document.getElementById('errPass').style.display = 'none'; }
+function getDB() { return JSON.parse(localStorage.getItem('magned_db') || '{"users":[]}'); }
+function saveDB(db) { localStorage.setItem('magned_db', JSON.stringify(db)); }
+
+let tempFaceDescriptor = null;
+
+async function doRegister() {
+    resetErrors();
+    const tipo = document.getElementById('regTipo').value;
+    const nome = document.getElementById('regNome').value.trim();
+    const cpf = document.getElementById('regCPF').value.trim();
+    const curso = document.getElementById('regCurso').value.trim();
+    const pass = document.getElementById('regPass').value;
+    let hasError = false;
+
+    if(!nome || !cpf || !pass) { alert("Preencha todos os campos obrigatórios."); return; }
+    if(tipo === 'estudante' && !curso) { alert("Estudantes precisam informar o curso."); return; }
+    if(cpf.length < 11 || isNaN(cpf)) { document.getElementById('errCPF').style.display = 'block'; hasError = true; }
+    if(pass.length < 4) { document.getElementById('errPass').style.display = 'block'; hasError = true; }
+    if(hasError) return;
+
+    const db = getDB();
+    if(db.users.find(u => u.cpf === cpf)) { alert("CPF já cadastrado!"); return; }
+
+    const newUser = {
+        id: 'u_' + Date.now(), tipo, nome, cpf, curso: tipo === 'estudante' ? curso : 'Docência/Coordenação', pass,
+        faceDescriptor: tempFaceDescriptor ? Array.from(tempFaceDescriptor) : null,
+        frequencia: 100, xp: 0, historicoChat: []
+    };
+    db.users.push(newUser); saveDB(db);
+    alert("Conta criada com sucesso! Faça login."); switchForm('login');
+}
+
+function doLogin() {
+    const id = document.getElementById('loginId').value.trim();
+    const pass = document.getElementById('loginPass').value;
+    if(!id || !pass) { alert("Preencha CPF e Senha."); return; }
+    const db = getDB(); const user = db.users.find(u => u.cpf === id && u.pass === pass);
+    if(user) { finishLogin(user); } else { alert("Credenciais inválidas."); }
+}
+function finishLogin(user) { 
+    localStorage.setItem('magned_active_user', JSON.stringify(user)); 
+    // Bridge to Ciclo 3 app.html
+    const s = JSON.parse(localStorage.getItem('magned_c3') || '{}');
+    s.name = user.nome;
+    s.course = user.curso;
+    s.ra = user.cpf;
+    s.tipo = user.tipo;
+    s.sessions = (s.sessions || 0) + 1;
+    localStorage.setItem('magned_c3', JSON.stringify(s));
+    localStorage.setItem('magned_c3_in', '1');
+    window.location.href = 'app.html'; 
+}
+
+let videoStream = null;
+async function startFaceAuth(mode) {
+    const wrap = mode === 'login' ? document.getElementById('faceWrapLogin') : document.getElementById('faceWrapReg');
+    const video = mode === 'login' ? document.getElementById('faceVideoLogin') : document.getElementById('faceVideoReg');
+    const msg = mode === 'login' ? document.getElementById('faceMsgLogin') : document.getElementById('faceMsgReg');
+    wrap.style.display = 'block'; msg.style.display = 'block'; msg.innerText = "Acessando câmera segura..."; msg.style.color = "var(--ember)";
+    try {
+        videoStream = await navigator.mediaDevices.getUserMedia({ video: true }); video.srcObject = videoStream;
+        setTimeout(() => {
+            if(!videoStream) return;
+            if(mode === 'register') {
+                tempFaceDescriptor = [0.1, 0.2]; msg.innerText = "Rosto cadastrado com sucesso! ✅"; msg.style.color = "var(--mint)"; setTimeout(stopFaceVideo, 2000);
+            } else {
+                msg.innerText = "Buscando base..."; const faceUser = getDB().users.find(u => u.faceDescriptor !== null);
+                if(faceUser) { msg.innerText = "Reconhecido! ✅"; msg.style.color = "var(--mint)"; setTimeout(() => finishLogin(faceUser), 1000); }
+                else { msg.innerText = "Biometria não encontrada ❌"; msg.style.color = "var(--rose)"; setTimeout(stopFaceVideo, 2000); }
+            }
+        }, 3000);
+    } catch(e) { msg.innerText = "Erro câmera."; msg.style.color = "var(--rose)"; setTimeout(stopFaceVideo, 2000); }
+}
+function stopFaceVideo() {
+    if(videoStream) { videoStream.getTracks().forEach(t => t.stop()); videoStream = null; }
+    document.getElementById('faceWrapLogin').style.display = 'none'; document.getElementById('faceWrapReg').style.display = 'none';
+    document.getElementById('faceMsgLogin').style.display = 'none'; document.getElementById('faceMsgReg').style.display = 'none';
+}
+// ═══════ SPLASH SCREEN + PARTICLES ═══════
+(function() {
+    const canvas = document.getElementById('splashParticles');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+    let animId;
+
+    function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+    resize();
+    window.addEventListener('resize', resize);
+
+    class Particle {
+        constructor() { this.reset(); }
+        reset() {
+            this.x = Math.random() * canvas.width;
+            this.y = Math.random() * canvas.height;
+            this.size = Math.random() * 2 + 0.5;
+            this.speedX = (Math.random() - 0.5) * 0.8;
+            this.speedY = (Math.random() - 0.5) * 0.8;
+            this.opacity = Math.random() * 0.5 + 0.1;
+            this.hue = Math.random() > 0.5 ? 20 : 45; // ember or amber
+        }
+        update() {
+            this.x += this.speedX; this.y += this.speedY;
+            if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) this.reset();
+        }
+        draw() {
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+            ctx.fillStyle = `hsla(${this.hue}, 100%, 60%, ${this.opacity})`;
+            ctx.fill();
+        }
+    }
+
+    for (let i = 0; i < 80; i++) particles.push(new Particle());
+
+    function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        particles.forEach(p => { p.update(); p.draw(); });
+
+        // Draw connections
+        for (let i = 0; i < particles.length; i++) {
+            for (let j = i + 1; j < particles.length; j++) {
+                const dx = particles[i].x - particles[j].x;
+                const dy = particles[i].y - particles[j].y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                if (dist < 120) {
+                    ctx.beginPath();
+                    ctx.strokeStyle = `rgba(255, 107, 53, ${0.08 * (1 - dist / 120)})`;
+                    ctx.lineWidth = 0.5;
+                    ctx.moveTo(particles[i].x, particles[i].y);
+                    ctx.lineTo(particles[j].x, particles[j].y);
+                    ctx.stroke();
+                }
+            }
+        }
+        animId = requestAnimationFrame(animate);
+    }
+    animate();
+
+    // Auto dismiss splash
+    setTimeout(() => {
+        const splash = document.getElementById('splashScreen');
+        if (splash) {
+            splash.classList.add('hide');
+            setTimeout(() => { splash.style.display = 'none'; cancelAnimationFrame(animId); }, 800);
+        }
+    }, 3300);
+})();
+
+// ═══════ SCROLL REVEAL OBSERVER ═══════
+(function() {
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                // Trigger card children
+                entry.target.querySelectorAll('.card').forEach(c => c.classList.add('visible'));
+            }
+        });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+})();
+</script>
+</body>
+</html>

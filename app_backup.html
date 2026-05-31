@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MAGNED - Dashboard Avançado</title>
+    <meta name="theme-color" content="#0c0c10">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intro.js/7.2.0/introjs.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/7.2.0/intro.min.js"></script>
+
+<style>
+/* Dashboard Design System - Obsidian Ember */
+:root {
+    --bg-void:     #0c0c10; --bg-panel:    #111116; --bg-card:     #17171e; --bg-input:    #2a2a38;
+    --ember:       #ff6b35; --ember-soft:  rgba(255,107,53,.10);
+    --amber:       #ffd166; --mint:        #06d6a0; --rose:        #fb4f7b;
+    --text-1:      #f0ece4; --text-2:      #b8b4bf; --text-3:      #6b6875;
+    --border:      rgba(255,255,255,.07); --radius-lg:   20px; --radius-md:   12px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Outfit', sans-serif; background-color: var(--bg-void); color: var(--text-1); display: flex; height: 100vh; overflow: hidden; }
+
+/* Sidebar */
+.sidebar { width: 280px; background: var(--bg-panel); border-right: 1px solid var(--border); display: flex; flex-direction: column; padding: 20px; flex-shrink: 0; z-index: 10; }
+.brand { font-size: 1.5rem; font-weight: 800; display: flex; align-items: center; gap: 10px; margin-bottom: 20px; }
+.brand i { color: var(--ember); filter: drop-shadow(0 0 5px var(--ember-soft)); }
+.user-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 15px; margin-bottom: 20px; }
+.user-card-inner { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+.avatar { width: 45px; height: 45px; border-radius: 50%; background: linear-gradient(135deg, var(--ember), #e55020); display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.2rem; color: white; }
+.user-info h4 { font-size: 0.95rem; }
+.user-info p { font-size: 0.75rem; color: var(--text-2); }
+.user-role-badge { font-size: 0.65rem; background: var(--ember-soft); color: var(--ember); padding: 3px 8px; border-radius: 12px; font-weight: 700; text-transform: uppercase; }
+
+/* Gamification */
+.xp-wrap { display: none; margin-top: 10px; }
+.xp-lbl { font-size: 0.7rem; color: var(--text-3); display: flex; justify-content: space-between; margin-bottom: 4px; }
+.xp-bar { width: 100%; height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; }
+.xp-fill { height: 100%; width: 45%; background: var(--amber); border-radius: 2px; }
+
+.nav-menu { display: flex; flex-direction: column; gap: 5px; flex: 1; overflow-y: auto; }
+.nav-item { padding: 12px 15px; border-radius: var(--radius-md); color: var(--text-2); text-decoration: none; font-weight: 500; display: flex; align-items: center; gap: 12px; cursor: pointer; transition: 0.2s; border: none; background: none; font-family: inherit; font-size: 0.95rem; width: 100%; text-align: left; }
+.nav-item:hover { background: rgba(255,255,255,0.05); color: var(--text-1); }
+.nav-item.active { background: var(--ember-soft); color: var(--ember); border-left: 3px solid var(--ember); }
+.nav-item i { width: 20px; text-align: center; }
+
+/* Main Content */
+.main { flex: 1; display: flex; flex-direction: column; position: relative; }
+.topbar { height: 70px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 0 30px; background: var(--bg-panel); flex-shrink: 0; }
+.topbar h2 { font-size: 1.2rem; font-weight: 600; }
+.top-actions button { background: var(--bg-card); border: 1px solid var(--border); color: var(--text-1); padding: 8px 15px; border-radius: var(--radius-md); cursor: pointer; transition: 0.2s; margin-left: 10px; }
+.top-actions button:hover { border-color: var(--ember); color: var(--ember); }
+
+.content-area { flex: 1; padding: 25px; overflow-y: auto; display: none; }
+.content-area.active { display: flex; flex-direction: column; }
+
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+.card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 25px; }
+.card h3 { font-size: 1.1rem; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
+.card h3 i { color: var(--ember); }
+
+.btn { padding: 12px 20px; border-radius: var(--radius-md); font-family: inherit; font-weight: 600; cursor: pointer; border: none; transition: 0.2s; display: inline-flex; align-items: center; gap: 8px;}
+.btn-p { background: var(--ember); color: white; }
+.btn-p:hover { background: #e55020; }
+.btn-s { background: var(--bg-input); color: var(--text-1); border: 1px solid var(--border); }
+.btn-s:hover { border-color: var(--ember); color: var(--ember); }
+.finput { width: 100%; padding: 12px 15px; background: var(--bg-input); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text-1); outline: none; margin-bottom: 15px; color-scheme:dark; font-family: inherit;}
+.finput:focus { border-color: var(--ember); }
+
+/* --- STUDENT: CHAT --- */
+.chat-container { flex: 1; display: flex; flex-direction: column; max-width: 900px; margin: 0 auto; width: 100%; }
+.chat-history { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 20px; padding-bottom: 20px; }
+.msg { display: flex; gap: 15px; max-width: 85%; animation: fadeIn 0.3s ease; }
+@keyframes fadeIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+.msg.user { align-self: flex-end; flex-direction: row-reverse; }
+.msg-avatar { width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.msg.bot .msg-avatar { background: var(--bg-card); border: 1px solid var(--border); color: var(--ember); }
+.msg.user .msg-avatar { background: var(--ember); color: white;}
+.msg-content { padding: 15px 20px; border-radius: var(--radius-md); font-size: 0.95rem; line-height: 1.6; position:relative;}
+.msg.bot .msg-content { background: var(--bg-card); border: 1px solid var(--border); border-top-left-radius: 4px; }
+.msg.user .msg-content { background: var(--ember); color: white; border-top-right-radius: 4px; }
+.tts-btn { position: absolute; bottom: 5px; right: 5px; background: none; border: none; color: var(--text-3); cursor: pointer; font-size: 0.8rem;}
+.tts-btn:hover { color: var(--ember); }
+.chat-input-wrapper { display: flex; gap: 10px; margin-top: 15px; }
+.btn-send { background: var(--ember); border: none; border-radius: var(--radius-md); width: 55px; color: white; font-size: 1.2rem; cursor: pointer; transition: 0.3s; }
+
+/* Toggles and specific features */
+.socratic-toggle { display: flex; align-items: center; justify-content: space-between; background: var(--bg-card); border: 1px solid var(--border); padding: 10px 20px; border-radius: 30px; margin-bottom: 15px; font-size: 0.9rem;}
+.switch { position: relative; display: inline-block; width: 40px; height: 20px; }
+.switch input { opacity: 0; width: 0; height: 0; }
+.slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: var(--bg-input); transition: .4s; border-radius: 34px; }
+.slider:before { position: absolute; content: ""; height: 16px; width: 16px; left: 2px; bottom: 2px; background-color: white; transition: .4s; border-radius: 50%; }
+input:checked + .slider { background-color: var(--amber); }
+input:checked + .slider:before { transform: translateX(20px); }
+
+/* --- STUDENT: PDF CHAT --- */
+.pdf-upload-box { border: 2px dashed var(--border); border-radius: var(--radius-lg); padding: 30px; text-align: center; cursor: pointer; margin-bottom: 20px; transition: 0.2s; }
+.pdf-upload-box:hover { border-color: var(--ember); background: rgba(255,107,53,0.02); }
+
+/* --- STUDENT: FLASHCARDS (Spaced Repetition) --- */
+.fc-card { background: var(--bg-card); border: 1px solid var(--ember); padding: 40px; text-align: center; border-radius: var(--radius-lg); font-size: 1.2rem; min-height: 200px; display: flex; align-items: center; justify-content: center; }
+.spaced-actions { display: flex; gap: 10px; margin-top: 20px; justify-content: center;}
+
+</style>
+</head>
+<body>
+
+<div class="sidebar">
+    <div class="brand"><i class="fas fa-brain"></i> MAGNED</div>
+    
+    <div class="user-card">
+        <div class="user-card-inner">
+            <div class="avatar" id="userInitials">U</div>
+            <div class="user-info">
+                <h4 id="userName">Usuário</h4>
+                <p id="userCourse">Carregando...</p>
+                <div class="user-role-badge" id="userRoleBadge">Aluno</div>
+            </div>
+        </div>
+        <div class="xp-wrap" id="xpWrap">
+            <div class="xp-lbl"><span>Nível 3 (Novato)</span> <span>450 / 1000 XP</span></div>
+            <div class="xp-bar"><div class="xp-fill"></div></div>
+        </div>
+    </div>
+    <div class="nav-menu" id="navMenu"></div>
+    <button class="nav-item" style="color: var(--rose); margin-top: auto;" onclick="logout()"><i class="fas fa-power-off"></i> Sair</button>
+</div>
+
+<div class="main">
+    <div class="topbar">
+        <h2 id="topTitle">Dashboard Neural</h2>
+        <div class="top-actions">
+            <button onclick="startTour()"><i class="fas fa-question-circle"></i> Tour Onboarding</button>
+        </div>
+    </div>
+
+    <!-- ═════ ÁREA DO ESTUDANTE ═════ -->
+    <div class="content-area" id="tab-chat">
+        <div class="chat-container">
+            <div class="socratic-toggle">
+                <div><i class="fas fa-lightbulb" style="color:var(--amber);"></i> <strong>Modo Tutor Socrático</strong> (A IA fará perguntas em vez de dar a resposta)</div>
+                <label class="switch"><input type="checkbox" id="socraticSwitch"><span class="slider"></span></label>
+            </div>
+            <div class="chat-history" id="chatHistory">
+                <div class="msg bot"><div class="msg-avatar"><i class="fas fa-robot"></i></div><div class="msg-content">Olá! Sou seu Tutor Neural. O que vamos estudar hoje?<button class="tts-btn" onclick="speak('Olá! Sou seu Tutor Neural.')"><i class="fas fa-volume-up"></i></button></div></div>
+            </div>
+            <div class="chat-input-wrapper">
+                <button class="btn-s" style="padding: 0 15px;" title="Adicionar Citações ABNT" onclick="toggleCitacao()" id="btnCitacao"><i class="fas fa-quote-right"></i></button>
+                <input type="text" id="chatInput" class="finput" style="margin:0; flex:1;" placeholder="Pergunte algo..." onkeypress="if(event.key === 'Enter') sendChat()">
+                <button class="btn-send" onclick="sendChat()"><i class="fas fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TAB: Chat PDF -->
+    <div class="content-area" id="tab-pdf">
+        <div class="chat-container">
+            <div class="pdf-upload-box" onclick="simUploadPDF()" id="pdfBox">
+                <i class="fas fa-file-pdf" style="font-size: 3rem; color: var(--rose); margin-bottom: 15px;"></i>
+                <p>Clique para enviar um PDF (Ex: Ementa da Disciplina)</p>
+            </div>
+            <div class="chat-history" id="pdfHistory" style="display:none; border: 1px solid var(--border); padding: 20px; border-radius: var(--radius-md);">
+                <div class="msg bot"><div class="msg-avatar"><i class="fas fa-file-pdf"></i></div><div class="msg-content">PDF LIDO: "Apostila de Redes de Computadores". O que você quer saber sobre este documento?</div></div>
+            </div>
+            <div class="chat-input-wrapper" id="pdfInputWrap" style="display:none;">
+                <input type="text" class="finput" style="margin:0; flex:1;" placeholder="Faça uma pergunta sobre o arquivo...">
+                <button class="btn-send" onclick="alert('Funcionalidade de Extração de PDF Ativa!')"><i class="fas fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TAB: Notes & Spaced Repetition -->
+    <div class="content-area" id="tab-notes">
+        <div class="grid-2" style="height: 100%;">
+            <div class="card" style="display:flex; flex-direction:column;">
+                <h3><i class="fas fa-book-open"></i> Suas Anotações</h3>
+                <textarea class="finput" style="flex:1; resize:none; line-height:1.6;" placeholder="Digite aqui..."></textarea>
+            </div>
+            <div class="card">
+                <h3><i class="fas fa-layer-group"></i> Repetição Espaçada Neural</h3>
+                <p style="font-size: 0.8rem; color:var(--text-2); margin-bottom: 20px;">A IA focará nas cartas que você erra mais (Mecânica de Retenção).</p>
+                <div class="fc-card" id="fcFront">
+                    Qual o princípio da Responsabilidade Única (SOLID)?
+                </div>
+                <div class="spaced-actions">
+                    <button class="btn btn-s" style="color:var(--rose); border-color:var(--rose);" onclick="nextCard()"><i class="fas fa-times"></i> Errei (Ver logo)</button>
+                    <button class="btn btn-s" style="color:var(--amber); border-color:var(--amber);" onclick="nextCard()"><i class="fas fa-minus"></i> Quase</button>
+                    <button class="btn btn-s" style="color:var(--mint); border-color:var(--mint);" onclick="nextCard()"><i class="fas fa-check"></i> Acertei (Ver em 3 dias)</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="content-area" id="tab-ava">
+        <div class="grid-2">
+            <div class="card"><h3><i class="fas fa-sync"></i> AVA/Lyceum Hub</h3><div style="font-size: 3rem; font-weight:800; color:var(--ember); margin-bottom: 10px;">82%</div><p>Frequência Geral Atual</p></div>
+            <div class="card"><h3><i class="fas fa-calculator"></i> Passo de Ano?</h3><p style="font-size:0.85rem; color:var(--text-2);">Simule a nota que precisa na Final.</p><input type="number" id="notaVA1" class="finput" placeholder="VA1"><input type="number" id="notaVA2" class="finput" placeholder="VA2"><button class="btn btn-p" style="width:100%;" onclick="calcNota()">Calcular Previsão</button><div class="calc-result" id="calcRes" style="margin-top:15px; padding:10px; background:var(--bg-input); display:none;"></div></div>
+        </div>
+    </div>
+
+    <!-- ═════ ÁREA DO PROFISSIONAL ═════ -->
+    <div class="content-area" id="tab-prof-dash">
+        <div class="grid-3">
+            <div class="card"><h3><i class="fas fa-exclamation-triangle"></i> Alertas de Faltas</h3><ul class="alert-list" style="list-style:none; margin-top:15px;"><li><span>João P.</span> <span style="color:var(--rose)">26% Faltas</span></li></ul></div>
+            <div class="card"><h3><i class="fas fa-smile"></i> Sentimento</h3><div style="font-size: 2.5rem; font-weight:800; color:var(--mint); margin: 10px 0;">Positivo</div><p style="font-size:0.85rem; color:var(--text-2);">Turma engajada.</p></div>
+            <div class="card"><h3><i class="fas fa-file-pdf"></i> Relatório</h3><button class="btn btn-p" style="width:100%; margin-top:20px;"><i class="fas fa-download"></i> Gerar PDF Turma</button></div>
+        </div>
+    </div>
+    <div class="content-area" id="tab-prof-ocr">
+        <div class="card" style="max-width: 600px; margin: 0 auto;">
+            <h3><i class="fas fa-camera"></i> Corretor Automático OCR</h3>
+            <p style="color:var(--text-2); margin-bottom: 20px;">Faça upload da foto da prova do aluno. A IA Tesseract lerá o gabarito.</p>
+            <div style="border: 2px dashed var(--border); padding: 40px; text-align: center; cursor: pointer; border-radius: var(--radius-lg);" onclick="alert('Lendo gabarito com OCR... Nota Calculada: 8.5')">
+                <i class="fas fa-cloud-upload-alt" style="font-size: 3rem; color: var(--text-3); margin-bottom: 15px;"></i><p>Enviar Imagem da Prova</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+let currentUser = null;
+let useCitations = false;
+
+const menus = {
+    estudante: [
+        { id: 'chat', icon: 'fas fa-robot', label: 'Tutor Neural Institucional', default: true },
+        { id: 'pdf', icon: 'fas fa-file-pdf', label: 'Chat com Documentos' },
+        { id: 'notes', icon: 'fas fa-layer-group', label: 'Repetição Espaçada & Smart' },
+        { id: 'ava', icon: 'fas fa-graduation-cap', label: 'Simulador AVA & Notas' }
+    ],
+    profissional: [
+        { id: 'prof-dash', icon: 'fas fa-chart-pie', label: 'Dashboard Docente', default: true },
+        { id: 'prof-ocr', icon: 'fas fa-camera', label: 'Corretor OCR' }
+    ]
+};
+
+window.onload = () => {
+    const userJson = localStorage.getItem('magned_active_user');
+    if(!userJson) { window.location.href = 'index.html'; return; }
+    currentUser = JSON.parse(userJson);
+    
+    document.getElementById('userName').innerText = currentUser.nome;
+    document.getElementById('userCourse').innerText = currentUser.curso;
+    document.getElementById('userRoleBadge').innerText = currentUser.tipo === 'profissional' ? 'Docente / Coord.' : 'Estudante';
+    if(currentUser.tipo === 'estudante') document.getElementById('xpWrap').style.display = 'block';
+    
+    const names = currentUser.nome.split(' ');
+    document.getElementById('userInitials').innerText = (names[0][0] + (names.length > 1 ? names[names.length-1][0] : '')).toUpperCase();
+    renderMenu();
+};
+
+function renderMenu() {
+    const menuContainer = document.getElementById('navMenu');
+    menuContainer.innerHTML = '';
+    const items = menus[currentUser.tipo] || menus.estudante;
+    items.forEach(m => {
+        const btn = document.createElement('button');
+        btn.className = `nav-item ${m.default ? 'active' : ''}`;
+        btn.innerHTML = `<i class="${m.icon}"></i> ${m.label}`;
+        btn.onclick = (e) => switchTab(m.id, m.label, e.currentTarget);
+        menuContainer.appendChild(btn);
+        if(m.default) switchTab(m.id, m.label, null, true);
+    });
+}
+
+function switchTab(tabId, title, btnElem, isInit = false) {
+    document.querySelectorAll('.content-area').forEach(e => e.classList.remove('active'));
+    document.querySelectorAll('.nav-item').forEach(e => e.classList.remove('active'));
+    document.getElementById('tab-' + tabId).classList.add('active');
+    document.getElementById('topTitle').innerText = title;
+    if(btnElem) btnElem.classList.add('active');
+}
+
+function logout() { localStorage.removeItem('magned_active_user'); window.location.href = 'index.html'; }
+
+function toggleCitacao() {
+    useCitations = !useCitations;
+    document.getElementById('btnCitacao').style.background = useCitations ? 'var(--ember)' : 'var(--bg-input)';
+    document.getElementById('btnCitacao').style.color = useCitations ? 'white' : 'var(--text-1)';
+}
+
+function sendChat() {
+    const inp = document.getElementById('chatInput');
+    const txt = inp.value.trim();
+    if(!txt) return;
+    appendMsg('user', txt);
+    inp.value = '';
+
+    setTimeout(() => {
+        const isSocratic = document.getElementById('socraticSwitch').checked;
+        let resp = "";
+        
+        if(isSocratic) {
+            resp = "Interessante a sua dúvida. Mas antes de eu te dar a resposta, o que você acha que acontece com as variáveis nesse caso?";
+        } else {
+            resp = "A resposta direta é que o encapsulamento protege os dados da classe.";
+            if(useCitations) resp += "<br><br><small style='color:var(--amber)'>[1] SILVA, J. Engenharia de Software Moderna. 2023. p. 45.</small>";
+        }
+        appendMsg('bot', resp);
+    }, 1000);
+}
+
+function appendMsg(sender, text) {
+    const hist = document.getElementById('chatHistory');
+    const div = document.createElement('div');
+    div.className = `msg ${sender}`;
+    div.innerHTML = `<div class="msg-avatar"><i class="fas ${sender === 'bot' ? 'fa-robot' : 'fa-user'}"></i></div><div class="msg-content">${text} <button class="tts-btn" onclick="speak('${text}')"><i class="fas fa-volume-up"></i></button></div>`;
+    hist.appendChild(div);
+    hist.scrollTop = hist.scrollHeight;
+}
+
+function speak(text) {
+    if ('speechSynthesis' in window) {
+        const msg = new SpeechSynthesisUtterance(text.replace(/<[^>]*>?/gm, ''));
+        msg.lang = 'pt-BR'; window.speechSynthesis.speak(msg);
+    }
+}
+
+function simUploadPDF() {
+    document.getElementById('pdfBox').style.display = 'none';
+    document.getElementById('pdfHistory').style.display = 'flex';
+    document.getElementById('pdfInputWrap').style.display = 'flex';
+}
+
+function nextCard() {
+    document.getElementById('fcFront').innerHTML = "Nova Carta: O que é Polimorfismo?<br><br><small style='color:var(--text-3)'>(Algoritmo ajustou a frequência de exibição da carta anterior)</small>";
+}
+
+function calcNota() {
+    const v1 = parseFloat(document.getElementById('notaVA1').value);
+    const v2 = parseFloat(document.getElementById('notaVA2').value);
+    const res = document.getElementById('calcRes');
+    if(isNaN(v1) || isNaN(v2)) return;
+    const falta = (18 - (v1 + v2)).toFixed(1);
+    res.style.display = 'block';
+    res.innerHTML = falta <= 0 ? "Você já passou!" : `Falta ${falta} na Final.`;
+}
+</script>
+</body>
+</html>
