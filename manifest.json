@@ -8,12 +8,12 @@
   "theme_color": "#ff6b35",
   "icons": [
     {
-      "src": "https://cdn-icons-png.flaticon.com/512/2103/2103832.png",
+      "src": "./magned-icon.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "https://cdn-icons-png.flaticon.com/512/2103/2103832.png",
+      "src": "./magned-icon.png",
       "sizes": "512x512",
       "type": "image/png"
     }
