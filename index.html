@@ -434,6 +434,7 @@ select.finput { cursor: pointer; }
             </div>
             <div class="fgroup"><label>Nome Completo</label><input type="text" id="regNome" class="finput" placeholder="Seu nome completo"></div>
             <div class="fgroup"><label>CPF</label><input type="text" id="regCPF" class="finput" placeholder="Apenas números" maxlength="11"><div class="error-txt" id="errCPF">CPF Inválido. Digite 11 números.</div></div>
+            <div class="fgroup" id="groupMat"><label>Matrícula (Lyceum/AVA)</label><input type="text" id="regMatricula" class="finput" placeholder="Sua matrícula (Opcional)"></div>
             <div class="fgroup" id="groupCurso"><label>Curso</label><input type="text" id="regCurso" class="finput" placeholder="Ex: Engenharia de Software"></div>
             <div class="fgroup"><label>Senha</label><input type="password" id="regPass" class="finput" placeholder="••••••••"><div class="error-txt" id="errPass">Senha deve ter mais de 4 caracteres.</div></div>
 
@@ -486,6 +487,7 @@ async function doRegister() {
     const tipo = document.getElementById('regTipo').value;
     const nome = document.getElementById('regNome').value.trim();
     const cpf = document.getElementById('regCPF').value.trim();
+    const matricula = document.getElementById('regMatricula').value.trim();
     const curso = document.getElementById('regCurso').value.trim();
     const pass = document.getElementById('regPass').value;
     let hasError = false;
@@ -500,7 +502,7 @@ async function doRegister() {
     if(db.users.find(u => u.cpf === cpf)) { alert("CPF já cadastrado!"); return; }
 
     const newUser = {
-        id: 'u_' + Date.now(), tipo, nome, cpf, curso: tipo === 'estudante' ? curso : 'Docência/Coordenação', pass,
+        id: 'u_' + Date.now(), tipo, nome, cpf, matricula: matricula || '', curso: tipo === 'estudante' ? curso : 'Docência/Coordenação', pass,
         faceDescriptor: tempFaceDescriptor ? Array.from(tempFaceDescriptor) : null,
         frequencia: 100, xp: 0, historicoChat: []
     };
@@ -522,6 +524,7 @@ function finishLogin(user) {
     s.name = user.nome;
     s.course = user.curso;
     s.ra = user.cpf;
+    s.matricula = user.matricula || '';
     s.tipo = user.tipo;
     s.sessions = (s.sessions || 0) + 1;
     localStorage.setItem('magned_c3', JSON.stringify(s));

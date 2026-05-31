@@ -704,6 +704,7 @@ html,body{height:100%;font-family:'Inter',-apple-system,sans-serif;background:va
       <button class="nav-btn" onclick="openFlash()"><i class="fas fa-layer-group"></i> Flashcards</button>
       <button class="nav-btn" onclick="clearChat()"><i class="fas fa-broom"></i> Limpar Chat</button>
       <button class="nav-btn" onclick="exportChat()"><i class="fas fa-download"></i> Exportar Conversa</button>
+      <button class="nav-btn" id="installAppBtn" onclick="installPWA()" style="display:none; color:var(--mint)"><i class="fas fa-mobile-screen-button"></i> Instalar Aplicativo</button>
     </div>
   </div>
 
@@ -1020,7 +1021,7 @@ const db = firebase.database();
 // ═══════════════════════════════════════════════
 const S = {
     xp:0, nivel:1, xpPerLevel:100, sessions:0,
-    name:'Estudante', course:'Engenharia de Software', ra:'', inst:'', photo:null, tipo:'estudante',
+    name:'Estudante', course:'Engenharia de Software', ra:'', matricula:'', inst:'', photo:null, tipo:'estudante',
     apiKey:'AIzaSyAQ_Ab8RN6I_w6XZF11BnT-LGhnhq37rkvIopA1ZvOR2-4nFNL7SfQ', portalUrl:'', notifOn:false,
     tutor:'MAGNED Padrão',
     tutorPrompt:'Você é o MAGNED, assistente acadêmico inteligente, empático e didático. Responda sempre em português do Brasil.',
@@ -1035,7 +1036,7 @@ const S = {
 
 const STORE = 'magned_c3';
 function persist(){
-    const d={xp:S.xp,nivel:S.nivel,sessions:S.sessions,name:S.name,course:S.course,ra:S.ra,inst:S.inst,photo:S.photo,tipo:S.tipo,
+    const d={xp:S.xp,nivel:S.nivel,sessions:S.sessions,name:S.name,course:S.course,ra:S.ra,matricula:S.matricula,inst:S.inst,photo:S.photo,tipo:S.tipo,
         apiKey:S.apiKey,portalUrl:S.portalUrl,notifOn:S.notifOn,events:S.events,flashcards:S.flashcards,
         faceDesc:S.faceDesc,pomSessToday:S.pomSessToday,synced:S.synced,lyceumData:S.lyceumData};
     const chat = localStorage.getItem(STORE+'_chat') || '[]';
@@ -1090,6 +1091,24 @@ window.onload=()=>{
         document.getElementById('faceLoginBtn').style.display='none';
     if(S.notifOn)scheduleNotifs();
 };
+
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault(); deferredPrompt = e;
+    const btn = document.getElementById('installAppBtn');
+    if(btn) btn.style.display = 'flex';
+});
+function installPWA() {
+    if(!deferredPrompt) return;
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice.then((c) => {
+        if(c.outcome === 'accepted') {
+            document.getElementById('installAppBtn').style.display='none';
+            toast('📲 Instalação Concluída', 'Aplicativo MAGNED instalado no dispositivo!');
+        }
+        deferredPrompt = null;
+    });
+}
 
 // ═══════════════════════════════════════════════
 // SESSION
@@ -1262,7 +1281,8 @@ function switchTab(id,btn){
 // ═══════════════════════════════════════════════
 function selSubj(subj,tutor,prompt){
     S.subject=subj;S.tutor=tutor;
-    S.tutorPrompt=prompt+' Responda sempre em português do Brasil com máxima didática e clareza. Matéria atual: '+subj+'.';
+    const mTxt = S.matricula ? ` O aluno atual tem a Matrícula ${S.matricula} no Lyceum/AVA. Simule que você tem acesso aos dados reais do Lyceum/AVA dele e pode responder perguntas sobre faltas ou notas fingindo ler do sistema.` : '';
+    S.tutorPrompt=prompt+mTxt+' Responda sempre em português do Brasil com máxima didática e clareza. Matéria atual: '+subj+'.';
     S.history=[];
     document.getElementById('chatTitle').innerText=subj;
     document.getElementById('chatSub').innerText='Conversando com '+tutor;
@@ -1271,7 +1291,9 @@ function selSubj(subj,tutor,prompt){
     addMsg(`*Contexto alterado.* Modo **${tutor}** para **${subj}** ativado. O que quer estudar?`,'bot');
 }
 function selTutor(name,prompt,cardId){
-    S.tutor=name;S.tutorPrompt=prompt+' Responda sempre em português do Brasil.';S.history=[];
+    S.tutor=name;
+    const mTxt = S.matricula ? ` O aluno atual tem a Matrícula ${S.matricula} no Lyceum/AVA. Simule que você tem acesso aos dados reais do Lyceum/AVA dele.` : '';
+    S.tutorPrompt=prompt+mTxt+' Responda sempre em português do Brasil.';S.history=[];
     document.querySelectorAll('.tutor-card').forEach(c=>c.classList.remove('active'));
     document.getElementById(cardId).classList.add('active');
     document.getElementById('chatTitle').innerText='Tutor: '+name;
