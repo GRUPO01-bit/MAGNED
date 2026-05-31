@@ -996,7 +996,25 @@ html,body{height:100%;font-family:'Inter',-apple-system,sans-serif;background:va
   </div>
 </div>
 
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
 <script>
+// ═══════════════════════════════════════════════
+// FIREBASE CLOUD DATABASE
+// ═══════════════════════════════════════════════
+const firebaseConfig = {
+  apiKey: "AIzaSyCTK10jh0G4lvE7g83Mu9OvhbJJdCKsva8",
+  authDomain: "magned-bit.firebaseapp.com",
+  databaseURL: "https://magned-bit-default-rtdb.firebaseio.com",
+  projectId: "magned-bit",
+  storageBucket: "magned-bit.firebasestorage.app",
+  messagingSenderId: "966721449158",
+  appId: "1:966721449158:web:60c7054b2985b485e4bbc7",
+  measurementId: "G-DHKHM7QPD9"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+
 // ═══════════════════════════════════════════════
 // STATE & PERSISTENCE
 // ═══════════════════════════════════════════════
@@ -1020,7 +1038,17 @@ function persist(){
     const d={xp:S.xp,nivel:S.nivel,sessions:S.sessions,name:S.name,course:S.course,ra:S.ra,inst:S.inst,photo:S.photo,tipo:S.tipo,
         apiKey:S.apiKey,portalUrl:S.portalUrl,notifOn:S.notifOn,events:S.events,flashcards:S.flashcards,
         faceDesc:S.faceDesc,pomSessToday:S.pomSessToday,synced:S.synced,lyceumData:S.lyceumData};
+    const chat = localStorage.getItem(STORE+'_chat') || '[]';
+    const notes = localStorage.getItem(STORE+'_notes') || '';
+    
     localStorage.setItem(STORE,JSON.stringify(d));
+    
+    // Cloud Sync
+    if(S.ra) {
+        db.ref('users/' + S.ra.replace(/\W/g, '')).set({
+            data: d, chat, notes
+        });
+    }
 }
 function hydrate(){
     const raw=localStorage.getItem(STORE);
@@ -1033,6 +1061,22 @@ function hydrate(){
     if(S.portalUrl)document.getElementById('portalUrl').value=S.portalUrl;
     if(S.faceDesc){document.getElementById('faceRegStatus').innerText='✅ Face cadastrada';document.getElementById('clearFaceBtn').style.display='flex';}
     document.getElementById('notifToggle').classList.toggle('on',S.notifOn);
+    
+    // Background Cloud Fetch
+    if(S.ra) {
+        db.ref('users/' + S.ra.replace(/\W/g, '')).once('value').then(snap => {
+            if(snap.exists()) {
+                const dbVal = snap.val();
+                if(dbVal.data) Object.assign(S, dbVal.data);
+                if(dbVal.chat) localStorage.setItem(STORE+'_chat', dbVal.chat);
+                if(dbVal.notes) {
+                    localStorage.setItem(STORE+'_notes', dbVal.notes);
+                    document.getElementById('notesTA').value=dbVal.notes;
+                }
+                updateUI();
+            }
+        });
+    }
 }
 
 // ═══════════════════════════════════════════════
@@ -1050,18 +1094,46 @@ window.onload=()=>{
 // ═══════════════════════════════════════════════
 // SESSION
 // ═══════════════════════════════════════════════
-function iniciarSessao(){
-    S.name=document.getElementById('regNome').value.trim()||'Estudante';
-    S.course=document.getElementById('regCurso').value.trim()||'Engenharia de Software';
-    S.ra=document.getElementById('regRA').value.trim();
-    S.inst=document.getElementById('regInst').value.trim();
+async function iniciarSessao(){
+    const inputRA = document.getElementById('regRA').value.trim();
+    if(!inputRA) { alert("RA (ou CPF) é obrigatório para conectar ao Banco de Dados."); return; }
+    
+    const btn = document.querySelector('#loginScreen .btn-p');
+    if(btn) { btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sincronizando...'; btn.disabled = true; }
+    
+    try {
+        const safeRA = inputRA.replace(/\W/g, '');
+        const snap = await db.ref('users/' + safeRA).once('value');
+        if (snap.exists()) {
+            const dbVal = snap.val();
+            if(dbVal.data) Object.assign(S, dbVal.data);
+            if(dbVal.chat) localStorage.setItem(STORE+'_chat', dbVal.chat);
+            if(dbVal.notes) localStorage.setItem(STORE+'_notes', dbVal.notes);
+            S.ra = inputRA;
+            
+            // Refresh local UI elements
+            document.getElementById('chatBox').innerHTML = '<div class="chat-welcome" id="chatWelcome"><div class="welcome-ico">🧠</div><h2 id="wTitle">Restaurando...</h2></div>';
+            if(dbVal.chat) JSON.parse(dbVal.chat).forEach(m=>addMsg(m.t,m.s,false));
+            if(dbVal.notes) document.getElementById('notesTA').value=dbVal.notes;
+        } else {
+            S.name=document.getElementById('regNome').value.trim()||'Estudante';
+            S.course=document.getElementById('regCurso').value.trim()||'Engenharia de Software';
+            S.ra=inputRA;
+            S.inst=document.getElementById('regInst').value.trim();
+            S.sessions=0;
+        }
+    } catch(e) { console.error(e); }
+    
+    if(btn) { btn.innerHTML = 'Entrar'; btn.disabled = false; }
+    
     S.sessions++;persist();
     localStorage.setItem(STORE+'_in','1');
     showApp();
     setTimeout(()=>{
         const fn=S.name.split(' ')[0];
-        addMsg(`Olá, **${fn}**! 👋 Bem-vindo ao **MAGNED Ciclo 3**.\n\nSou seu assistente com **IA real** (Google Gemini) — **já ativada!** 🚀 Posso:\n- 🤖 Responder com IA generativa real e histórico de conversa\n- 📷 Extrair e resolver exercícios por foto (**OCR real**)\n- 📅 Gerenciar seu calendário e importar eventos do **AVA**\n- 👨‍🏫 Adotar a persona dos seus professores reais\n- 😊 Login por **reconhecimento facial** (configure em ⚙️)\n\nEscolha uma matéria ou tutor ao lado e comece agora!`,'bot');
-        gainXP(10,'🎉 Bem-vindo ao MAGNED!');
+        const w = document.getElementById('chatWelcome'); if(w) w.remove();
+        addMsg(`Olá, **${fn}**! 👋 Bem-vindo ao **MAGNED Ciclo 3**.\n\nSou seu assistente com **IA real** (Google Gemini) — **já ativada!** 🚀 Posso:\n- 🤖 Responder com IA generativa real e histórico de conversa\n- 📷 Extrair e resolver exercícios por foto (**OCR real**)\n- 📅 Gerenciar seu calendário e importar eventos do **AVA**\n- 👨‍🏫 Adotar a persona dos seus professores reais\n- 😊 Login por **reconhecimento facial** (configure em ⚙️)\n\nSua conta está sincronizada com a nuvem (Firebase).`,'bot');
+        gainXP(10,'🎉 Login sincronizado!');
     },800);
 }
 function showApp(){
@@ -1536,7 +1608,7 @@ function exportChat(){const h=JSON.parse(localStorage.getItem(STORE+'_chat')||'[
 // ═══════════════════════════════════════════════
 let noteT=null;
 function autoNote(){clearTimeout(noteT);noteT=setTimeout(()=>saveNote(true),1500);}
-function saveNote(silent=false){localStorage.setItem(STORE+'_notes',document.getElementById('notesTA').value);if(!silent){const s=document.getElementById('noteSt');s.style.display='block';setTimeout(()=>s.style.display='none',2000);}}
+function saveNote(silent=false){localStorage.setItem(STORE+'_notes',document.getElementById('notesTA').value);if(!silent){const s=document.getElementById('noteSt');s.style.display='block';setTimeout(()=>s.style.display='none',2000);} persist();}
 function exportNote(){const blob=new Blob([document.getElementById('notesTA').value],{type:'text/plain'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='magned_notas.txt';a.click();}
 
 // ═══════════════════════════════════════════════
