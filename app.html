@@ -966,9 +966,14 @@ html,body{height:100%;font-family:'Inter',-apple-system,sans-serif;background:va
       </div>
 
       <div class="hub-cat" id="claAva">
-        <div class="hub-hdr" style="color:var(--amber); cursor:default;"><i class="fas fa-university"></i> Lyceum Sincronizado</div>
-        <div style="padding:10px;" id="lyceumGrid">
-            <p style="font-size:0.8rem; color:var(--text-3);text-align:center"><i class="fas fa-sync fa-spin"></i> Conectando à secretaria acadêmica...</p>
+        <div class="hub-hdr" style="color:var(--amber); cursor:default;"><i class="fas fa-university"></i> Lyceum — Boletim Acadêmico</div>
+        <div style="padding:10px;" id="lyceumGrid"></div>
+        <div style="padding:0 10px 10px;display:flex;gap:6px;">
+          <button class="btn-s" onclick="saveLyceumData()" style="flex:1;justify-content:center;color:var(--mint);border-color:rgba(6,214,160,.28)"><i class="fas fa-save"></i> Salvar Notas</button>
+          <button class="btn-s" onclick="resetLyceumData()" style="padding:9px 12px;color:var(--rose);border-color:rgba(251,79,123,.22)"><i class="fas fa-rotate-left"></i></button>
+        </div>
+        <div style="padding:0 10px 10px;">
+          <p style="font-size:.7rem;color:var(--text-3);text-align:center"><i class="fas fa-info-circle"></i> Preencha suas notas reais do Lyceum. A IA usará esses dados para te ajudar com precisão.</p>
         </div>
       </div>
 
@@ -998,6 +1003,42 @@ html,body{height:100%;font-family:'Inter',-apple-system,sans-serif;background:va
 
     </div>
   </div>
+
+  <!-- ADMIN AREA -->
+  <div class="admin-area" id="adminArea" style="display:none; flex: 1; padding: 40px; overflow-y: auto; background: var(--bg-void);">
+    <div style="max-width: 900px; margin: 0 auto;">
+      <h2 style="font-size: 2.2rem; margin-bottom: 5px;"><i class="fas fa-shield-halved" style="color:var(--ember)"></i> Central do Administrador</h2>
+      <p style="color:var(--text-3); margin-bottom: 30px;">Gerenciamento do sistema local (Dispositivo atual)</p>
+      
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 30px;">
+        <div style="background: var(--bg-surface); border: 1px solid var(--border); padding: 25px; border-radius: var(--r-md);">
+          <h4 style="color:var(--text-2); font-size: 0.9rem; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px;">Total de Usuários Locais</h4>
+          <div id="adminTotalUsers" style="font-size: 3rem; font-weight: 800; color: var(--mint);">0</div>
+        </div>
+        <div style="background: var(--bg-surface); border: 1px solid var(--border); padding: 25px; border-radius: var(--r-md);">
+          <h4 style="color:var(--text-2); font-size: 0.9rem; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px;">Ações de Segurança</h4>
+          <button class="btn-s" style="color: var(--rose); border-color: rgba(251,79,123,.3); margin-top: 10px; padding: 12px; font-size: 0.9rem;" onclick="adminClearDB()"><i class="fas fa-triangle-exclamation"></i> Limpar Banco de Dados Local</button>
+        </div>
+      </div>
+      
+      <h3 style="margin-bottom: 15px; font-weight: 600;">Usuários Cadastrados</h3>
+      <div style="background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--r-md); overflow: hidden;">
+        <table style="width: 100%; text-align: left; border-collapse: collapse;">
+          <thead>
+            <tr style="background: var(--bg-elevated); border-bottom: 1px solid var(--border);">
+              <th style="padding: 15px 20px; font-weight: 600; color: var(--text-2); font-size: 0.85rem; text-transform: uppercase;">Nome / Tipo</th>
+              <th style="padding: 15px 20px; font-weight: 600; color: var(--text-2); font-size: 0.85rem; text-transform: uppercase;">CPF</th>
+              <th style="padding: 15px 20px; font-weight: 600; color: var(--text-2); font-size: 0.85rem; text-transform: uppercase;">Curso / Cargo</th>
+            </tr>
+          </thead>
+          <tbody id="adminUserTable">
+            <!-- Populated by JS -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
 </div>
 
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
@@ -1034,7 +1075,16 @@ const S = {
     calY:new Date().getFullYear(), calM:new Date().getMonth(), calSel:null,
     pomSec:25*60, pomTotal:25*60, pomMode:'focus', pomRunning:false, pomTimer:null, pomSessToday:0,
     faceDesc:null, faceModelsLoaded:false, faceStream:null, faceMode:null, faceLoop:null,
-    synced: false, lyceumData: null
+    synced: false,
+    lyceumData: [
+        {disc:'Cidadania, Ética e Espiritualidade', prof:'Prof. Holehon Santos', n1:7.5, n2:null, faltas:2, totalAulas:20, status:'Cursando'},
+        {disc:'Leitura e Interpretação de Texto', prof:'Prof. Leonardo R. de Souza', n1:8.0, n2:6.5, faltas:4, totalAulas:20, status:'Cursando'},
+        {disc:'Fundamentos de Engenharia de Dados', prof:'Prof. Eduardo', n1:9.0, n2:null, faltas:1, totalAulas:20, status:'Cursando'},
+        {disc:'Fund. de Computação e Infraestrutura', prof:'Prof. Araújo', n1:6.0, n2:5.5, faltas:6, totalAulas:20, status:'Cursando'},
+        {disc:'Engenharia de Soluções', prof:'Prof. Holehon Santos', n1:null, n2:null, faltas:3, totalAulas:20, status:'Cursando'},
+        {disc:'Fund. Matemáticos para Computação', prof:'Prof. Otoniel Vargas Jr', n1:5.0, n2:null, faltas:5, totalAulas:20, status:'Cursando'},
+        {disc:'Componentes Integrados com IA', prof:'MAGNED IA', n1:8.5, n2:9.0, faltas:0, totalAulas:20, status:'Cursando'}
+    ]
 };
 
 const STORE = 'magned_c3';
@@ -1042,6 +1092,8 @@ function persist(){
     const d={xp:S.xp,nivel:S.nivel,sessions:S.sessions,name:S.name,course:S.course,ra:S.ra,matricula:S.matricula,inst:S.inst,photo:S.photo,tipo:S.tipo,
         apiKey:S.apiKey,portalUrl:S.portalUrl,notifOn:S.notifOn,events:S.events,flashcards:S.flashcards,
         faceDesc:S.faceDesc,pomSessToday:S.pomSessToday,synced:S.synced,lyceumData:S.lyceumData};
+    // Renderizar Lyceum sempre que persistir
+    renderLyceumGrid();
     const chat = localStorage.getItem(STORE+'_chat') || '[]';
     const notes = localStorage.getItem(STORE+'_notes') || '';
     
@@ -1089,7 +1141,7 @@ function hydrate(){
 window.onload=()=>{
     hydrate();
     if(localStorage.getItem(STORE+'_in')){showApp();}
-    renderCal();updateUI();
+    renderCal();updateUI();renderLyceumGrid();
     if(!navigator.mediaDevices||!window.isSecureContext)
         document.getElementById('faceLoginBtn').style.display='none';
     if(S.notifOn)scheduleNotifs();
@@ -1183,14 +1235,70 @@ function updateUI(){
     document.getElementById('pomSess').innerText=S.pomSessToday;
     
     // Mostra/esconde funções docentes baseadas no tipo de conta
-    if(S.tipo === 'profissional' || S.course.toLowerCase().includes('docência') || S.course.toLowerCase().includes('professor')) {
-        document.getElementById('claProf1').style.display = 'block';
-        document.getElementById('claProf2').style.display = 'block';
-        document.getElementById('claAva').style.display = 'none';
+    if(S.tipo === 'admin') {
+        document.querySelector('.main-area').style.display = 'none';
+        document.querySelector('.workspace').style.display = 'none';
+        const adminArea = document.getElementById('adminArea');
+        if(adminArea) adminArea.style.display = 'block';
+        
+        document.getElementById('sbCourse').innerText = 'Administração do Sistema';
+        document.querySelectorAll('.sb-nav .nav-btn').forEach(b => b.style.display = 'none');
+        document.querySelector('.status-w').style.display = 'none'; // Hide AI status
+        
+        renderAdminDashboard();
     } else {
-        document.getElementById('claProf1').style.display = 'none';
-        document.getElementById('claProf2').style.display = 'none';
-        document.getElementById('claAva').style.display = 'block';
+        document.querySelector('.main-area').style.display = 'flex';
+        document.querySelector('.workspace').style.display = 'flex';
+        const adminArea = document.getElementById('adminArea');
+        if(adminArea) adminArea.style.display = 'none';
+
+        if(S.tipo === 'profissional' || S.course.toLowerCase().includes('docência') || S.course.toLowerCase().includes('professor')) {
+            document.getElementById('claProf1').style.display = 'block';
+            document.getElementById('claProf2').style.display = 'block';
+            document.getElementById('claAva').style.display = 'none';
+        } else {
+            document.getElementById('claProf1').style.display = 'none';
+            document.getElementById('claProf2').style.display = 'none';
+            document.getElementById('claAva').style.display = 'block';
+        }
+    }
+}
+
+// ═══════════════════════════════════════════════
+// ADMIN FUNCTIONS
+// ═══════════════════════════════════════════════
+function renderAdminDashboard() {
+    const dbRaw = localStorage.getItem('magned_db');
+    const db = dbRaw ? JSON.parse(dbRaw) : { users: [] };
+    
+    const countEl = document.getElementById('adminTotalUsers');
+    if(countEl) countEl.innerText = db.users.length;
+    
+    const tbody = document.getElementById('adminUserTable');
+    if(!tbody) return;
+    
+    if (db.users.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="3" style="padding: 25px; text-align: center; color: var(--text-3); font-size: 0.95rem;">Nenhum usuário cadastrado neste dispositivo.</td></tr>';
+        return;
+    }
+    
+    tbody.innerHTML = db.users.map(u => `
+        <tr style="border-bottom: 1px solid rgba(255,255,255,0.03);">
+            <td style="padding: 15px 20px;">
+                <div style="font-weight: 600; color: var(--text-1); font-size: 1rem;">${u.nome}</div>
+                <div style="font-size: 0.75rem; color: var(--text-3); text-transform: uppercase; margin-top: 3px; font-weight: 700; letter-spacing: 0.5px;">${u.tipo}</div>
+            </td>
+            <td style="padding: 15px 20px; color: var(--text-2); font-size: 0.95rem;">${u.cpf}</td>
+            <td style="padding: 15px 20px; color: var(--text-2); font-size: 0.95rem;">${u.curso || 'N/A'}</td>
+        </tr>
+    `).join('');
+}
+
+function adminClearDB() {
+    if (confirm('ATENÇÃO: Você está prestes a apagar TODOS os usuários cadastrados neste dispositivo. Isso não pode ser desfeito. Deseja continuar?')) {
+        localStorage.removeItem('magned_db');
+        renderAdminDashboard();
+        toast('🗑️ Dados Apagados', 'O banco de dados local foi resetado.');
     }
 }
 
@@ -1307,242 +1415,306 @@ function selTutor(name,prompt,cardId){
 }
 
 // ═══════════════════════════════════════════════
-// CHAT / AI (NATIVE NO-KEY NEURAL NETWORK)
+// LYCEUM — PAINEL DE BOLETIM ACADÊMICO
 // ═══════════════════════════════════════════════
-// ═══════════════════════════════════════════════
-// NATIVE COGNITIVE ENGINE (100% OFFLINE / NATIVE CLIENT-SIDE AI)
-// ═══════════════════════════════════════════════
-async function callGemini(txt){
-    addMsg('Pensando...','bot','load');
-    await new Promise(r => setTimeout(r, 600 + Math.random() * 800));
-    const load = document.getElementById('load'); if (load) load.remove();
+function renderLyceumGrid() {
+    const grid = document.getElementById('lyceumGrid');
+    if (!grid) return;
+    if (!S.lyceumData || !S.lyceumData.length) {
+        grid.innerHTML = '<p style="font-size:0.8rem;color:var(--text-3);text-align:center">Nenhuma disciplina cadastrada.</p>';
+        return;
+    }
+    grid.innerHTML = S.lyceumData.map((d, i) => {
+        const media = (d.n1 !== null && d.n2 !== null) ? ((d.n1 + d.n2) / 2).toFixed(1) : '—';
+        const pctFalta = d.totalAulas > 0 ? ((d.faltas / d.totalAulas) * 100).toFixed(0) : 0;
+        const mediaVal = parseFloat(media);
+        const mediaColor = isNaN(mediaVal) ? 'var(--text-3)' : mediaVal >= 7 ? 'var(--mint)' : mediaVal >= 5 ? 'var(--amber)' : 'var(--rose)';
+        const faltaColor = pctFalta >= 25 ? 'var(--rose)' : pctFalta >= 15 ? 'var(--amber)' : 'var(--text-3)';
+        return `
+        <div style="background:var(--bg-elevated);border:1px solid var(--border);border-radius:var(--r-sm);padding:10px;margin-bottom:6px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+                <div style="font-size:.8rem;font-weight:600;color:var(--text-1);flex:1;">${d.disc}</div>
+            </div>
+            <div style="font-size:.7rem;color:var(--text-3);margin-bottom:8px;">${d.prof}</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:5px;">
+                <div style="text-align:center;">
+                    <div style="font-size:.65rem;color:var(--text-3);margin-bottom:3px;">N1</div>
+                    <input type="number" step="0.1" min="0" max="10" value="${d.n1 !== null ? d.n1 : ''}" onchange="updateLyceum(${i},'n1',this.value)" style="width:100%;padding:4px;background:var(--bg-input);border:1px solid var(--border);border-radius:4px;color:var(--text-1);font-family:inherit;font-size:.78rem;text-align:center;outline:none;" placeholder="—">
+                </div>
+                <div style="text-align:center;">
+                    <div style="font-size:.65rem;color:var(--text-3);margin-bottom:3px;">N2</div>
+                    <input type="number" step="0.1" min="0" max="10" value="${d.n2 !== null ? d.n2 : ''}" onchange="updateLyceum(${i},'n2',this.value)" style="width:100%;padding:4px;background:var(--bg-input);border:1px solid var(--border);border-radius:4px;color:var(--text-1);font-family:inherit;font-size:.78rem;text-align:center;outline:none;" placeholder="—">
+                </div>
+                <div style="text-align:center;">
+                    <div style="font-size:.65rem;color:var(--text-3);margin-bottom:3px;">Média</div>
+                    <div style="font-size:.82rem;font-weight:700;color:${mediaColor};padding-top:5px;">${media}</div>
+                </div>
+                <div style="text-align:center;">
+                    <div style="font-size:.65rem;color:var(--text-3);margin-bottom:3px;">Faltas</div>
+                    <div style="font-size:.78rem;font-weight:600;color:${faltaColor};padding-top:5px;">${d.faltas}/${d.totalAulas} <span style="font-size:.65rem">(${pctFalta}%)</span></div>
+                </div>
+            </div>
+        </div>`;
+    }).join('');
+}
+function updateLyceum(idx, field, val) {
+    if (S.lyceumData[idx]) {
+        S.lyceumData[idx][field] = val === '' ? null : parseFloat(val);
+    }
+}
+function saveLyceumData() {
+    persist();
+    toast('📋 Lyceum Salvo', 'Notas e faltas atualizadas. A IA agora usará esses dados.');
+}
+function resetLyceumData() {
+    if (!confirm('Resetar todas as notas do Lyceum para os dados de demonstração?')) return;
+    S.lyceumData = [
+        {disc:'Cidadania, Ética e Espiritualidade', prof:'Prof. Holehon Santos', n1:7.5, n2:null, faltas:2, totalAulas:20, status:'Cursando'},
+        {disc:'Leitura e Interpretação de Texto', prof:'Prof. Leonardo R. de Souza', n1:8.0, n2:6.5, faltas:4, totalAulas:20, status:'Cursando'},
+        {disc:'Fundamentos de Engenharia de Dados', prof:'Prof. Eduardo', n1:9.0, n2:null, faltas:1, totalAulas:20, status:'Cursando'},
+        {disc:'Fund. de Computação e Infraestrutura', prof:'Prof. Araújo', n1:6.0, n2:5.5, faltas:6, totalAulas:20, status:'Cursando'},
+        {disc:'Engenharia de Soluções', prof:'Prof. Holehon Santos', n1:null, n2:null, faltas:3, totalAulas:20, status:'Cursando'},
+        {disc:'Fund. Matemáticos para Computação', prof:'Prof. Otoniel Vargas Jr', n1:5.0, n2:null, faltas:5, totalAulas:20, status:'Cursando'},
+        {disc:'Componentes Integrados com IA', prof:'MAGNED IA', n1:8.5, n2:9.0, faltas:0, totalAulas:20, status:'Cursando'}
+    ];
+    persist(); renderLyceumGrid();
+    toast('🔄 Lyceum Resetado', 'Dados de demonstração restaurados.');
+}
 
+// ═══════════════════════════════════════════════
+// AVA + LYCEUM CONTEXT BUILDERS (para injetar na IA)
+// ═══════════════════════════════════════════════
+function buildAVAContext() {
+    if (!S.events || !S.events.length) return 'Nenhum evento cadastrado no AVA/Agenda.';
+    const today = new Date();
+    const upcoming = S.events
+        .map(ev => ({...ev, dateObj: new Date(ev.date + 'T' + (ev.time || '23:59'))}))
+        .filter(ev => ev.dateObj >= today)
+        .sort((a, b) => a.dateObj - b.dateObj)
+        .slice(0, 10);
+    if (!upcoming.length) return 'Nenhum evento futuro na agenda.';
+    let ctx = 'PRÓXIMOS EVENTOS DO AVA/AGENDA DO ALUNO:\n';
+    upcoming.forEach(ev => {
+        const dias = Math.ceil((ev.dateObj - today) / (1000 * 60 * 60 * 24));
+        const urgencia = dias <= 2 ? '⚠️ URGENTE' : dias <= 7 ? '📌 Esta semana' : '';
+        ctx += `- ${ev.title} | Data: ${ev.date} ${ev.time || ''} | Categoria: ${ev.cat || 'geral'} | Em ${dias} dia(s) ${urgencia}\n`;
+    });
+    return ctx;
+}
+
+function buildLyceumContext() {
+    if (!S.lyceumData || !S.lyceumData.length) return 'Nenhum dado do Lyceum disponível.';
+    let ctx = 'BOLETIM ACADÊMICO DO LYCEUM (Dados reais do aluno):\n';
+    ctx += `Aluno: ${S.name} | Matrícula: ${S.matricula || S.ra || 'N/I'} | Curso: ${S.course}\n\n`;
+    S.lyceumData.forEach(d => {
+        const media = (d.n1 !== null && d.n2 !== null) ? ((d.n1 + d.n2) / 2).toFixed(1) : 'Ainda sem média final';
+        const pctFalta = d.totalAulas > 0 ? ((d.faltas / d.totalAulas) * 100).toFixed(0) : 0;
+        const risco = parseFloat(pctFalta) >= 25 ? '⚠️ RISCO DE REPROVAÇÃO POR FALTA' : '';
+        const notaBaixa = (d.n1 !== null && d.n1 < 5) || (d.n2 !== null && d.n2 < 5) ? '⚠️ NOTA ABAIXO DA MÉDIA' : '';
+        ctx += `📚 ${d.disc} (${d.prof}):\n`;
+        ctx += `   N1: ${d.n1 !== null ? d.n1 : 'Não lançada'} | N2: ${d.n2 !== null ? d.n2 : 'Não lançada'} | Média: ${media}\n`;
+        ctx += `   Faltas: ${d.faltas}/${d.totalAulas} (${pctFalta}%) ${risco} ${notaBaixa}\n`;
+        ctx += `   Status: ${d.status}\n\n`;
+    });
+    return ctx;
+}
+
+// ═══════════════════════════════════════════════
+// CHAT / AI — GOOGLE GEMINI API REAL + FALLBACK OFFLINE
+// ═══════════════════════════════════════════════
+async function callGemini(txt) {
+    rmTyping();
+
+    // Se não tem API Key → fallback offline
+    if (!S.apiKey) {
+        showTyping();
+        await localFallback(txt);
+        return;
+    }
+
+    // ——— CHAMADA REAL À API GEMINI ———
     try {
-        const text = txt.toLowerCase();
-        let intent = 'general';
-        let topic = S.subject || 'Estudo Geral';
-        
-        // Detecção de Tópico de Estudo
-        if (text.includes('python') || text.includes('program') || text.includes('codigo') || text.includes('código')) topic = 'Programação em Python';
-        else if (text.includes('javascript') || text.includes('js') || text.includes('web') || text.includes('html') || text.includes('css')) topic = 'Desenvolvimento Web';
-        else if (text.includes('sql') || text.includes('banco') || text.includes('dados') || text.includes('etl') || text.includes('pipeline')) topic = 'Engenharia de Dados & SQL';
-        else if (text.includes('rede') || text.includes('infra') || text.includes('nuvem') || text.includes('cloud') || text.includes('server')) topic = 'Computação e Infraestrutura';
-        else if (text.includes('ética') || text.includes('etica') || text.includes('cidadania') || text.includes('moral')) topic = 'Cidadania, Ética e Espiritualidade';
-        else if (text.includes('matemática') || text.includes('calculo') || text.includes('cálculo') || text.includes('derivada') || text.includes('limite')) topic = 'Fundamentos Matemáticos';
-        else if (text.includes('ia') || text.includes('inteligencia') || text.includes('inteligência') || text.includes('neural') || text.includes('machine')) topic = 'Componentes de Inteligência Artificial';
-        
-        // Detecção de Intenção do Estudante
-        if (text.includes('resum') || text.includes('explica') || text.includes('conteudo') || text.includes('sobre')) intent = 'summary';
-        else if (text.includes('quiz') || text.includes('questao') || text.includes('questão') || text.includes('exercici') || text.includes('simulado')) intent = 'quiz';
-        else if (text.includes('flashcard') || text.includes('flash')) intent = 'flashcard';
-        else if (text.includes('cronograma') || text.includes('plano') || text.includes('semana') || text.includes('rotina')) intent = 'schedule';
-        else if (text.includes('pomodoro') || text.includes('foco') || text.includes('concentra')) intent = 'pomodoro';
-        else if (text.includes('motiva') || text.includes('desanim') || text.includes('dificil') || text.includes('triste')) intent = 'motivation';
-        else if (text.includes('mapa mental') || text.includes('mental')) intent = 'mindmap';
-        else if (text.includes('oi') || text.includes('ola') || text.includes('olá') || text.includes('bom dia') || text.includes('boa tarde') || text.includes('boa noite')) intent = 'greeting';
+        const avaCtx = buildAVAContext();
+        const lyceumCtx = buildLyceumContext();
 
-        const tutor = S.tutor || 'MAGNED Padrão';
-        let style = {
-            prefix: '',
-            suffix: '\n\n*— Processado localmente pelo Motor Neural do MAGNED (100% Offline)*',
-            tone: 'geral'
-        };
+        const systemPrompt = `${S.tutorPrompt}
 
-        if (tutor.includes('Holehon')) {
-            style.prefix = '**[Prof. Holehon Santos]** ';
-            style.tone = 'reflexivo';
-        } else if (tutor.includes('Otoniel')) {
-            style.prefix = '**[Prof. Otoniel Vargas Jr]** ';
-            style.tone = 'rigoroso';
-        } else if (tutor.includes('Eduardo')) {
-            style.prefix = '**[Prof. Eduardo]** ';
-            style.tone = 'tecnico_dados';
-        } else if (tutor.includes('Araújo')) {
-            style.prefix = '**[Prof. Araújo]** ';
-            style.tone = 'tecnico_infra';
-        } else if (tutor.includes('Leonardo')) {
-            style.prefix = '**[Prof. Leonardo]** ';
-            style.tone = 'analitico';
-        } else {
-            style.prefix = '**[MAGNED IA]** ';
-            style.tone = 'geral';
-        }
+Você é parte do sistema MAGNED — um estúdio acadêmico neural da UniEVANGÉLICA.
+O aluno se chama ${S.name}, cursa ${S.course}, RA/Matrícula: ${S.matricula || S.ra || 'N/I'}.
+Matéria atual selecionada: ${S.subject || 'Nenhuma específica'}.
 
-        let response = '';
+=== DADOS REAIS DO AVA (Calendário Acadêmico) ===
+${avaCtx}
 
-        if (intent === 'greeting') {
-            const greetings = {
-                reflexivo: `Olá, meu caro aluno. Que prazer encontrá-lo. Na jornada do conhecimento, cada diálogo é uma oportunidade de reflexão sobre soluções éticas. Como posso guiar seus pensamentos hoje sobre **${topic}**?`,
-                rigoroso: `Saudações. Iniciando sessão de análise lógica. A precisão na formulação das perguntas é o primeiro passo para o rigor conceitual. O que vamos demonstrar hoje em **${topic}**?`,
-                tecnico_dados: `Fala dev! Pipeline de aprendizado ativado. Conexão estável com a base de conhecimento de **${topic}**. Qual query ou ETL vamos rodar hoje?`,
-                tecnico_infra: `Servidor online, conexões ativas. IP verificado. Pronto para configurar e resolver qualquer problema de infra ou de **${topic}**. Qual a ordem do terminal hoje?`,
-                analitico: `Olá. Espero que você esteja bem. A interpretação cuidadosa das palavras nos revela significados profundos. Vamos analisar o conteúdo de **${topic}** hoje?`,
-                geral: `Olá, ${S.name}! 👋 Estou ativo e pronto para te ajudar a decolar nos seus estudos. O que vamos desbravar hoje em **${topic}**?`
-            };
-            response = greetings[style.tone] || greetings.geral;
-        } 
-        else if (intent === 'summary') {
-            response = generateLocalSummary(topic, style.tone);
-        }
-        else if (intent === 'quiz') {
-            response = generateLocalQuiz(topic, style.tone);
-        }
-        else if (intent === 'flashcard') {
-            response = generateLocalFlashcards(topic);
-        }
-        else if (intent === 'schedule') {
-            response = generateLocalSchedule(topic);
-        }
-        else if (intent === 'pomodoro') {
-            response = `**⏱️ Sua Rotina de Foco Pomodoro Avançada**\n\nExcelente escolha de técnica, ${S.name}. O foco estruturado é a chave para reter o conteúdo de **${topic}**.\n\n### 📅 Ciclo Sugerido para Hoje:\n1. **Foco Total (25 min):** Estudar conceitos base de *${topic}*. (Sem redes sociais!)\n2. **Pausa Curta (5 min):** Beber água e alongar-se.\n3. **Foco Total (25 min):** Resolver exercícios práticos.\n4. **Pausa Curta (5 min):** Descansar a mente.\n5. **Foco Total (25 min):** Escrever notas rápidas no seu Bloco de Notas.\n6. **Pausa Longa (15 min):** Recompensa!\n\n> 💡 *Dica do MAGNED:* Clique no botão **⏱️ Timer Pomodoro** na barra lateral para iniciar o cronômetro nativo do aplicativo!`;
-        }
-        else if (intent === 'motivation') {
-            const motivations = {
-                reflexivo: `A educação não é apenas transferir dados, mas formar a consciência de que somos construtores de soluções para o bem comum. Cada linha que você estuda em **${topic}** expande sua capacidade de fazer a diferença. Não desista perante a complexidade.`,
-                rigoroso: `A frustração com um problema difícil não é um sinal de incapacidade, mas sim o processo mecânico de reconfiguração neural do seu cérebro. O erro é apenas um dado necessário para calibrar o acerto. Continue com disciplina em **${topic}**.`,
-                tecnico_dados: `Lembre-se: grandes bancos de dados começam com um único registro. Não tente rodar o script final de uma vez. Vá depurando linha por linha, commit por commit. Você é o administrador do seu próprio sucesso!`,
-                tecnico_infra: `Sistemas estáveis passam por testes de estresse. Você está no seu período de testes agora. Mantenha os serviços rodando, otimize sua CPU interna (foco) e lembre-se de que a persistência tem taxa de entrega de 100%!`,
-                analitico: `A clareza de pensamento exige paciência. Não tenha pressa em decifrar tudo de imediato. A leitura repetida e a interpretação atenta das nuances em **${topic}** revelarão a beleza do conteúdo. Acredite no seu progresso.`,
-                geral: `Você já parou para pensar no quanto aprendeu desde que começou, ${S.name}? Cada XP acumulado aqui é reflexo do seu esforço real. O sucesso acadêmico é uma escada de hábitos diários. Vamos dar mais um passo juntos hoje!`
-            };
-            response = motivations[style.tone] || motivations.geral;
-        }
-        else if (intent === 'mindmap') {
-            response = generateLocalMindmap(topic);
-        }
-        else {
-            response = generateLocalGeneralResponse(txt, topic, style.tone);
+=== DADOS REAIS DO LYCEUM (Boletim Acadêmico) ===
+${lyceumCtx}
+
+INSTRUÇÕES IMPORTANTES:
+- Use os dados do AVA e Lyceum acima para dar respostas personalizadas e contextuais.
+- Se o aluno perguntar sobre notas, faltas, média ou risco de reprovação, use os dados REAIS do Lyceum acima.
+- Se o aluno perguntar sobre prazos, provas ou entregas, use os eventos REAIS do AVA acima.
+- Alerte proativamente sobre riscos (faltas altas, notas baixas, prazos próximos).
+- Responda SEMPRE em português do Brasil com didática, empatia e clareza.
+- Formate respostas com **negrito**, *itálico* e listas quando útil.
+- Quando gerar flashcards, use o formato P: pergunta / R: resposta (um por linha).`;
+
+        S.history.push({role: 'user', parts: [{text: txt}]});
+
+        // Limitar histórico para não estourar o contexto
+        if (S.history.length > 30) S.history.splice(0, 2);
+
+        const badge = document.getElementById('modeBadge');
+        badge.innerText = '🤖 Gemini pensando...';
+        badge.style.background = 'rgba(6,214,160,.1)';
+        badge.style.color = 'var(--mint)';
+        badge.style.borderColor = 'rgba(6,214,160,.25)';
+
+        showTyping();
+
+        const res = await fetch(
+            `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${S.apiKey}`,
+            {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    system_instruction: {parts: [{text: systemPrompt}]},
+                    contents: S.history,
+                    generationConfig: {
+                        temperature: 0.8,
+                        maxOutputTokens: 2048,
+                        topP: 0.95,
+                        topK: 40
+                    }
+                })
+            }
+        );
+
+        rmTyping();
+
+        if (!res.ok) {
+            const errData = await res.json().catch(() => ({}));
+            const errMsg = errData?.error?.message || `HTTP ${res.status}`;
+            console.error('Gemini API Error:', errData);
+
+            if (res.status === 400 && errMsg.includes('API_KEY')) {
+                addMsg('🔑 **API Key inválida.** Verifique sua chave em ⚙️ Configurações. Obtenha uma gratuitamente em [aistudio.google.com](https://aistudio.google.com).', 'bot');
+            } else if (res.status === 429) {
+                addMsg('⏳ **Limite de requisições atingido.** A API Gemini gratuita tem limite de uso. Aguarde um momento e tente novamente.', 'bot');
+            } else {
+                addMsg(`⚠️ Erro Gemini: ${errMsg}\n\nUsando fallback local...`, 'bot');
+                S.history.pop(); // remove a mensagem que falhou
+                showTyping();
+                await localFallback(txt);
+            }
+
+            badge.innerText = '❌ Erro na API';
+            badge.style.color = 'var(--rose)';
+            badge.style.borderColor = 'rgba(251,79,123,.25)';
+            badge.style.background = 'rgba(251,79,123,.1)';
+            return;
         }
 
-        const formattedResp = style.prefix + response + style.suffix;
-        
-        S.history.push({role:'model',parts:[{text:formattedResp}]});
-        if(S.history.length>20) S.history.splice(0,2);
-        
-        await typewrite(formattedResp);
+        const data = await res.json();
+        const reply = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+
+        if (!reply) {
+            addMsg('⚠️ A IA retornou uma resposta vazia. Tente reformular sua pergunta.', 'bot');
+            S.history.pop();
+            return;
+        }
+
+        // Salvar no histórico
+        S.history.push({role: 'model', parts: [{text: reply}]});
+        if (S.history.length > 30) S.history.splice(0, 2);
+
+        // Exibir com typewriter
+        await typewrite(reply);
         persist();
-        gainXP(15,'IA Local Ativa');
-        parseFlash(formattedResp);
-    } catch(e) {
-        console.error(e);
-        addMsg('❌ Erro no processamento cognitivo local.','bot');
+        gainXP(15, '🤖 IA Gemini respondeu');
+        parseFlash(reply);
+
+        // Badge de sucesso
+        badge.innerText = '🟢 Gemini Ativo';
+        badge.style.background = 'rgba(6,214,160,.1)';
+        badge.style.color = 'var(--mint)';
+        badge.style.borderColor = 'rgba(6,214,160,.25)';
+
+    } catch (e) {
+        rmTyping();
+        console.error('callGemini error:', e);
+
+        // Fallback para modo offline em caso de erro de rede
+        addMsg(`⚠️ Erro de conexão: ${e.message}. Usando modo offline...`, 'bot');
+        S.history.pop();
+        showTyping();
+        await localFallback(txt);
     }
 }
 
-function generateLocalSummary(topic, tone) {
-    let content = '';
-    if (topic.includes('Python')) {
-        content = `### 📝 Resumo de Estudos: Programação em Python\n\nPython é uma linguagem de alto nível, interpretada e multiparadigma, conhecida por sua legibilidade.\n\n*   **Estrutura Básicas:**\n    *   **Variáveis:** Não precisam de declaração de tipo (Tipagem Dinâmica).\n    *   **Condicionais:** \`if\`, \`elif\`, \`else\` dependentes de indentação.\n    *   **Loops:** \`for i in range(x):\` ou \`while condicao:\`.\n\n*   **Conceito Chave (Analogia):** Pense na indentação do Python como os parágrafos de um livro: se você não os organizar corretamente, o leitor (interpretador) se perde no contexto.\n\n*   **Exemplo de Código:**\n    \`\`\`python\n    def saudar(nome):\n        print(f'Olá, {nome}!')\n    \n    saudar('${S.name}')\n    \`\`\``;
-    } else if (topic.includes('Web')) {
-        content = `### 📝 Resumo de Estudos: Desenvolvimento Web (HTML/CSS/JS)\n\nO desenvolvimento Web é dividido em três pilares fundamentais que rodam diretamente no navegador:\n\n1.  **HTML (Estrutura):** Os ossos do sistema. Define textos, links e imagens.\n2.  **CSS (Estilo):** A pele e as roupas. Define cores, layout responsivo e transições.\n3.  **JavaScript (Comportamento):** Os músculos e o cérebro local. Permite animações, validações e chamadas assíncronas.\n\n*   **Conceito Chave (Analogia):** Construir uma página web é como construir um carro. O HTML é o chassi, o CSS é a pintura e o design dos bancos, e o JavaScript é o motor que o faz andar.`;
-    } else if (topic.includes('Dados')) {
-        content = `### 📝 Resumo de Estudos: Engenharia de Dados & SQL\n\nEngenharia de dados é a prática de coletar, armazenar e preparar dados para análises futuras.\n\n*   **Pilares Principais:**\n    *   **Pipeline ETL (Extract, Transform, Load):** Coleta de várias fontes, limpeza/filtragem estrutural e carregamento num Data Warehouse.\n    *   **SQL (Structured Query Language):** Linguagem padrão para interagir com bancos de dados relacionais.\n    *   **NoSQL:** Bancos não-relacionais flexíveis (ex: MongoDB para documentos, Redis para chave-valor).\n\n*   **Conceito Chave (Analogia):** O Engenheiro de Dados é o encanador de uma grande cidade de dados: ele garante que a água (dados) flua de forma limpa, rápida e sem vazamentos dos rios (fontes) até a torneira do cidadão (analista).`;
-    } else if (topic.includes('Infraestrutura') || topic.includes('Computação')) {
-        content = `### 📝 Resumo de Estudos: Computação e Infraestrutura\n\nA infraestrutura é a base física e lógica que sustenta todas as aplicações de software.\n\n*   **Tópicos Críticos:**\n    *   **Redes e Protocolos:** TCP/IP garante a integridade de entrega de pacotes. DNS traduz nomes para IPs.\n    *   **Virtualização & Cloud:** Divisão de servidores físicos em virtuais. Cloud (AWS, Azure) provê infra sob demanda.\n    *   **Sistemas Operacionais:** Gerenciam hardware e processos (Windows, Linux, MacOS).\n\n*   **Conceito Chave (Analogia):** Um pacote TCP/IP é como uma carta registrada: ela é dividida em pequenas folhas, numerada, e o destinatário assina o recebimento. Se uma folha sumir, ele pede o reenvio daquela folha específica.`;
-    } else if (topic.includes('Matemáticos')) {
-        content = `### 📝 Resumo de Estudos: Fundamentos Matemáticos\n\nA matemática fornece a lógica de dedução e ferramentas quantitativas fundamentais para computação.\n\n*   **Pilares Principais:**\n    *   **Lógica Proposicional:** Tabelas verdade, implicação lógica e dedução lógica.\n    *   **Cálculo Diferencial:** A derivada representa a taxa de variação instantânea de uma função. Muito usada em otimização de IA (Gradient Descent).\n    *   **Álgebra Linear:** Matrizes e vetores estruturam as operações de imagens e redes neurais.\n\n*   **Conceito Chave (Analogia):** A derivada é como o velocímetro de um carro: ela não te diz onde você está (essa é a posição da função), mas diz exatamente a que velocidade e direção você está mudando naquele exato milissegundo.`;
-    } else if (topic.includes('Inteligência') || topic.includes('IA')) {
-        content = `### 📝 Resumo de Estudos: Componentes de Inteligência Artificial\n\nA IA é o campo que estuda o desenvolvimento de sistemas capazes de simular o aprendizado e raciocínio humano.\n\n*   **Estruturas Chave:**\n    *   **Machine Learning (Aprendizado de Máquina):** Modelos que aprendem com dados históricos em vez de programação explícita.\n    *   **Redes Neurais Artificiais:** Camadas de neurônios matemáticos que ajustam pesos para otimizar saídas.\n    *   **Treinamento (Backpropagation):** O erro é calculado no final e propagado de volta para calibrar os pesos das conexões.\n\n*   **Conceito Chave (Analogia):** Treinar uma rede neural é como aprender a chutar faltas. No primeiro chute (inferência inicial com pesos aleatórios), você erra feio. Você vê o quanto errou (cálculo da perda) e ajusta a força e o ângulo do pé (ajuste de pesos). Após mil tentativas, você acerta o ângulo perfeito.`;
-    } else {
-        content = `### 📝 Resumo de Estudos: Cidadania, Ética e Visão Humanista\n\nA ética analisa os princípios que orientam o comportamento humano nas relações sociais.\n\n*   **Tópicos Críticos:**\n    *   **Ética e Moral:** Moral é o conjunto de regras culturais locais; Ética é a reflexão filosófica universal sobre essas regras.\n    *   **Responsabilidade Social:** O impacto das nossas criações tecnológicas na vida das pessoas comuns.\n    *   **Visão Humanista:** Colocar o bem-estar humano, a empatia e a justiça social acima dos retornos puramente técnicos ou financeiros.\n\n*   **Conceito Chave (Analogia):** A moral são as placas de trânsito locais de um país. A ética é a nossa reflexão interior sobre por que devemos respeitar a vida alheia, mesmo onde não existem câmeras ou placas nos vigiando.`;
-    }
-    return content;
-}
+// ═══════════════════════════════════════════════
+// FALLBACK OFFLINE (quando não tem API Key ou erro de rede)
+// ═══════════════════════════════════════════════
+async function localFallback(text) {
+    const l = text.toLowerCase();
+    let r = '';
+    await new Promise(re => setTimeout(re, 600 + Math.random() * 500));
+    rmTyping();
 
-function generateLocalQuiz(topic, tone) {
-    let content = '';
-    if (topic.includes('Python')) {
-        content = `### 🧪 Quiz Rápido de Fixação: Programação em Python\n\nResponda mentalmente ou escreva no bloco de notas as suas respostas! Abaixo está o gabarito comentado:\n\n**Pergunta 1:** Qual é a função nativa do Python utilizada para obter o comprimento de uma lista?\n*   A) \`length()\`\n*   B) \`len()\`\n*   C) \`count()\`\n\n**Pergunta 2:** O que acontece se tentarmos alterar o valor de um elemento pertencente a uma Tupla?\n*   A) O Python lança um erro (\`TypeError\`), pois tuplas são imutáveis.\n*   B) O valor é alterado normalmente.\n*   C) A tupla se transforma em uma lista automaticamente.\n\n---\n\n### 🔑 Gabarito Comentado:\n*   **Q1: Letra B.** A função correta é \`len(lista)\`. A opção A pertence a outras linguagens como JS.\n*   **Q2: Letra A.** Tuplas são estruturas imutáveis de dados em Python. Para alterar dados mutáveis, utilize Listas (\`[]\`).`;
-    } else if (topic.includes('Web')) {
-        content = `### 🧪 Quiz Rápido de Fixação: Desenvolvimento Web\n\nTeste seus conhecimentos de frontend acadêmico:\n\n**Pergunta 1:** Qual a propriedade CSS utilizada para alterar a cor de fundo de um elemento HTML?\n*   A) \`color\`\n*   B) \`background-color\`\n*   C) \`bg-color\`\n\n**Pergunta 2:** Qual palavra-chave do JavaScript é usada para declarar uma variável cujo valor não pode ser reatribuído?\n*   A) \`var\`\n*   B) \`let\`\n*   C) \`const\`\n\n---\n\n### 🔑 Gabarito Comentado:\n*   **Q1: Letra B.** \`background-color\` altera o fundo. \`color\` altera apenas a cor do texto.\n*   **Q2: Letra C.** \`const\` cria constantes que impedem reatribuição de valores básicos, oferecendo mais segurança estrutural.`;
-    } else if (topic.includes('Dados')) {
-        content = `### 🧪 Quiz Rápido de Fixação: Engenharia de Dados\n\n**Pergunta 1:** No modelo relacional SQL, qual comando é utilizado para unir linhas de duas ou mais tabelas baseado em uma coluna relacionada?\n*   A) \`MERGE\`\n*   B) \`JOIN\`\n*   C) \`UNION\`\n\n**Pergunta 2:** No pipeline ETL, em qual das fases ocorre a limpeza, filtragem e normalização das strings?\n*   A) Extract\n*   B) Transform\n*   C) Load\n\n---\n\n### 🔑 Gabarito Comentado:\n*   **Q1: Letra B.** O \`JOIN\` correlaciona dados de tabelas relacionais. \`UNION\` apenas concatena resultados verticalmente.\n*   **Q2: Letra B.** É na fase de **Transform** que as regras de negócios, limpeza e tratamentos de dados ocorrem de forma sistêmica.`;
-    } else if (topic.includes('Infraestrutura') || topic.includes('Computação')) {
-        content = `### 🧪 Quiz Rápido de Fixação: Computação e Infraestrutura\n\n**Pergunta 1:** Qual protocolo da camada de aplicação é responsável por converter nomes de domínios amigáveis (ex: magned.com) em endereços IP de servidores?\n*   A) HTTP\n*   B) DNS\n*   C) DHCP\n\n**Pergunta 2:** Qual a principal diferença de confiabilidade entre o protocolo TCP e o UDP?\n*   A) TCP garante a integridade e entrega ordenada de pacotes; UDP foca em velocidade sem garantia.\n*   B) UDP é mais seguro e criptografado.\n*   C) O TCP é obsoleto e não é mais utilizado na internet moderna.\n\n---\n\n### 🔑 Gabarito Comentado:\n*   **Q1: Letra B.** O **DNS** (Domain Name System) funciona como a lista telefônica da internet mundial.\n*   **Q2: Letra A.** O **TCP** estabelece conexão de 3 vias (Three-way Handshake) garantindo pacotes; **UDP** envia os dados diretamente sem checagens, ideal para streaming de jogos/vídeos rápidos.`;
-    } else if (topic.includes('Matemáticos')) {
-        content = `### 🧪 Quiz Rápido de Fixação: Fundamentos Matemáticos\n\n**Pergunta 1:** Qual a derivada de primeira ordem da função linear real f(x) = 3x^2 + 5x - 7?\n*   A) f'(x) = 6x + 5\n*   B) f'(x) = 3x + 5\n*   C) f'(x) = 6x^2 + 5x\n\n**Pergunta 2:** Na lógica proposicional, se P é VERDADEIRO e Q é FALSO, qual o valor da conjunção (P ∧ Q)?\n*   A) Verdadeiro\n*   B) Falso\n*   C) Indeterminado\n\n---\n\n### 🔑 Gabarito Comentado:\n*   **Q1: Letra A.** Aplicando a Regra do Tombo: a derivada de 3x^2 é 6x; de 5x é 5; e de -7 (constante) é 0. Resultando em 6x + 5.\n*   **Q2: Letra B.** A conjunção \`∧\` (E) só é verdadeira se **ambos** os operandos forem verdadeiros. Se um for falso, o resultado é Falso.`;
-    } else if (topic.includes('Inteligência') || topic.includes('IA')) {
-        content = `### 🧪 Quiz Rápido de Fixação: Componentes IA\n\n**Pergunta 1:** O que caracteriza o Aprendizado Supervisionado em Machine Learning?\n*   A) O modelo aprende explorando o ambiente sem receber dados com respostas predefinidas.\n*   B) O modelo é treinado usando um conjunto de dados onde as entradas já estão associadas às respostas/rótulos corretos.\n*   C) O modelo é regulado em tempo real por um programador humano vigiando cada decisão.\n\n**Pergunta 2:** Qual a utilidade da função de ativação (como Sigmoid ou ReLU) em um neurônio artificial?\n*   A) Resetar os pesos das conexões para zero.\n*   B) Introduzir não-linearidade no sistema, permitindo que a rede neural aprenda padrões complexos.\n*   C) Aumentar a velocidade da CPU física do servidor.\n\n---\n\n### 🔑 Gabarito Comentado:\n*   **Q1: Letra B.** No supervisionado, fornecemos exemplos rotulados (ex: fotos rotuladas como "gato" ou "cachorro") para que o modelo aprenda a relação.\n*   **Q2: Letra B.** Sem funções de ativação não-lineares, a rede neural seria apenas uma grande combinação linear, impossibilitada de resolver problemas de alta complexidade.`;
-    } else {
-        content = `### 🧪 Quiz Rápido de Fixação: Ética e Humanismo\n\n**Pergunta 1:** O que prega a ética utilitarista na tomada de decisões corporativas ou tecnológicas?\n*   A) Deve-se seguir regras morais rígidas e absolutas, independentemente das consequências finais.\n*   B) Uma ação é eticamente correta se maximizar a felicidade, bem-estar ou utilidade geral para o maior número de pessoas.\n*   C) O desenvolvedor deve visar apenas o próprio lucro pessoal e financeiro.\n\n**Pergunta 2:** Por que a acessibilidade digital em sistemas web é considerada um pilar ético humanista importante?\n*   A) Apenas porque evita multas ou penalidades do governo.\n*   B) Porque garante igualdade de acesso à informação e serviços digitais vitais para todas as pessoas, incluindo aquelas com limitações motoras ou sensoriais.\n*   C) Porque torna o código mais curto e fácil de compilar.\n\n---\n\n### 🔑 Gabarito Comentado:\n*   **Q1: Letra B.** O utilitarismo avalia a ação pelas suas consequências e impacto prático no bem comum geral.\n*   **Q2: Letra B.** A acessibilidade digital não é apenas um requisito técnico, mas uma solução ética essencial baseada na empatia e equidade social para incluir todos na sociedade da informação.`;
-    }
-    return content;
-}
+    const topic = S.subject || 'Estudo Geral';
+    const tutor = S.tutor || 'MAGNED Padrão';
+    const offlineTag = '\n\n*— ⚡ Modo Offline. Configure sua **API Key do Gemini** em ⚙️ para respostas com IA real integrada ao AVA e Lyceum.*';
 
-function generateLocalFlashcards(topic) {
-    let content = `### 📇 Flashcards Dinâmicos do MAGNED\n\nOs flashcards abaixo foram carregados pelo nosso Motor Cognitivo e acabam de ser importados para o seu sistema de memorização ativa!\n\n`;
-    if (topic.includes('Python')) {
-        content += `P: O que é PEP 8 em Python?\nR: É o guia oficial de estilo e boas práticas para estruturação estética do código Python.\n\nP: Qual a diferença entre Lista e Tupla em Python?\nR: Listas [] são mutáveis e dinâmicas; Tuplas () são imutáveis e de tamanho fixo pós-criação.`;
-    } else if (topic.includes('Web')) {
-        content += `P: Qual o papel da tag semantic <main> no HTML5?\nR: Demarca o conteúdo principal, único e central da página para melhor acessibilidade e SEO.\n\nP: O que significa 'responsividade' no desenvolvimento Web?\nR: A capacidade de uma página se adaptar esteticamente a qualquer tamanho de tela (celulares, tablets e computadores).`;
-    } else if (topic.includes('Dados')) {
-        content += `P: Qual o objetivo da Normalização de um Banco de Dados Relacional?\nR: Organizar tabelas e colunas para minimizar redundância e dependências inconsistentes de dados.\n\nP: O que significa a sigla ACID em transações SQL?\nR: Atomicity, Consistency, Isolation, e Durability. Propriedades que garantem confiabilidade transacional absoluta.`;
-    } else if (topic.includes('Infraestrutura') || topic.includes('Computação')) {
-        content += `P: Qual a porta padrão para requisições HTTPS criptografadas?\nR: Porta 443 (HTTP simples usa a porta 80).\n\nP: Qual o papel de um Load Balancer (Balanceador de Carga)?\nR: Distribuir o tráfego de rede recebido de forma equilibrada entre múltiplos servidores ativos para evitar sobrecargas.`;
-    } else if (topic.includes('Matemáticos')) {
-        content += `P: O que representa o limite de uma função f(x) quando x tende a um valor c?\nR: O valor do qual a função se aproxima conforme a variável independente se aproxima de c.\n\nP: Qual o valor lógico de uma proposição condicional (P -> Q) se P for falso?\nR: Verdadeiro. Na tabela verdade condicional, se a premissa for falsa, a implicação é sempre verdadeira.`;
-    } else if (topic.includes('Inteligência') || topic.includes('IA')) {
-        content += `P: O que é Overfitting em Machine Learning?\nR: É quando o modelo se ajusta demais aos dados de treino decorando os ruídos, falhando ao generalizar novos dados.\n\nP: Qual a utilidade do conjunto de dados de Teste?\nR: Avaliar o desempenho e generalização real do modelo final treinado com dados que ele nunca viu antes.`;
-    } else {
-        content += `P: Qual a principal diferença prática entre Moral e Ética?\nR: Moral é cultural, temporal e local (regra social); Ética é a reflexão filosófica universal e racional sobre a moral.\n\nP: O que é 'Design Inclusivo' no desenvolvimento humanista?\nR: Projetar soluções que considerem a diversidade humana, garantindo que o maior número possível de pessoas consiga usar o sistema com dignidade.`;
+    // Perguntas sobre notas/faltas/lyceum → mostrar dados reais mesmo offline
+    if (l.includes('nota') || l.includes('media') || l.includes('média') || l.includes('boletim') || l.includes('lyceum') || l.includes('faltas') || l.includes('reprova')) {
+        if (S.lyceumData && S.lyceumData.length) {
+            r = '**📋 Seu Boletim do Lyceum:**\n\n';
+            S.lyceumData.forEach(d => {
+                const media = (d.n1 !== null && d.n2 !== null) ? ((d.n1 + d.n2) / 2).toFixed(1) : '—';
+                const pctFalta = d.totalAulas > 0 ? ((d.faltas / d.totalAulas) * 100).toFixed(0) : 0;
+                const alerta = parseFloat(pctFalta) >= 25 ? ' ⚠️ **RISCO POR FALTA**' : '';
+                const alertaNota = (d.n1 !== null && d.n1 < 5) || (d.n2 !== null && d.n2 < 5) ? ' ⚠️ **NOTA BAIXA**' : '';
+                r += `**${d.disc}** (${d.prof})\n`;
+                r += `  N1: ${d.n1 !== null ? d.n1 : '—'} | N2: ${d.n2 !== null ? d.n2 : '—'} | Média: ${media} | Faltas: ${d.faltas}/${d.totalAulas} (${pctFalta}%)${alerta}${alertaNota}\n\n`;
+            });
+            r += '> 💡 Configure a API Key do Gemini em ⚙️ para análises inteligentes das suas notas!';
+        } else {
+            r = '**📋 Lyceum:** Nenhum dado de notas cadastrado. Vá na aba **Clássicas > Lyceum** para inserir suas notas.';
+        }
+        await typewrite(r); return;
     }
-    return content;
-}
 
-function generateLocalSchedule(topic) {
-    return `### 📅 Plano e Cronograma de Estudos Semanal: ${topic}\n\nAqui está sua trilha pedagógica estruturada recomendada pelo MAGNED para você dominar este assunto:\n\n*   **Segunda-feira (Foco Teórico - 1h30):**\n    *   Estudar os fundamentos e conceitos essenciais de *${topic}*.\n    *   Anotar insights importantes no seu Bloco de Notas.\n*   **Quarta-feira (Prática Ativa - 2h):**\n    *   Resolver exercícios conceituais e codar/praticar exemplos reais.\n    *   Usar os flashcards para memorizar termos técnicos.\n*   **Sexta-feira (Revisão e Autoavaliação - 1h):**\n    *   Gerar um simulado rápido/quiz no chat para testar a retenção.\n    *   Fazer um mapa mental rápido revisando lacunas.\n*   **Sábado (Consolidação - 45min):**\n    *   Explicar o assunto em voz alta para você mesmo (Técnica Feynman).\n\n> 🏆 *Recompensa acadêmica:* Seguir esta trilha garante +50 XP semanais e sedimenta seu aprendizado de forma robusta no longo prazo!`;
-}
+    // Perguntas sobre agenda/provas/datas
+    if (l.includes('prova') || l.includes('entrega') || l.includes('prazo') || l.includes('agenda') || l.includes('evento') || l.includes('calendário') || l.includes('calendario')) {
+        const avaCtx = buildAVAContext();
+        r = '**📅 Eventos da sua Agenda/AVA:**\n\n' + avaCtx;
+        r += '\n\n> 💡 Importe seu calendário .ics do AVA na aba **Agenda** para manter tudo sincronizado!';
+        await typewrite(r + offlineTag); return;
+    }
 
-function generateLocalMindmap(topic) {
-    let content = `### 🧠 Estrutura de Mapa Mental: ${topic}\n\nAqui está a hierarquia conceitual estruturada para você desenhar no seu caderno:\n\n`;
-    if (topic.includes('Python')) {
-        content += `🏛️ Programação em Python\n├── 📦 Estruturas Básicas\n│   ├── Variáveis e Tipagem Dinâmica\n│   ├── Condicionais (if/elif/else)\n│   └── Estruturas de Repetição (for/while)\n├── 🗃️ Coleções (Estruturas de Dados)\n│   ├── Listas Mutáveis []\n│   ├── Tuplas Imutáveis ()\n│   └── Dicionários Chave-Valor {}\n└── 🧩 Modularização\n    ├── Funções nativas e personalizadas (def)\n    └── Escopo local vs global`;
-    } else if (topic.includes('Web')) {
-        content += `🏛️ Desenvolvimento Web (Frontend)\n├── 🧱 HTML5 (Estrutura e SEO)\n│   ├── Tags semânticas (<header>, <main>, <article>)\n│   └── Acessibilidade digital (alt, aria-labels)\n├── 🎨 CSS3 (Visual e Layout)\n│   ├── Cores, Fontes e Flexbox\n│   └── Grid responsivo para celulares e desktops\n└── 🧠 JavaScript (Lógica e Ações)\n    ├── Manipulação de DOM\n    ├── Eventos interativos (click, input)\n    └── Requisições assíncronas (fetch)`;
-    } else if (topic.includes('Dados')) {
-        content += `🏛️ Engenharia de Dados & SQL\n├── 🔌 Pipelines ETL\n│   ├── Extract (Múltiplas fontes de dados)\n│   ├── Transform (Tratamentos e limpeza de strings)\n│   └── Load (Carga estruturada no Data Warehouse)\n├── 🗄️ Bancos de Dados Relacionais\n│   ├── Tabelas, chaves primárias e chaves estrangeiras\n│   └── Queries SQL (SELECT, JOIN, WHERE, GROUP BY)\n└── 🌪️ Bancos NoSQL\n    ├── Coleções de Documentos (MongoDB)\n    └── Caches rápidos Chave-Valor (Redis)`;
-    } else if (topic.includes('Infraestrutura') || topic.includes('Computação')) {
-        content += `🏛️ Computação e Infraestrutura\n├── 🖥️ Sistemas Operacionais\n│   ├── Gerenciamento de processos e threads\n│   └── Kernel, Sistema de Arquivos e Permissões\n├── 🌐 Redes de Computadores\n│   ├── Protocolo TCP (Conexão garantida) vs UDP (Velocidade)\n│   ├── Camada de Aplicação (HTTP/HTTPS nas portas 80/443)\n│   └── DNS (Resolução de nomes para IPs)\n└── ☁️ Cloud & Virtualização\n    ├── Máquinas Virtuais (VMs) e Containers (Docker)\n    └── Servidores Cloud elásticos (AWS, Azure, GCP)`;
-    } else if (topic.includes('Matemáticos')) {
-        content += `🏛️ Fundamentos Matemáticos\n├── ⚖️ Lógica Computacional\n│   ├── Proposições e Operadores (AND, OR, NOT)\n│   ├── Tabelas Verdade e Equivalências Lógicas\n│   └── Implicação condicional (P -> Q)\n├── 📈 Cálculo Diferencial\n│   ├── Limites de funções reais\n│   ├── Derivadas de primeira e segunda ordem\n│   └── Otimizações de taxa de variação\n└── 📊 Álgebra Linear\n    ├── Vetores espaciais e operações cartesianas\n    └── Matrizes bi-dimensionais e transformações lineares`;
-    } else if (topic.includes('Inteligência') || topic.includes('IA')) {
-        content += `🏛️ Inteligência Artificial (IA)\n├── 🤖 Machine Learning (Aprendizado)\n│   ├── Supervisionado (Classificação com dados rotulados)\n│   ├── Não-Supervisionado (Agrupamento / Clustering)\n│   └── Por Reforço (Ações por penalidades e recompensas)\n├── 🧠 Redes Neurais Artificiais\n│   ├── Neurônio Matemático (Perceptron)\n│   ├── Camadas Ocultas (Deep Learning)\n│   └── Ajuste de Pesos (Gradiente Descendente e Backpropagation)\n└── ⚠️ Validação e Métricas\n    ├── Divisão Treino e Teste\n    └── Prevenção de Overfitting e Underfitting`;
-    } else {
-        content += `🏛️ Cidadania, Ética e Visão Humanista\n├── ⚖️ Filosofia Moral\n│   ├── Moral cultural e local vs Ética universal racional\n│   ├── Utilitarismo (Decisões pelo bem da maioria)\n│   └── Deontologia (Ética baseada no dever absoluto)\n├── 🌐 Tecnologia e Sociedade\n│   ├── Responsabilidade social do desenvolvedor\n│   └── Algoritmos enviesados e privacidade de dados\n└── 🤝 Humanismo e Empatia\n    ├── Projetos focados no bem-estar humano\n    └── Acessibilidade para inclusão social digital`;
+    // Greeting
+    if (l.includes('oi') || l.includes('ola') || l.includes('olá') || l.includes('bom dia') || l.includes('boa tarde') || l.includes('boa noite')) {
+        r = `Olá, **${S.name}**! 👋 Estou no **modo offline** agora.\n\nPosso te ajudar com:\n- 📋 Suas **notas do Lyceum** (digite "minhas notas")\n- 📅 Seus **eventos do AVA** (digite "minha agenda")\n- 📝 **Resumos**, **Quizzes**, **Flashcards** e **Mapas Mentais** pré-gerados\n\n🔑 Para respostas inteligentes com IA real, configure sua **API Key do Gemini** em ⚙️ Configurações.`;
+        await typewrite(r); return;
     }
-    return content;
-}
 
-function generateLocalGeneralResponse(txt, topic, tone) {
-    const norm = txt.toLowerCase();
-    if (norm.includes('oi') || norm.includes('ola') || norm.includes('olá') || norm.includes('bom dia') || norm.includes('boa tarde') || norm.includes('boa noite')) {
-        return `Olá! Como posso ajudar você hoje com seus estudos sobre **${topic}**? Você pode me pedir resumos, quizzes, planos de estudo e flashcards!`;
-    }
-    if (norm.includes('quem é você') || norm.includes('seu nome') || norm.includes('quem é vc')) {
-        return `Eu sou o **MAGNED**, seu assistente acadêmico de inteligência artificial offline, criado para guiar seus estudos sobre **${topic}** de forma didática e interativa!`;
-    }
-    if (norm.includes('criou') || norm.includes('grupo') || norm.includes('desenvolveu') || norm.includes('desenvolvedor')) {
-        return `Fui idealizado e desenvolvido pelo talentoso **Grupo 01** no Ciclo 3 do projeto, unindo design moderno, banco de dados Firebase, PWA nativo e reconhecimento facial num único ecossistema elegante!`;
-    }
-    if (norm.includes('python')) {
-        return `Vejo que quer falar sobre **Python**! Python é uma linguagem fantástica de tipagem dinâmica. Use o comando \`Resumo\` para ver uma introdução didática de código ou pergunte sobre loops e funções.`;
-    }
-    if (norm.includes('sql') || norm.includes('dados') || norm.includes('banco')) {
-        return `Bancos de dados e Engenharia de Dados são a minha especialidade acadêmica! Si quiser ver queries SQL, relacionamentos, chaves ou pipelines ETL, me avise ou digite \`Resumo\`.`;
-    }
-    if (norm.includes('ética') || norm.includes('etica') || norm.includes('humanis') || norm.includes('moral')) {
-        return `A ética e o humanismo são a bússola que orienta nossa tecnologia! Gostaria de debater sobre responsabilidade digital, utilitarismo ou acessibilidade em **${topic}**?`;
-    }
-    if (norm.includes('matemática') || norm.includes('calculo') || norm.includes('cálculo') || norm.includes('derivada')) {
-        return `Ah, a precisão matemática! A derivada, por exemplo, nos ajuda a calibrar redes neurais por meio de taxas de variação. Gostaria de resolver uma derivada passo a passo? Digite \`Quiz\` ou me peça uma explicação.`;
-    }
-    if (norm.includes('rede') || norm.includes('infra') || norm.includes('nuvem') || norm.includes('cloud')) {
-        return `Computação e infraestrutura! A base de toda aplicação web. Podemos falar sobre o protocolo TCP/IP, DNS nas portas 80/443 ou computação em nuvem com virtualização.`;
-    }
-    if (norm.includes('ia') || norm.includes('redes neurais') || norm.includes('neural')) {
-        return `Inteligência Artificial! Minha própria arquitetura conceitual. Podemos analisar como neurônios artificiais ajustam seus pesos e previnem o overfitting. Peça-me um \`Resumo\` de IA para aprofundar!`;
-    }
-    return `Entendi perfeitamente sua colocação sobre **"${txt}"**.\n\nComo seu tutor de **${topic}**, recomendo explorarmos este tema com as ferramentas cognitivas integradas do MAGNED! O que você prefere?\n\n*   ✍️ Digite **"Resumo"** para ter um resumo didático sobre este tema com analogias.\n*   🧪 Digite **"Quiz"** para gerar perguntas de múltipla escolha com gabarito.\n*   📇 Digite **"Flashcards"** para criar cartões de memorização importados automaticamente.\n*   🧠 Digite **"Mapa Mental"** para estruturar a hierarquia visual do tema.\n*   📅 Digite **"Plano"** para gerar uma trilha de cronograma de estudos semanal.`;
+    // Fallbacks antigos mantidos
+    if (l.includes('cronograma') || l.includes('plano') || l.includes('semana'))
+        r = `**📅 Plano de Estudos Semanal**\n\n**Segunda:** Fund. Matemáticos (2h) + Exercícios (30min)\n**Terça:** Engenharia de Dados (1.5h) + Revisão (30min)\n**Quarta:** Computação e Infra. (2h)\n**Quinta:** Cidadania e Ética (1h) + Leitura (1h)\n**Sexta:** Revisão Geral (1.5h) + Flashcards (30min)\n**Sábado:** Simulado Completo (2h)`;
+    else if (l.includes('quiz') || l.includes('questão'))
+        r = `**⚡ Quiz Rápido**\n\n**Q1.** O que é um pipeline de dados?\n**A)** Infraestrutura de transporte urbano\n**B) ✅** Fluxo automatizado de coleta, transformação e carga de dados\n**C)** Protocolo de rede TCP/IP\n\n**Q2.** Qual a principal diferença entre SQL e NoSQL?\n**A) ✅** SQL é relacional/estruturado; NoSQL é não-relacional/flexível\n**B)** São a mesma tecnologia\n**C)** NoSQL é sempre mais rápido`;
+    else if (l.includes('flash'))
+        r = `**📇 Flashcards Criados!**\n\nP: O que é OCR?\nR: Optical Character Recognition — converte imagens de texto em texto editável.\n\nP: O que é Machine Learning?\nR: Subcampo da IA onde sistemas aprendem padrões a partir de dados.`;
+    else if (l.includes('mapa mental'))
+        r = `**🧠 Mapa Mental — Engenharia de Software**\n\n🏛️ Fundamentos\n├── 💻 Algoritmos\n│   ├── Ordenação e Busca\n│   └── Estruturas de Dados\n├── 🗄️ Banco de Dados\n│   ├── SQL (MySQL, PostgreSQL)\n│   └── NoSQL (MongoDB, Redis)\n└── 🌐 Infraestrutura\n    ├── Redes TCP/IP\n    └── Cloud (AWS, GCP)`;
+    else if (l.includes('motiva'))
+        r = `**🔥 Mensagem do MAGNED**\n\nLembre-se: a consistência supera a intensidade. Cada sessão de estudo, mesmo que curta, constrói um fundamento inabalável.\n\n*"O sucesso não é acidental. É resultado de trabalho duro, persistência, aprendizado, sacrifício e sobretudo amor pelo que se faz."* — Pelé\n\nVocê está investindo no seu futuro. Continue! 💪`;
+    else if (l.includes('resumo') || l.includes('explica'))
+        r = `**📝 Modo Resumo Offline**\n\nPara obter resumos reais com IA generativa sobre **${topic}**, configure sua **API Key** em ⚙️.\n\nCom a IA Gemini ativa você terá:\n- Respostas contextuais baseadas no seu boletim do **Lyceum**\n- Análise de prazos do **AVA/Calendário**\n- Explicações adaptadas ao seu tutor: **${tutor}**\n- Histórico de conversa multi-turno`;
+    else
+        r = `Como **${tutor}**, estou pronto para ajudar com **${topic}**!\n\nEstou no **modo offline** — para ativar a IA real integrada ao AVA e Lyceum:\n\n🔑 Vá em ⚙️ Configurações e insira sua **API Key do Gemini** (gratuita em aistudio.google.com).\n\nEnquanto isso, posso mostrar:\n- 📋 Suas **notas** ("minhas notas")\n- 📅 Sua **agenda** ("minha agenda")\n- Use os atalhos do **Hub** ao lado para flashcards, quiz, mapas mentais e mais!`;
+
+    await typewrite(r + offlineTag);
+    parseFlash(r);
 }
 
 // ════════════════════════════════════════════
@@ -1598,7 +1770,6 @@ async function sendMsg(){
     }catch(e){rmTyping();addMsg(`⚠️ Erro na IA: ${e.message}.`,'bot');}
 }
 
-// API Gemini removida em favor da Rede Neural Aberta (No-Key)
 async function typewrite(text){
     const w=document.getElementById('chatWelcome');if(w)w.remove();
     const box=document.getElementById('chatBox');
