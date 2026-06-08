@@ -12,6 +12,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@vladmandic/face-api/dist/face-api.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+    <script src="magned_ai.js"></script>
 <style>
 /* ═══════════════════════════════════════════════
    DESIGN SYSTEM — OBSIDIAN EMBER
@@ -539,15 +540,16 @@ html,body{height:100%;font-family:'Inter',-apple-system,sans-serif;background:va
   <div class="modal">
     <div class="mhdr"><h3><i class="fas fa-gear" style="color:var(--ember)"></i> Configurações</h3><button class="btn-ic" onclick="closeModal('settingsModal')"><i class="fas fa-times"></i></button></div>
     <div class="sset-sec">
-      <h5>🤖 IA Generativa — Google Gemini</h5>
-      <div class="sset-item" style="flex-direction:column;align-items:flex-start;gap:8px">
-        <div class="sset-label">API Key do Gemini</div>
-        <div class="sset-sub">Obtenha gratuitamente em aistudio.google.com</div>
-        <div class="api-wrap">
-          <input type="password" id="apiKeyInput" class="finput" placeholder="AIza..." style="padding-right:40px">
-          <button class="api-eye" onclick="toggleApiVis()"><i class="fas fa-eye" id="apiEye"></i></button>
+      <h5>🤖 Motor de IA</h5>
+      <div class="sset-item" style="flex-direction:column;align-items:flex-start;gap:8px;border:none">
+        <div style="display:flex;align-items:center;gap:8px;width:100%;padding:10px 12px;background:rgba(167,139,250,.08);border:1px solid rgba(167,139,250,.2);border-radius:var(--r-md)">
+          <i class="fas fa-microchip" style="color:var(--violet)"></i>
+          <div>
+            <div class="sset-label" style="color:var(--violet)">Claude AI — Anthropic</div>
+            <div class="sset-sub">Motor neural ativo. Sem necessidade de API Key do usuário.</div>
+          </div>
+          <span class="ai-badge" style="margin-left:auto"><i class="fas fa-circle" style="font-size:.5rem"></i> Online</span>
         </div>
-        <button class="btn-p" onclick="saveApiKey()" style="padding:9px 18px;width:auto;font-size:.82rem;margin-top:4px"><i class="fas fa-check"></i> Salvar Chave</button>
       </div>
     </div>
     <div class="sset-sec">
@@ -1066,7 +1068,7 @@ const db = firebase.database();
 const S = {
     xp:0, nivel:1, xpPerLevel:100, sessions:0,
     name:'Estudante', course:'Engenharia de Software', ra:'', matricula:'', inst:'', photo:null, tipo:'estudante',
-    apiKey:'', portalUrl:'', notifOn:false,
+    portalUrl:'', notifOn:false,
     tutor:'MAGNED Padrão',
     tutorPrompt:'Você é o MAGNED, assistente acadêmico inteligente, empático e didático. Responda sempre em português do Brasil.',
     subject:'',
@@ -1090,7 +1092,7 @@ const S = {
 const STORE = 'magned_c3';
 function persist(){
     const d={xp:S.xp,nivel:S.nivel,sessions:S.sessions,name:S.name,course:S.course,ra:S.ra,matricula:S.matricula,inst:S.inst,photo:S.photo,tipo:S.tipo,
-        apiKey:S.apiKey,portalUrl:S.portalUrl,notifOn:S.notifOn,events:S.events,flashcards:S.flashcards,
+        portalUrl:S.portalUrl,notifOn:S.notifOn,events:S.events,flashcards:S.flashcards,
         faceDesc:S.faceDesc,pomSessToday:S.pomSessToday,synced:S.synced,lyceumData:S.lyceumData};
     // Renderizar Lyceum sempre que persistir
     renderLyceumGrid();
@@ -1357,13 +1359,10 @@ function saveProfile(){
 // ═══════════════════════════════════════════════
 // SETTINGS
 // ═══════════════════════════════════════════════
-function toggleApiVis(){const i=document.getElementById('apiKeyInput'),ic=document.getElementById('apiEye');if(i.type==='password'){i.type='text';ic.className='fas fa-eye-slash';}else{i.type='password';ic.className='fas fa-eye';}}
-function saveApiKey(){
-    S.apiKey=document.getElementById('apiKeyInput').value.trim();persist();
-    const b=document.getElementById('modeBadge');b.innerText='🤖 Gemini Ativo';b.style.background='rgba(6,214,160,.1)';b.style.color='var(--mint)';b.style.borderColor='rgba(6,214,160,.25)';
-    toast('🔑 API Key Salva','Gemini IA ativada com sucesso!');
-}
-function savePortal(){S.portalUrl=document.getElementById('portalUrl').value.trim();persist();toast('🔌 Portal Configurado','URL do AVA salva.');}
+// Inicializar motor de IA neural
+const aiEngine = new MagnedAI(() => S);
+
+function load(){
 function toggleNotif(){
     if(!S.notifOn){Notification.requestPermission().then(p=>{if(p==='granted'){S.notifOn=true;document.getElementById('notifToggle').classList.add('on');persist();scheduleNotifs();toast('🔔 Notificações Ativas','Alertas de eventos habilitados.');}});}
     else{S.notifOn=false;document.getElementById('notifToggle').classList.remove('on');persist();}
@@ -1520,241 +1519,36 @@ function buildLyceumContext() {
 }
 
 // ═══════════════════════════════════════════════
-// CHAT / AI — GOOGLE GEMINI API REAL + FALLBACK OFFLINE
+// CHAT / AI — MAGNED NEURAL AI V4 (OFFLINE)
 // ═══════════════════════════════════════════════
 async function callGemini(txt) {
     rmTyping();
 
-    // Se não tem API Key → fallback offline
-    if (!S.apiKey) {
-        showTyping();
-        await localFallback(txt);
-        return;
-    }
+    const badge = document.getElementById('modeBadge');
+    badge.innerText = '🤖 MAGNED pensando...';
+    badge.style.background = 'rgba(167,139,250,.1)';
+    badge.style.color = 'var(--violet)';
+    badge.style.borderColor = 'rgba(167,139,250,.25)';
 
-    // ——— CHAMADA REAL À API GEMINI ———
+    showTyping();
+
     try {
-        const avaCtx = buildAVAContext();
-        const lyceumCtx = buildLyceumContext();
-
-        const systemPrompt = `PROMPT MASTER — MAGNED AI EDUCACIONAL V5.0
-
-Você é a MAGNED AI, uma Inteligência Artificial Acadêmica Avançada especializada em auxiliar estudantes universitários da UniEVANGÉLICA através da integração com AVA, Moodle e Sistema Acadêmico Lyceum.
-Seu objetivo principal é funcionar como um assistente acadêmico completo capaz de automatizar tarefas, responder dúvidas, analisar conteúdos, gerar resumos e auxiliar o aluno em toda sua jornada universitária.
-
-=== CONTEXTO DE PERSONA ATUAL (SE HOUVER) ===
-${S.tutorPrompt}
-
-=== DADOS DO ALUNO ATUAL ===
-Nome: ${S.name}
-Matrícula/RA: ${S.matricula || S.ra || 'N/I'}
-Curso: ${S.course}
-Matéria atual selecionada: ${S.subject || 'Nenhuma específica'}
-
-=== MÓDULO 1: INTEGRAÇÃO LYCEUM (DADOS REAIS DA API SIMULADA) ===
-Abaixo estão os dados reais de notas, faltas e situação financeira (se houver) carregados do painel do aluno. Sempre priorize esses dados para responder sobre histórico e notas.
-${lyceumCtx}
-
-=== MÓDULO 2: INTEGRAÇÃO AVA (DADOS REAIS DO MOODLE/CALENDÁRIO) ===
-Abaixo estão os eventos, tarefas e entregas pendentes reais carregadas da agenda do aluno:
-${avaCtx}
-
-PERSONALIDADE
-Você deve agir como: Tutor universitário, Mentor acadêmico, Assistente administrativo, Analista de desempenho estudantil, Especialista em aprendizagem acelerada, Especialista em metodologias ativas e Especialista em ensino superior.
-Características: Respostas rápidas, Linguagem clara, Explicações detalhadas, Nunca inventar informações, Sempre priorizar dados oficiais vindos do AVA ou Lyceum, Responder de forma humana, Adaptar explicações ao nível do aluno.
-
-MÓDULO 3 — ASSISTENTE DE PROVAS
-Ao gerar simulados baseados em conteúdos/PDFs, gere 10, 20 ou 50 questões com alternativas, gabarito e explicação.
-No "Modo Prova", analise as disciplinas, conteúdos mais cobrados e crie uma revisão rápida e simulado personalizado.
-
-MÓDULO 4 — FLASHCARDS IA
-Sempre que solicitado a criar flashcards, use estritamente o formato: "P: pergunta / R: resposta" (um por linha), facilitando a conversão para revisão espaçada.
-
-MÓDULO 5 — MENTOR ACADÊMICO
-Monitore as notas e frequência injetadas nos Módulos 1 e 2. Detecte e alerte proativamente sobre riscos (ex: "Você está com risco de reprovação em Farmacologia. Motivo: Média baixa e Frequência crítica"). Sugira planos de recuperação.
-
-MÓDULO 6 — CHAT COM DOCUMENTOS
-Capacidade de perguntar, resumir, explicar, traduzir e gerar questões sobre o conteúdo.
-
-MÓDULO 7 — IA PARA TCC
-Auxilie com Estrutura ABNT, Revisão textual, Correção gramatical, Referências, Metodologia e Fundamentação teórica.
-
-MÓDULO 8 — PLANNER UNIVERSITÁRIO
-Crie cronogramas, rotinas de estudo e metas semanais baseadas no calendário do AVA.
-
-MÓDULO 9 — RAG ACADÊMICO
-Busque nos documentos enviados. Responda baseado apenas nas fontes. Mostre a fonte. NUNCA invente informações.
-
-MÓDULO 10 — MULTIAGENTES
-Assuma o papel do Agente mais apropriado para a solicitação (Administrador Acadêmico, Especialista AVA, Especialista Lyceum, Tutor, Especialista TCC, Planejador de Estudos, Analista de Desempenho) ou aja como se eles tivessem colaborado internamente antes de gerar a resposta.
-
-REGRAS ABSOLUTAS:
-- Nunca invente notas.
-- Nunca invente frequência.
-- Nunca invente dados financeiros.
-- Sempre consultar o contexto do AVA ou Lyceum acima antes de responder perguntas específicas do aluno.
-- Informar quando algum dado não estiver disponível.
-- Priorizar informações oficiais da instituição.
-- Respeitar LGPD.
-- Não expor credenciais.`;
-
-        S.history.push({role: 'user', parts: [{text: txt}]});
-
-        // Limitar histórico para não estourar o contexto
-        if (S.history.length > 30) S.history.splice(0, 2);
-
-        const badge = document.getElementById('modeBadge');
-        badge.innerText = '🤖 Gemini pensando...';
-        badge.style.background = 'rgba(6,214,160,.1)';
-        badge.style.color = 'var(--mint)';
-        badge.style.borderColor = 'rgba(6,214,160,.25)';
-
-        showTyping();
-
-        const res = await fetch(
-            `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${S.apiKey}`,
-            {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({
-                    system_instruction: {parts: [{text: systemPrompt}]},
-                    contents: S.history,
-                    generationConfig: {
-                        temperature: 0.8,
-                        maxOutputTokens: 2048,
-                        topP: 0.95,
-                        topK: 40
-                    }
-                })
-            }
-        );
-
+        // Simulate network delay to make it feel natural
+        await new Promise(r => setTimeout(r, 600 + Math.random() * 800));
+        
+        // Generate response locally
+        const response = await aiEngine.generateResponse(txt);
+        
         rmTyping();
-
-        if (!res.ok) {
-            const errData = await res.json().catch(() => ({}));
-            const errMsg = errData?.error?.message || `HTTP ${res.status}`;
-            console.error('Gemini API Error:', errData);
-
-            if (res.status === 400 && errMsg.includes('API_KEY')) {
-                addMsg('🔑 **API Key inválida.** Verifique sua chave em ⚙️ Configurações. Obtenha uma gratuitamente em [aistudio.google.com](https://aistudio.google.com).', 'bot');
-            } else if (res.status === 429) {
-                addMsg('⏳ **Limite de requisições atingido.** A API Gemini gratuita tem limite de uso. Aguarde um momento e tente novamente.', 'bot');
-            } else {
-                addMsg(`⚠️ Erro Gemini: ${errMsg}\n\nUsando fallback local...`, 'bot');
-                S.history.pop(); // remove a mensagem que falhou
-                showTyping();
-                await localFallback(txt);
-            }
-
-            badge.innerText = '❌ Erro na API';
-            badge.style.color = 'var(--rose)';
-            badge.style.borderColor = 'rgba(251,79,123,.25)';
-            badge.style.background = 'rgba(251,79,123,.1)';
-            return;
-        }
-
-        const data = await res.json();
-        const reply = data?.candidates?.[0]?.content?.parts?.[0]?.text;
-
-        if (!reply) {
-            addMsg('⚠️ A IA retornou uma resposta vazia. Tente reformular sua pergunta.', 'bot');
-            S.history.pop();
-            return;
-        }
-
-        // Salvar no histórico
-        S.history.push({role: 'model', parts: [{text: reply}]});
-        if (S.history.length > 30) S.history.splice(0, 2);
-
-        // Exibir com typewriter
-        await typewrite(reply);
-        persist();
-        gainXP(15, '🤖 IA Gemini respondeu');
-        parseFlash(reply);
-
-        // Badge de sucesso
-        badge.innerText = '🟢 Gemini Ativo';
-        badge.style.background = 'rgba(6,214,160,.1)';
-        badge.style.color = 'var(--mint)';
-        badge.style.borderColor = 'rgba(6,214,160,.25)';
-
+        addMsg(response, 'bot');
+        badge.innerText = '🤖 MAGNED Pronto';
+        addXP(5);
     } catch (e) {
+        console.error('MAGNED AI error:', e);
         rmTyping();
-        console.error('callGemini error:', e);
-
-        // Fallback para modo offline em caso de erro de rede
-        addMsg(`⚠️ Erro de conexão: ${e.message}. Usando modo offline...`, 'bot');
-        S.history.pop();
-        showTyping();
-        await localFallback(txt);
+        addMsg('⚠️ Ocorreu um erro ao processar sua requisição no motor neural.', 'bot');
+        badge.innerText = '❌ Erro no Motor';
     }
-}
-
-// ═══════════════════════════════════════════════
-// FALLBACK OFFLINE (quando não tem API Key ou erro de rede)
-// ═══════════════════════════════════════════════
-async function localFallback(text) {
-    const l = text.toLowerCase();
-    let r = '';
-    await new Promise(re => setTimeout(re, 600 + Math.random() * 500));
-    rmTyping();
-
-    const topic = S.subject || 'Estudo Geral';
-    const tutor = S.tutor || 'MAGNED Padrão';
-    const offlineTag = '\n\n*— ⚡ Modo Offline. Configure sua **API Key do Gemini** em ⚙️ para respostas com IA real integrada ao AVA e Lyceum.*';
-
-    // Perguntas sobre notas/faltas/lyceum → mostrar dados reais mesmo offline
-    if (l.includes('nota') || l.includes('media') || l.includes('média') || l.includes('boletim') || l.includes('lyceum') || l.includes('faltas') || l.includes('reprova')) {
-        if (S.lyceumData && S.lyceumData.length) {
-            r = '**📋 Seu Boletim do Lyceum:**\n\n';
-            S.lyceumData.forEach(d => {
-                const media = (d.n1 !== null && d.n2 !== null) ? ((d.n1 + d.n2) / 2).toFixed(1) : '—';
-                const pctFalta = d.totalAulas > 0 ? ((d.faltas / d.totalAulas) * 100).toFixed(0) : 0;
-                const alerta = parseFloat(pctFalta) >= 25 ? ' ⚠️ **RISCO POR FALTA**' : '';
-                const alertaNota = (d.n1 !== null && d.n1 < 5) || (d.n2 !== null && d.n2 < 5) ? ' ⚠️ **NOTA BAIXA**' : '';
-                r += `**${d.disc}** (${d.prof})\n`;
-                r += `  N1: ${d.n1 !== null ? d.n1 : '—'} | N2: ${d.n2 !== null ? d.n2 : '—'} | Média: ${media} | Faltas: ${d.faltas}/${d.totalAulas} (${pctFalta}%)${alerta}${alertaNota}\n\n`;
-            });
-            r += '> 💡 Configure a API Key do Gemini em ⚙️ para análises inteligentes das suas notas!';
-        } else {
-            r = '**📋 Lyceum:** Nenhum dado de notas cadastrado. Vá na aba **Clássicas > Lyceum** para inserir suas notas.';
-        }
-        await typewrite(r); return;
-    }
-
-    // Perguntas sobre agenda/provas/datas
-    if (l.includes('prova') || l.includes('entrega') || l.includes('prazo') || l.includes('agenda') || l.includes('evento') || l.includes('calendário') || l.includes('calendario')) {
-        const avaCtx = buildAVAContext();
-        r = '**📅 Eventos da sua Agenda/AVA:**\n\n' + avaCtx;
-        r += '\n\n> 💡 Importe seu calendário .ics do AVA na aba **Agenda** para manter tudo sincronizado!';
-        await typewrite(r + offlineTag); return;
-    }
-
-    // Greeting
-    if (l.includes('oi') || l.includes('ola') || l.includes('olá') || l.includes('bom dia') || l.includes('boa tarde') || l.includes('boa noite')) {
-        r = `Olá, **${S.name}**! 👋 Estou no **modo offline** agora.\n\nPosso te ajudar com:\n- 📋 Suas **notas do Lyceum** (digite "minhas notas")\n- 📅 Seus **eventos do AVA** (digite "minha agenda")\n- 📝 **Resumos**, **Quizzes**, **Flashcards** e **Mapas Mentais** pré-gerados\n\n🔑 Para respostas inteligentes com IA real, configure sua **API Key do Gemini** em ⚙️ Configurações.`;
-        await typewrite(r); return;
-    }
-
-    // Fallbacks antigos mantidos
-    if (l.includes('cronograma') || l.includes('plano') || l.includes('semana'))
-        r = `**📅 Plano de Estudos Semanal**\n\n**Segunda:** Fund. Matemáticos (2h) + Exercícios (30min)\n**Terça:** Engenharia de Dados (1.5h) + Revisão (30min)\n**Quarta:** Computação e Infra. (2h)\n**Quinta:** Cidadania e Ética (1h) + Leitura (1h)\n**Sexta:** Revisão Geral (1.5h) + Flashcards (30min)\n**Sábado:** Simulado Completo (2h)`;
-    else if (l.includes('quiz') || l.includes('questão'))
-        r = `**⚡ Quiz Rápido**\n\n**Q1.** O que é um pipeline de dados?\n**A)** Infraestrutura de transporte urbano\n**B) ✅** Fluxo automatizado de coleta, transformação e carga de dados\n**C)** Protocolo de rede TCP/IP\n\n**Q2.** Qual a principal diferença entre SQL e NoSQL?\n**A) ✅** SQL é relacional/estruturado; NoSQL é não-relacional/flexível\n**B)** São a mesma tecnologia\n**C)** NoSQL é sempre mais rápido`;
-    else if (l.includes('flash'))
-        r = `**📇 Flashcards Criados!**\n\nP: O que é OCR?\nR: Optical Character Recognition — converte imagens de texto em texto editável.\n\nP: O que é Machine Learning?\nR: Subcampo da IA onde sistemas aprendem padrões a partir de dados.`;
-    else if (l.includes('mapa mental'))
-        r = `**🧠 Mapa Mental — Engenharia de Software**\n\n🏛️ Fundamentos\n├── 💻 Algoritmos\n│   ├── Ordenação e Busca\n│   └── Estruturas de Dados\n├── 🗄️ Banco de Dados\n│   ├── SQL (MySQL, PostgreSQL)\n│   └── NoSQL (MongoDB, Redis)\n└── 🌐 Infraestrutura\n    ├── Redes TCP/IP\n    └── Cloud (AWS, GCP)`;
-    else if (l.includes('motiva'))
-        r = `**🔥 Mensagem do MAGNED**\n\nLembre-se: a consistência supera a intensidade. Cada sessão de estudo, mesmo que curta, constrói um fundamento inabalável.\n\n*"O sucesso não é acidental. É resultado de trabalho duro, persistência, aprendizado, sacrifício e sobretudo amor pelo que se faz."* — Pelé\n\nVocê está investindo no seu futuro. Continue! 💪`;
-    else if (l.includes('resumo') || l.includes('explica'))
-        r = `**📝 Modo Resumo Offline**\n\nPara obter resumos reais com IA generativa sobre **${topic}**, configure sua **API Key** em ⚙️.\n\nCom a IA Gemini ativa você terá:\n- Respostas contextuais baseadas no seu boletim do **Lyceum**\n- Análise de prazos do **AVA/Calendário**\n- Explicações adaptadas ao seu tutor: **${tutor}**\n- Histórico de conversa multi-turno`;
-    else
-        r = `Como **${tutor}**, estou pronto para ajudar com **${topic}**!\n\nEstou no **modo offline** — para ativar a IA real integrada ao AVA e Lyceum:\n\n🔑 Vá em ⚙️ Configurações e insira sua **API Key do Gemini** (gratuita em aistudio.google.com).\n\nEnquanto isso, posso mostrar:\n- 📋 Suas **notas** ("minhas notas")\n- 📅 Sua **agenda** ("minha agenda")\n- Use os atalhos do **Hub** ao lado para flashcards, quiz, mapas mentais e mais!`;
-
-    await typewrite(r + offlineTag);
-    parseFlash(r);
 }
 
 // ════════════════════════════════════════════

@@ -1025,15 +1025,7 @@
             const pass = document.getElementById('loginPass').value;
             if (!id || !pass) { alert("Preencha CPF/E-mail e Senha."); return; }
 
-            // Credenciais fixas do administrador
-            if (id === 'admin2026grupo01@gmail.com' && pass === 'admin1234567') {
-                const adminUser = {
-                    id: 'admin_sys', tipo: 'admin', nome: 'Administrador Geral', cpf: id, curso: 'Administração', matricula: '0000', pass: pass
-                };
-                failedLogins = 0;
-                finishLogin(adminUser);
-                return;
-            }
+
 
             const db = getDB(); const user = db.users.find(u => u.cpf === id && u.pass === pass);
             if (user) { 
