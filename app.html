@@ -313,77 +313,83 @@ html,body{height:100%;font-family:'Inter',-apple-system,sans-serif;background:va
 .nav-btn i{width:15px;flex-shrink:0;text-align:center}
 
 /* ═══════════════════════════════════════════════
-   CHAT AREA
+   CHAT AREA - PREMIUM NEURAL DESIGN
 ═══════════════════════════════════════════════ */
-.main-area{flex:1;display:flex;flex-direction:column;background:var(--bg-void);overflow:hidden;min-width:0}
+.main-area{flex:1;display:flex;flex-direction:column;background:radial-gradient(ellipse at top right, rgba(255,107,53,0.05), transparent 60%), var(--bg-void);overflow:hidden;min-width:0}
 .chat-hdr{
-    padding:14px 22px;border-bottom:1px solid var(--border);
+    padding:18px 26px;border-bottom:1px solid rgba(255,255,255,0.04);
     display:flex;align-items:center;justify-content:space-between;
-    background:var(--bg-surface);flex-shrink:0;
+    background:rgba(23, 23, 30, 0.6); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    flex-shrink:0; box-shadow: 0 4px 30px rgba(0,0,0,0.2); z-index: 10;
 }
-.chat-hdr-info h3{font-size:.9rem;font-weight:700}
-.chat-hdr-info p{font-size:.72rem;color:var(--text-3);margin-top:1px}
-.mode-badge{padding:4px 11px;background:var(--ember-soft);border:1px solid rgba(255,107,53,.25);border-radius:20px;font-size:.72rem;font-weight:700;color:var(--ember)}
-.hdr-acts{display:flex;align-items:center;gap:7px}
-.chat-box{flex:1;padding:22px;overflow-y:auto;display:flex;flex-direction:column;gap:11px}
-.chat-welcome{text-align:center;margin:auto;max-width:380px}
-.welcome-ico{font-size:2.8rem;margin-bottom:14px;animation:float 3s ease-in-out infinite}
-.chat-welcome h2{font-size:1.35rem;font-weight:700;margin-bottom:7px}
-.chat-welcome p{color:var(--text-3);font-size:.85rem;line-height:1.6}
+.chat-hdr-info h3{font-size:.95rem;font-weight:800; background: linear-gradient(90deg, #fff, var(--ember)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;}
+.chat-hdr-info p{font-size:.75rem;color:var(--text-3);margin-top:2px}
+.mode-badge{padding:5px 14px;background:rgba(255,107,53,0.1);border:1px solid rgba(255,107,53,.3);border-radius:24px;font-size:.72rem;font-weight:800;color:var(--ember); letter-spacing: 0.5px; box-shadow: 0 0 15px rgba(255,107,53,0.15);}
+.hdr-acts{display:flex;align-items:center;gap:10px}
+.chat-box{flex:1;padding:30px;overflow-y:auto;display:flex;flex-direction:column;gap:16px; scroll-behavior: smooth;}
+.chat-welcome{text-align:center;margin:auto;max-width:420px; animation: spring 0.8s ease-out forwards;}
+.welcome-ico{font-size:3.5rem;margin-bottom:18px;animation:float 3.5s ease-in-out infinite; filter: drop-shadow(0 0 20px rgba(255,107,53,0.4));}
+.chat-welcome h2{font-size:1.6rem;font-weight:800;margin-bottom:10px; color: var(--text-1);}
+.chat-welcome p{color:var(--text-3);font-size:.9rem;line-height:1.7}
 
-/* Messages */
-.msg{display:flex;gap:9px;max-width:80%;animation:fadeUp .28s ease}
-.msg.user{align-self:flex-end;flex-direction:row-reverse}
+/* Premium Messages */
+.msg{display:flex;gap:12px;max-width:85%;animation:fadeUp .3s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; transform-origin: bottom left;}
+.msg.user{align-self:flex-end;flex-direction:row-reverse; transform-origin: bottom right;}
 .msg-av{
-    width:30px;height:30px;border-radius:50%;
-    display:flex;align-items:center;justify-content:center;font-size:.75rem;flex-shrink:0;overflow:hidden;
+    width:34px;height:34px;border-radius:12px;
+    display:flex;align-items:center;justify-content:center;font-size:.8rem;flex-shrink:0;overflow:hidden;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
 }
 .msg-av img{width:100%;height:100%;object-fit:cover}
-.msg-bub{padding:11px 15px;border-radius:var(--r-md);font-size:.875rem;line-height:1.6}
-.msg.bot .msg-bub{background:var(--bg-elevated);border:1px solid var(--border);border-bottom-left-radius:3px;color:var(--text-1)}
-.msg.user .msg-bub{background:linear-gradient(135deg,var(--ember),#e55020);color:#fff;border-bottom-right-radius:3px}
-.msg-bub strong{font-weight:700}
-.msg-bub em{font-style:italic;opacity:.85}
-.msg-bub code{background:rgba(0,0,0,.3);padding:1px 5px;border-radius:4px;font-size:.82em;font-family:monospace}
-.msg-bub pre{background:rgba(0,0,0,.3);padding:10px;border-radius:7px;margin-top:7px;overflow-x:auto;font-size:.78em;font-family:monospace;line-height:1.5}
+.msg-bub{padding:14px 18px;border-radius:20px;font-size:.9rem;line-height:1.65; box-shadow: 0 4px 15px rgba(0,0,0,0.15); transition: transform 0.2s;}
+.msg-bub:hover{transform: translateY(-1px);}
+.msg.bot .msg-bub{background:rgba(33, 33, 44, 0.75); backdrop-filter: blur(8px); border:1px solid rgba(255,255,255,0.06);border-bottom-left-radius:4px;color:var(--text-1)}
+.msg.user .msg-bub{background:linear-gradient(135deg,var(--ember),#e55020);color:#fff;border-bottom-right-radius:4px; border: 1px solid rgba(255,107,53,0.4);}
+.msg-bub strong{font-weight:800; color: #fff;}
+.msg-bub em{font-style:italic;opacity:.9}
+.msg-bub code{background:rgba(0,0,0,.4);padding:2px 6px;border-radius:6px;font-size:.85em;font-family:'Fira Code', monospace; color: var(--amber);}
+.msg-bub pre{background:#0d0d12;padding:14px;border-radius:12px;margin-top:10px;overflow-x:auto;font-size:.8em;font-family:'Fira Code', monospace;line-height:1.5; border: 1px solid rgba(255,255,255,0.05); box-shadow: inset 0 2px 10px rgba(0,0,0,0.3);}
 
-/* Typing */
-.typing-ind{display:flex;gap:4px;padding:12px 15px;background:var(--bg-elevated);border:1px solid var(--border);border-radius:var(--r-md);border-bottom-left-radius:3px;width:fit-content;animation:fadeIn .2s ease}
-.tdot{width:6px;height:6px;background:var(--text-3);border-radius:50%;animation:bounce 1.4s infinite ease-in-out}
+/* Typing Animation */
+.typing-ind{display:flex;gap:6px;padding:14px 18px;background:rgba(33, 33, 44, 0.75); backdrop-filter: blur(8px); border:1px solid rgba(255,255,255,0.06);border-radius:20px;border-bottom-left-radius:4px;width:fit-content;animation:fadeIn .3s ease; box-shadow: 0 4px 15px rgba(0,0,0,0.15);}
+.tdot{width:6px;height:6px;background:var(--ember);border-radius:50%;animation:bounce 1.2s infinite cubic-bezier(0.2, 0.8, 0.2, 1); box-shadow: 0 0 8px rgba(255,107,53,0.5);}
 .tdot:nth-child(1){animation-delay:-.32s}.tdot:nth-child(2){animation-delay:-.16s}
 
 /* Quick chips */
-.quick-bar{padding:11px 22px;border-top:1px solid var(--border);display:flex;gap:7px;overflow-x:auto;flex-shrink:0;background:var(--bg-surface)}
+.quick-bar{padding:14px 26px;border-top:1px solid rgba(255,255,255,0.04);display:flex;gap:10px;overflow-x:auto;flex-shrink:0;background:rgba(23, 23, 30, 0.4); backdrop-filter: blur(10px);}
 .quick-bar::-webkit-scrollbar{height:0}
 .chip{
-    padding:6px 13px;background:var(--glass);border:1px solid var(--border);
-    border-radius:20px;color:var(--text-2);font-size:.76rem;font-weight:500;
-    cursor:pointer;white-space:nowrap;transition:all .18s;
-    display:flex;align-items:center;gap:5px;font-family:inherit;
+    padding:8px 16px;background:rgba(33, 33, 44, 0.6);border:1px solid rgba(255,255,255,0.05);
+    border-radius:24px;color:var(--text-2);font-size:.78rem;font-weight:600;
+    cursor:pointer;white-space:nowrap;transition:all .2s cubic-bezier(0.2, 0.8, 0.2, 1);
+    display:flex;align-items:center;gap:7px;font-family:inherit;
 }
-.chip:hover{background:var(--ember-soft);border-color:rgba(255,107,53,.28);color:var(--ember);transform:translateY(-1px)}
+.chip:hover{background:rgba(255,107,53,0.1);border-color:rgba(255,107,53,.4);color:var(--ember);transform:translateY(-2px); box-shadow: 0 4px 12px rgba(255,107,53,0.15);}
 
 /* Input area */
-.input-area{padding:14px 22px;background:var(--bg-surface);border-top:1px solid var(--border);display:flex;gap:9px;align-items:flex-end;flex-shrink:0}
+.input-area{padding:18px 26px;background:rgba(23, 23, 30, 0.8); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-top:1px solid rgba(255,255,255,0.04);display:flex;gap:12px;align-items:flex-end;flex-shrink:0; z-index: 10;}
 .input-wrap{
-    flex:1;background:var(--bg-elevated);border:1px solid var(--border);
-    border-radius:var(--r-md);display:flex;align-items:center;
-    gap:7px;padding:3px 7px 3px 14px;transition:all .18s;
+    flex:1;background:rgba(12, 12, 16, 0.7);border:1px solid rgba(255,255,255,0.08);
+    border-radius:24px;display:flex;align-items:center;
+    gap:10px;padding:5px 10px 5px 18px;transition:all .25s ease;
+    box-shadow: inset 0 2px 6px rgba(0,0,0,0.2);
 }
-.input-wrap:focus-within{border-color:var(--ember);box-shadow:0 0 0 3px var(--ember-soft)}
+.input-wrap:focus-within{border-color:var(--ember);background:rgba(23, 23, 30, 0.9); box-shadow:0 0 0 4px rgba(255,107,53,.15), inset 0 2px 6px rgba(0,0,0,0.1);}
 #userInput{
     flex:1;background:none;border:none;color:var(--text-1);
-    font-family:inherit;font-size:.88rem;outline:none;
-    padding:9px 0;resize:none;min-height:42px;max-height:110px;
+    font-family:inherit;font-size:.92rem;outline:none;
+    padding:12px 0;resize:none;min-height:46px;max-height:130px; line-height: 1.5;
 }
-#userInput::placeholder{color:var(--text-3)}
+#userInput::placeholder{color:var(--text-3); font-weight: 400;}
 .btn-send{
-    width:42px;height:42px;background:linear-gradient(135deg,var(--ember),#e55020);
-    border:none;border-radius:var(--r-md);color:#fff;font-size:.95rem;
+    width:48px;height:48px;background:linear-gradient(135deg,var(--ember),#e55020);
+    border:none;border-radius:24px;color:#fff;font-size:1.1rem;
     cursor:pointer;display:flex;align-items:center;justify-content:center;
-    transition:all .18s;flex-shrink:0;
+    transition:all .25s cubic-bezier(0.2, 0.8, 0.2, 1);flex-shrink:0;
+    box-shadow: 0 4px 15px rgba(255,107,53,0.3);
 }
-.btn-send:hover{transform:translateY(-1px);box-shadow:0 6px 16px rgba(255,107,53,.40)}
+.btn-send:hover{transform:translateY(-2px) scale(1.05);box-shadow:0 8px 25px rgba(255,107,53,.50)}
+.btn-send:active{transform:translateY(0) scale(0.95);}
 
 /* ═══════════════════════════════════════════════
    RIGHT WORKSPACE
@@ -717,11 +723,11 @@ html,body{height:100%;font-family:'Inter',-apple-system,sans-serif;background:va
   <div class="main-area">
     <div class="chat-hdr">
       <div class="chat-hdr-info">
-        <h3 id="chatTitle">Chat Inteligente</h3>
-        <p id="chatSub">Faça perguntas ou envie uma imagem para análise OCR</p>
+        <h3 id="chatTitle">MAGNED Neural Engine</h3>
+        <p id="chatSub">Motor de Inteligência Artificial Local — 100% Offline</p>
       </div>
       <div class="hdr-acts">
-        <div class="mode-badge" id="modeBadge">Aguardando...</div>
+        <div class="mode-badge" id="modeBadge"><i class="fas fa-microchip"></i> Motor Local Ativo</div>
         <button class="btn-ic" onclick="clearChat()"><i class="fas fa-trash"></i></button>
       </div>
     </div>
@@ -729,8 +735,8 @@ html,body{height:100%;font-family:'Inter',-apple-system,sans-serif;background:va
     <div class="chat-box" id="chatBox">
       <div class="chat-welcome" id="chatWelcome">
         <div class="welcome-ico">🧠</div>
-        <h2 id="wTitle">Olá! Sou o MAGNED</h2>
-        <p>Assistente acadêmico com IA real (Gemini), OCR, reconhecimento facial e calendário integrado ao AVA. Escolha uma matéria ou tutor ao lado e comece!</p>
+        <h2 id="wTitle">Como posso te ajudar, <span id="wName">Estudante</span>?</h2>
+        <p>Sou o seu assistente neural integrado ao AVA e Lyceum.<br>Meu cérebro agora é processado <strong>diretamente no seu navegador</strong>, garantindo privacidade total, zero delay e funcionamento <strong>sem internet</strong>.</p>
       </div>
     </div>
 
@@ -1207,9 +1213,14 @@ async function iniciarSessao(){
     showApp();
     setTimeout(()=>{
         const fn=S.name.split(' ')[0];
-        const w = document.getElementById('chatWelcome'); if(w) w.remove();
-        addMsg(`Olá, **${fn}**! 👋 Bem-vindo ao **MAGNED Ciclo 3**.\n\nSou seu assistente com **IA real** (Google Gemini) — **já ativada!** 🚀 Posso:\n- 🤖 Responder com IA generativa real e histórico de conversa\n- 📷 Extrair e resolver exercícios por foto (**OCR real**)\n- 📅 Gerenciar seu calendário e importar eventos do **AVA**\n- 👨‍🏫 Adotar a persona dos seus professores reais\n- 😊 Login por **reconhecimento facial** (configure em ⚙️)\n\nSua conta está sincronizada com a nuvem (Firebase).`,'bot');
-        gainXP(10,'🎉 Login sincronizado!');
+        const wTitle = document.getElementById('wName');
+        if(wTitle) wTitle.innerText = fn;
+        const w = document.getElementById('chatWelcome'); if(w && !wTitle) w.remove();
+        
+        if(!document.querySelector('.msg.bot')) {
+            addMsg(`Olá, **${fn}**! 👋 Bem-vindo ao **MAGNED**. Seu assistente neural offline está pronto.\n\nExperimente:\n- 📋 Digitar **"minhas notas"** para ver seu Lyceum\n- 📇 Digitar **"flashcards de redes"** para revisar\n- 📅 Enviar um **arquivo .ics** na Aba Agenda e perguntar dos eventos`,'bot');
+            gainXP(10,'🎉 Motor ativado!');
+        }
     },800);
 }
 function showApp(){
@@ -1521,35 +1532,7 @@ function buildLyceumContext() {
 // ═══════════════════════════════════════════════
 // CHAT / AI — MAGNED NEURAL AI V4 (OFFLINE)
 // ═══════════════════════════════════════════════
-async function callGemini(txt) {
-    rmTyping();
 
-    const badge = document.getElementById('modeBadge');
-    badge.innerText = '🤖 MAGNED pensando...';
-    badge.style.background = 'rgba(167,139,250,.1)';
-    badge.style.color = 'var(--violet)';
-    badge.style.borderColor = 'rgba(167,139,250,.25)';
-
-    showTyping();
-
-    try {
-        // Simulate network delay to make it feel natural
-        await new Promise(r => setTimeout(r, 600 + Math.random() * 800));
-        
-        // Generate response locally
-        const response = await aiEngine.generateResponse(txt);
-        
-        rmTyping();
-        addMsg(response, 'bot');
-        badge.innerText = '🤖 MAGNED Pronto';
-        addXP(5);
-    } catch (e) {
-        console.error('MAGNED AI error:', e);
-        rmTyping();
-        addMsg('⚠️ Ocorreu um erro ao processar sua requisição no motor neural.', 'bot');
-        badge.innerText = '❌ Erro no Motor';
-    }
-}
 
 // ════════════════════════════════════════════
 // CHAT CORE
@@ -1600,8 +1583,15 @@ async function sendMsg(){
     const txt=inp.value.trim();if(!txt)return;
     addMsg(txt,'user');inp.value='';inp.style.height='auto';showTyping();gainXP(5,'Pergunta enviada');
     try{
-        await callGemini(txt);
-    }catch(e){rmTyping();addMsg(`⚠️ Erro na IA: ${e.message}.`,'bot');}
+        const response = await aiEngine.generateResponse(txt);
+        rmTyping();
+        addMsg(response, 'bot');
+        document.getElementById('modeBadge').innerHTML = '<i class="fas fa-check-circle"></i> Respondido';
+        setTimeout(() => document.getElementById('modeBadge').innerHTML = '<i class="fas fa-microchip"></i> Motor Local Ativo', 2000);
+    }catch(e){
+        rmTyping();
+        addMsg(`⚠️ Erro na IA Neural: ${e.message}.`,'bot');
+    }
 }
 
 async function typewrite(text){
@@ -1620,25 +1610,7 @@ async function typewrite(text){
     if(h.length>100)h.splice(0,h.length-100);localStorage.setItem(STORE+'_chat',JSON.stringify(h));
 }
 
-async function localFallback(text){
-    const l=text.toLowerCase();let r='';
-    await new Promise(re=>setTimeout(re,900+Math.random()*700));rmTyping();
-    if(l.includes('cronograma')||l.includes('plano')||l.includes('semana'))
-        r=`**📅 Plano de Estudos Semanal**\n\n**Segunda:** Fund. Matemáticos (2h) + Exercícios (30min)\n**Terça:** Engenharia de Dados (1.5h) + Revisão (30min)\n**Quarta:** Computação e Infra. (2h)\n**Quinta:** Cidadania e Ética (1h) + Leitura (1h)\n**Sexta:** Revisão Geral (1.5h) + Flashcards (30min)\n**Sábado:** Simulado Completo (2h)\n\n> ⚡ Para plano personalizado com IA real, configure sua **API Key** em ⚙️`;
-    else if(l.includes('quiz')||l.includes('questão'))
-        r=`**⚡ Quiz Rápido**\n\n**Q1.** O que é um pipeline de dados?\n**A)** Infraestrutura de transporte urbano\n**B) ✅** Fluxo automatizado de coleta, transformação e carga de dados\n**C)** Protocolo de rede TCP/IP\n\n**Q2.** Qual a principal diferença entre SQL e NoSQL?\n**A) ✅** SQL é relacional/estruturado; NoSQL é não-relacional/flexível\n**B)** São a mesma tecnologia\n**C)** NoSQL é sempre mais rápido\n\n> 🤖 Com a API Gemini ativa, quizzes são gerados dinamicamente para qualquer tema!`;
-    else if(l.includes('flash'))
-        r=`**📇 Flashcards Criados!**\n\nP: O que é OCR?\nR: Optical Character Recognition — converte imagens de texto em texto editável.\n\nP: O que é Machine Learning?\nR: Subcampo da IA onde sistemas aprendem padrões a partir de dados.`;
-    else if(l.includes('mapa mental'))
-        r=`**🧠 Mapa Mental — Engenharia de Software**\n\n🏛️ Fundamentos\n├── 💻 Algoritmos\n│   ├── Ordenação e Busca\n│   └── Estruturas de Dados\n├── 🗄️ Banco de Dados\n│   ├── SQL (MySQL, PostgreSQL)\n│   └── NoSQL (MongoDB, Redis)\n└── 🌐 Infraestrutura\n    ├── Redes TCP/IP\n    └── Cloud (AWS, GCP)`;
-    else if(l.includes('motiva'))
-        r=`**🔥 Mensagem do MAGNED**\n\nLembre-se: a consistência supera a intensidade. Cada sessão de estudo, mesmo que curta, constrói um fundamento inabalável.\n\n*"O sucesso não é acidental. É resultado de trabalho duro, persistência, aprendizado, sacrifício e sobretudo amor pelo que se faz."* — Pelé\n\nVocê está investindo no seu futuro. Continue! 💪`;
-    else if(l.includes('resumo')||l.includes('explica'))
-        r=`**📝 Modo Resumo Ativo**\n\nEsta é uma resposta de demonstração local.\n\nPara obter **resumos reais**, explicações contextuais para sua matéria exata e respostas adaptadas ao tutor selecionado, configure sua **API Key do Gemini** em ⚙️ Configurações.\n\nCom a IA real ativa você terá:\n- Respostas em tempo real com contexto completo\n- Histórico de conversa multi-turno\n- Explicações adaptadas ao seu nível\n- Análise OCR de exercícios por foto`;
-    else
-        r=`Como **${S.tutor}**, estou pronto para ajudar!\n\n> 🤖 **Modo Local:** Configure sua **API Key do Gemini** em ⚙️ para respostas com IA real e multi-turno.\n\nEnquanto isso, use os atalhos do **Hub** ao lado para flashcards, quiz, mapas mentais e mais!`;
-    await typewrite(r);parseFlash(r);
-}
+
 
 function parseFlash(text){
     const lines=text.split('\n');const cards=[];let q='',a='';
@@ -1669,8 +1641,15 @@ async function handleFile(input){
             if(!txt||txt.length<4){addMsg('**👁️ OCR:** Não foi possível extrair texto. Use uma imagem mais nítida.','bot');return;}
             gainXP(30,'OCR realizado com sucesso!');showTyping();
             const prompt=`Analise e resolva o seguinte exercício extraído de uma imagem via OCR. Apresente a solução detalhada passo a passo:\n\n"${txt}"`;
-            S.history.push({role:'user',parts:[{text:prompt}]});
-            await callGemini(prompt);
+            
+            try {
+                const response = await aiEngine.generateResponse(prompt);
+                rmTyping();
+                addMsg(response, 'bot');
+            } catch(e) {
+                rmTyping();
+                addMsg(`⚠️ Erro na IA Neural (OCR): ${e.message}.`,'bot');
+            }
         }catch(err){prog.remove();addMsg(`⚠️ Erro no OCR: ${err.message}`,'bot');}
     };reader.readAsDataURL(file);
 }
