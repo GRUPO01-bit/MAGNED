@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>MAGNED — Relatório Técnico Final · Ciclo 3 · Grupo 01</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+        :root {
+            --primary: #ff6b35;
+            --primary-light: rgba(255,107,53,.10);
+            --bg: #ffffff;
+            --surface: #f8f9fa;
+            --border: #e2e8f0;
+            --text: #1e293b;
+            --text-2: #475569;
+            --text-3: #94a3b8;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            color: var(--text);
+            line-height: 1.7;
+            background: var(--bg);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #0c0c10 0%, #1a1a2e 100%);
+            color: white;
+            padding: 60px 40px;
+            text-align: center;
+        }
+        .header-logo {
+            width: 80px; height: 80px;
+            background: linear-gradient(135deg, var(--primary), #e55020);
+            border-radius: 22px;
+            display: inline-flex; align-items: center; justify-content: center;
+            font-size: 2.2rem; margin-bottom: 20px;
+            box-shadow: 0 0 40px rgba(255,107,53,.35);
+        }
+        .header h1 {
+            font-size: 2.4rem; font-weight: 800; letter-spacing: -0.5px;
+            margin-bottom: 8px;
+        }
+        .header h1 span { color: var(--primary); }
+        .header p { color: #94a3b8; font-size: 1rem; }
+        .header .badge {
+            display: inline-block;
+            background: rgba(255,107,53,.15);
+            color: var(--primary);
+            padding: 6px 18px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            margin-top: 16px;
+            border: 1px solid rgba(255,107,53,.3);
+        }
+
+        /* Container */
+        .container {
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 40px 30px;
+        }
+
+        /* Sections */
+        h2 {
+            font-size: 1.6rem; font-weight: 800;
+            margin: 50px 0 12px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid var(--primary);
+            display: flex; align-items: center; gap: 10px;
+        }
+        h2:first-of-type { margin-top: 0; }
+        h3 {
+            font-size: 1.15rem; font-weight: 700;
+            margin: 28px 0 10px;
+            color: var(--text);
+        }
+        h4 {
+            font-size: 1rem; font-weight: 700;
+            margin: 18px 0 8px;
+            color: var(--primary);
+        }
+
+        p { margin-bottom: 14px; color: var(--text-2); }
+        strong { color: var(--text); }
+
+        /* Lists */
+        ul, ol { margin-bottom: 14px; padding-left: 24px; color: var(--text-2); }
+        li { margin-bottom: 6px; }
+
+        /* Tables */
+        table {
+            width: 100%; border-collapse: collapse;
+            margin: 18px 0 24px; font-size: 0.9rem;
+        }
+        th, td {
+            border: 1px solid var(--border);
+            padding: 11px 14px; text-align: left;
+        }
+        th {
+            background: var(--surface);
+            font-weight: 700;
+            color: var(--text);
+            font-size: 0.82rem;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+        td { color: var(--text-2); }
+
+        /* Info cards */
+        .info-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px 24px;
+            margin: 18px 0;
+        }
+        .info-card.highlight {
+            background: var(--primary-light);
+            border-color: rgba(255,107,53,.25);
+        }
+        .info-card h4 { margin-top: 0; }
+
+        /* Tech stack grid */
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 14px;
+            margin: 18px 0;
+        }
+        .tech-item {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 16px;
+        }
+        .tech-item h5 {
+            font-size: 0.9rem; font-weight: 700;
+            margin-bottom: 4px; color: var(--text);
+        }
+        .tech-item p { font-size: 0.82rem; margin: 0; }
+
+        /* Team grid */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 14px;
+            margin: 18px 0;
+        }
+        .team-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 18px;
+            text-align: center;
+        }
+        .team-card .avatar {
+            width: 52px; height: 52px;
+            background: linear-gradient(135deg, var(--primary), #e55020);
+            border-radius: 50%;
+            display: inline-flex; align-items: center; justify-content: center;
+            color: white; font-weight: 800; font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+        .team-card h5 { font-size: 0.9rem; font-weight: 700; margin-bottom: 2px; }
+        .team-card p { font-size: 0.78rem; margin: 0; color: var(--text-3); }
+        .team-card .role {
+            display: inline-block;
+            background: var(--primary-light);
+            color: var(--primary);
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            margin-top: 8px;
+        }
+
+        /* Screenshots */
+        .screenshot {
+            margin: 20px 0;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 16px rgba(0,0,0,.08);
+        }
+        .screenshot img {
+            width: 100%;
+            display: block;
+        }
+        .screenshot-caption {
+            padding: 12px 16px;
+            background: var(--surface);
+            font-size: 0.82rem;
+            color: var(--text-2);
+            font-weight: 500;
+            text-align: center;
+        }
+
+        /* Code block */
+        pre {
+            background: #0d0d14;
+            color: #e2e8f0;
+            padding: 18px;
+            border-radius: 10px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.82rem;
+            overflow-x: auto;
+            margin: 14px 0;
+            line-height: 1.5;
+        }
+        code {
+            background: var(--surface);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.88em;
+            font-family: 'Fira Code', monospace;
+            color: var(--primary);
+        }
+
+        /* Alert boxes */
+        .alert {
+            padding: 14px 18px;
+            border-radius: 10px;
+            margin: 18px 0;
+            font-size: 0.88rem;
+        }
+        .alert.info {
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            color: #1e40af;
+        }
+        .alert.warning {
+            background: #fffbeb;
+            border: 1px solid #fde68a;
+            color: #92400e;
+        }
+        .alert.success {
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            color: #166534;
+        }
+
+        /* Footer */
+        .footer {
+            background: #0c0c10;
+            color: #64748b;
+            text-align: center;
+            padding: 30px;
+            font-size: 0.82rem;
+            margin-top: 60px;
+        }
+        .footer strong { color: var(--primary); }
+
+        /* Print */
+        @media print {
+            .header { padding: 30px 20px; }
+            .container { padding: 20px; }
+            h2 { page-break-after: avoid; }
+            .screenshot, table, .info-card { page-break-inside: avoid; }
+            body { font-size: 11pt; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ═══ HEADER ═══ -->
+<div class="header">
+    <div class="header-logo">🧠</div>
+    <h1><span>MAGNED</span> — Relatório Técnico Final</h1>
+    <p>Módulo Avançado de Gestão Neural e Execução de Dados</p>
+    <div class="badge">ENTREGA 3 · CICLO 3 · VERSÃO FINAL · JUNHO 2026</div>
+</div>
+
+<div class="container">
+
+    <!-- ═══ SEÇÃO 1: INFORMAÇÕES GERAIS ═══ -->
+    <h2>📋 1. Informações Gerais</h2>
+
+    <table>
+        <tr><th style="width:200px">Projeto</th><td><strong>MAGNED</strong> — Módulo Avançado de Gestão Neural e Execução de Dados</td></tr>
+        <tr><th>Disciplina</th><td>Engenharia de Soluções</td></tr>
+        <tr><th>Instituição</th><td>UniEVANGÉLICA — Centro Universitário de Anápolis</td></tr>
+        <tr><th>Curso</th><td>Engenharia de Software</td></tr>
+        <tr><th>Grupo</th><td>Grupo 01</td></tr>
+        <tr><th>Integrantes</th><td>Augusto César, Eduardo Felipe, Gabriel de Freitas, Marcel Eduardo, Nicolas Vinícius</td></tr>
+        <tr><th>Entrega</th><td>3ª Entrega — Versão Final e Apresentação (Semana 19)</td></tr>
+        <tr><th>Data</th><td>Junho de 2026</td></tr>
+        <tr><th>Repositório</th><td><a href="https://github.com/grupo01-bit/MAGNED" target="_blank">github.com/grupo01-bit/MAGNED</a></td></tr>
+    </table>
+
+    <!-- ═══ SEÇÃO 2: DESCRIÇÃO DA SOLUÇÃO ═══ -->
+    <h2>🎯 2. Descrição da Solução Desenvolvida</h2>
+
+    <p>O <strong>MAGNED</strong> é uma plataforma acadêmica inteligente desenvolvida como <strong>Progressive Web App (PWA)</strong> que combina inteligência artificial local, reconhecimento facial biométrico, processamento de imagem via OCR e sincronização em nuvem para criar um ecossistema de aprendizado completo e inovador.</p>
+
+    <p>O sistema foi projetado para resolver <strong>dores reais</strong> do ecossistema acadêmico da UniEVANGÉLICA:</p>
+    <ul>
+        <li><strong>Dependência de internet:</strong> O motor de IA roda 100% no navegador, sem necessidade de APIs externas ou conexão</li>
+        <li><strong>Fragmentação de ferramentas:</strong> Unifica AVA, Lyceum, calendário, flashcards, quizzes e Pomodoro em um único app</li>
+        <li><strong>Segurança no login:</strong> Login biométrico facial dispensa senhas tradicionais</li>
+        <li><strong>Acessibilidade:</strong> Instalável como app nativo em qualquer dispositivo</li>
+    </ul>
+
+    <div class="info-card highlight">
+        <h4>💡 Diferencial Técnico</h4>
+        <p>Ao contrário de soluções que dependem de chaves de API (OpenAI, Gemini) — que sofrem com bloqueios CORS, custos recorrentes e quedas de conexão — o MAGNED processa toda a inteligência artificial diretamente no navegador do usuário. Isso resulta em <strong>latência zero, custo zero e funcionamento offline total</strong>.</p>
+    </div>
+
+    <h3>2.1 Funcionalidades Implementadas</h3>
+
+    <table>
+        <thead>
+            <tr><th>Funcionalidade</th><th>Descrição</th><th>Tecnologia</th></tr>
+        </thead>
+        <tbody>
+            <tr><td><strong>Motor de IA NLP Local</strong></td><td>Classificador de intenções com 22 categorias, respostas dinâmicas personalizadas com dados reais do aluno</td><td>JavaScript vanilla (magned_ai.js)</td></tr>
+            <tr><td><strong>Login Facial (FaceID)</strong></td><td>Autenticação biométrica via câmera com detecção de landmarks faciais em tempo real</td><td>face-api.js (TensorFlow.js)</td></tr>
+            <tr><td><strong>OCR — Visão Neural</strong></td><td>Extração de texto de fotos de exercícios com resolução automática</td><td>Tesseract.js v5</td></tr>
+            <tr><td><strong>PWA Nativo</strong></td><td>Instalável no celular/desktop, funciona offline com cache ativo</td><td>Service Workers + manifest.json</td></tr>
+            <tr><td><strong>Firebase Cloud Sync</strong></td><td>Sincronização em tempo real de XP, notas, eventos e perfil</td><td>Firebase Realtime Database</td></tr>
+            <tr><td><strong>Boletim Lyceum</strong></td><td>Gestão de notas N1/N2, cálculo automático de médias e análise de risco</td><td>JavaScript + LocalStorage</td></tr>
+            <tr><td><strong>Calendário AVA</strong></td><td>Importação de arquivos .ics, eventos manuais, alertas de prazos</td><td>Parser ICS + JavaScript</td></tr>
+            <tr><td><strong>Gamificação</strong></td><td>Sistema de XP, níveis e conquistas por interação acadêmica</td><td>JavaScript + Firebase</td></tr>
+            <tr><td><strong>Quizzes Inteligentes</strong></td><td>Banco de 30+ questões em 6 áreas, sorteio dinâmico com gabarito</td><td>magned_ai.js</td></tr>
+            <tr><td><strong>Flashcards 3D</strong></td><td>Cartões de estudo com animação de flip, geração via IA</td><td>CSS 3D Transforms + JS</td></tr>
+            <tr><td><strong>Timer Pomodoro</strong></td><td>25min foco + 5min pausa com ring visual animado</td><td>JavaScript + CSS</td></tr>
+            <tr><td><strong>Mapas Mentais</strong></td><td>Diagramas ASCII de Python, BD, IA com expansão visual</td><td>magned_ai.js</td></tr>
+            <tr><td><strong>Tutores com Persona</strong></td><td>6 professores com estilos didáticos distintos</td><td>Sistema de personas NLP</td></tr>
+            <tr><td><strong>Hub de 40+ Ações</strong></td><td>Comandos rápidos organizados por categoria</td><td>HTML + JavaScript</td></tr>
+            <tr><td><strong>Bloco de Notas</strong></td><td>Editor persistente com exportação em TXT</td><td>LocalStorage</td></tr>
+        </tbody>
+    </table>
+
+    <!-- ═══ SEÇÃO 3: FERRAMENTAS E TECNOLOGIAS ═══ -->
+    <h2>🛠️ 3. Ferramentas e Tecnologias Utilizadas</h2>
+
+    <h3>3.1 Stack Tecnológico</h3>
+
+    <div class="tech-grid">
+        <div class="tech-item">
+            <h5>🌐 HTML5 + CSS3</h5>
+            <p>Estrutura semântica, variáveis CSS, Grid/Flexbox, animações, media queries, glassmorphism</p>
+        </div>
+        <div class="tech-item">
+            <h5>⚡ JavaScript ES6+</h5>
+            <p>Classes, async/await, template literals, destructuring, arrow functions, módulos</p>
+        </div>
+        <div class="tech-item">
+            <h5>🧠 face-api.js</h5>
+            <p>Biblioteca de reconhecimento facial baseada em TensorFlow.js para detecção de landmarks faciais</p>
+        </div>
+        <div class="tech-item">
+            <h5>📷 Tesseract.js v5</h5>
+            <p>Motor OCR (Optical Character Recognition) que roda inteiramente no navegador</p>
+        </div>
+        <div class="tech-item">
+            <h5>🔥 Firebase</h5>
+            <p>Realtime Database para sincronização de dados em nuvem entre dispositivos</p>
+        </div>
+        <div class="tech-item">
+            <h5>📱 PWA APIs</h5>
+            <p>Service Workers, Cache API, Web App Manifest para funcionamento offline nativo</p>
+        </div>
+        <div class="tech-item">
+            <h5>🎨 Google Fonts</h5>
+            <p>Tipografia premium com Inter e Outfit para interface profissional</p>
+        </div>
+        <div class="tech-item">
+            <h5>🔧 Font Awesome 6.5</h5>
+            <p>Biblioteca de ícones vetoriais para toda a interface</p>
+        </div>
+    </div>
+
+    <h3>3.2 Ferramentas de Desenvolvimento</h3>
+
+    <table>
+        <thead><tr><th>Ferramenta</th><th>Uso</th></tr></thead>
+        <tbody>
+            <tr><td><strong>VS Code</strong></td><td>Editor de código principal com extensões de HTML/CSS/JS</td></tr>
+            <tr><td><strong>Git + GitHub</strong></td><td>Versionamento de código e colaboração em equipe</td></tr>
+            <tr><td><strong>Chrome DevTools</strong></td><td>Debug, profiling de performance e teste de PWA</td></tr>
+            <tr><td><strong>Lighthouse</strong></td><td>Auditoria de PWA, performance e acessibilidade</td></tr>
+            <tr><td><strong>Live Server</strong></td><td>Servidor local de desenvolvimento com hot reload</td></tr>
+            <tr><td><strong>Firebase Console</strong></td><td>Gerenciamento do banco de dados em nuvem</td></tr>
+        </tbody>
+    </table>
+
+    <h3>3.3 Arquitetura do Sistema</h3>
+
+    <div class="info-card">
+        <h4>Arquitetura Client-Centric Hybrid</h4>
+        <p>O MAGNED adota uma arquitetura deliberadamente <strong>client-centric</strong>: toda a lógica de IA, OCR e processamento roda no navegador. O Firebase atua como camada de persistência assíncrona. Essa decisão elimina custos de backend, reduz latência a zero e garante funcionamento offline.</p>
+<pre>
+┌────────────────────────────────────────────────┐
+│            NAVEGADOR DO USUÁRIO                │
+│                                                │
+│  ┌──────────┐  ┌──────────┐  ┌──────────────┐ │
+│  │ index.   │  │  app.    │  │ magned_ai.js │ │
+│  │  html    │→ │  html    │→ │ (Motor NLP)  │ │
+│  │ (Login)  │  │ (App)    │  │  600 linhas  │ │
+│  └──────────┘  └──────────┘  └──────────────┘ │
+│       │              │              │          │
+│  ┌────▼────┐   ┌─────▼─────┐  ┌────▼───────┐ │
+│  │face-api │   │Tesseract  │  │ 22 Intents │ │
+│  │  .js    │   │   .js     │  │ 30+ Quiz   │ │
+│  │(FaceID) │   │  (OCR)    │  │ 6 Tutores  │ │
+│  └─────────┘   └───────────┘  └────────────┘ │
+│                     │                          │
+│  ┌──────────────────▼──────────────────────┐   │
+│  │         LocalStorage / Cache            │   │
+│  └──────────────────┬──────────────────────┘   │
+└─────────────────────┼──────────────────────────┘
+                      │ (sync assíncrono)
+              ┌───────▼───────┐
+              │   Firebase    │
+              │  Realtime DB  │
+              │   (Nuvem)     │
+              └───────────────┘
+</pre>
+    </div>
+
+    <h3>3.4 Fluxo do Motor NLP Local</h3>
+
+    <p>O coração do MAGNED é o arquivo <code>magned_ai.js</code>, uma classe JavaScript de ~600 linhas que implementa um motor cognitivo <strong>rule-based com NLP local</strong>:</p>
+
+<pre>
+Entrada do Usuário
+       │
+       ▼
+┌──────────────┐    "matemática" → "matematica"
+│ Normalização │    Lowercase + remoção de acentos (NFD)
+└──────┬───────┘
+       ▼
+┌──────────────┐    22 categorias de intenção
+│ Classificador│    Keyword matching contra ~150 palavras-chave
+│  de Intents  │    Ex: "nota","média","boletim" → lyceum_grades
+└──────┬───────┘
+       ▼
+┌──────────────┐    Mapa intent → função handler
+│  Dispatcher  │    Ex: lyceum_grades → _lyceumGrades()
+└──────┬───────┘
+       ▼
+┌──────────────┐    Acessa dados reais do aluno (notas, eventos,
+│   Handler    │    nome, matéria, tutor) via this.S
+│ Especializado│    Gera resposta dinâmica em Markdown
+└──────┬───────┘
+       ▼
+┌──────────────┐
+│  Memória     │    Buffer de 60 mensagens para contexto
+│  da Sessão   │
+└──────────────┘
+</pre>
+
+    <div class="alert info">
+        <strong>ℹ️ Nota técnica:</strong> O motor classifica intenções como <em>lyceum_grades</em>, <em>quiz</em>, <em>flashcard</em>, <em>pomodoro</em>, <em>motivacao</em>, <em>programacao</em>, <em>matematica</em>, <em>dados</em>, <em>ia_ml</em>, entre outras 22 categorias. Cada handler gera conteúdo personalizado usando os dados reais do perfil acadêmico do aluno.
+    </div>
+
+    <!-- ═══ SEÇÃO 4: CAPTURAS DE TELA ═══ -->
+    <h2>📸 4. Capturas de Tela da Aplicação</h2>
+
+    <h3>4.1 Landing Page e Login</h3>
+    <div class="screenshot">
+        <img src="screenshot_landing.png" alt="Landing Page do MAGNED">
+        <div class="screenshot-caption">Figura 1 — Landing Page com Splash Screen animada, cards de funcionalidades e login facial integrado</div>
+    </div>
+
+    <h3>4.2 Workspace Principal (App)</h3>
+    <div class="screenshot">
+        <img src="screenshot_app.png" alt="Workspace do MAGNED">
+        <div class="screenshot-caption">Figura 2 — Interface principal com 3 painéis: Sidebar (perfil + navegação), Chat com IA e Workspace (matérias, tutores, hub, calendário)</div>
+    </div>
+
+    <h3>4.3 Reconhecimento Facial (FaceID)</h3>
+    <div class="screenshot">
+        <img src="screenshot_faceid.png" alt="Login Facial do MAGNED">
+        <div class="screenshot-caption">Figura 3 — Modal de reconhecimento facial com malha geométrica em tempo real e barra de confiança</div>
+    </div>
+
+    <h3>4.4 Visão Neural (OCR)</h3>
+    <div class="screenshot">
+        <img src="screenshot_ocr.png" alt="OCR do MAGNED">
+        <div class="screenshot-caption">Figura 4 — Processamento OCR de foto de exercício com barra de progresso e resolução automática</div>
+    </div>
+
+    <h3>4.5 Quizzes e Flashcards</h3>
+    <div class="screenshot">
+        <img src="screenshot_quiz.png" alt="Quiz e Flashcards do MAGNED">
+        <div class="screenshot-caption">Figura 5 — Geração dinâmica de quiz com gabarito comentado e flashcards com flip 3D</div>
+    </div>
+
+    <!-- ═══ SEÇÃO 5: DIVISÃO DE RESPONSABILIDADES ═══ -->
+    <h2>👥 5. Divisão de Responsabilidades no Grupo</h2>
+
+    <div class="team-grid">
+        <div class="team-card">
+            <div class="avatar">AC</div>
+            <h5>Augusto César</h5>
+            <p>Líder Técnico</p>
+            <div class="role">Arquitetura & IA</div>
+        </div>
+        <div class="team-card">
+            <div class="avatar">EF</div>
+            <h5>Eduardo Felipe</h5>
+            <p>Desenvolvedor</p>
+            <div class="role">Frontend & UX</div>
+        </div>
+        <div class="team-card">
+            <div class="avatar">GF</div>
+            <h5>Gabriel de Freitas</h5>
+            <p>Desenvolvedor</p>
+            <div class="role">Backend & Firebase</div>
+        </div>
+        <div class="team-card">
+            <div class="avatar">ME</div>
+            <h5>Marcel Eduardo</h5>
+            <p>Desenvolvedor</p>
+            <div class="role">PWA & Offline</div>
+        </div>
+        <div class="team-card">
+            <div class="avatar">NV</div>
+            <h5>Nicolas Vinícius</h5>
+            <p>Desenvolvedor</p>
+            <div class="role">Testes & Docs</div>
+        </div>
+    </div>
+
+    <table>
+        <thead>
+            <tr><th>Integrante</th><th>Responsabilidades Principais</th></tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Augusto César</strong></td>
+                <td>Arquitetura do sistema, desenvolvimento do Motor NLP (magned_ai.js), integração do FaceID e OCR, design system Obsidian Ember, coordenação geral do projeto</td>
+            </tr>
+            <tr>
+                <td><strong>Eduardo Felipe</strong></td>
+                <td>Design da interface (UI/UX), landing page, animações CSS (splash screen, scroll reveal, glassmorphism), responsividade mobile</td>
+            </tr>
+            <tr>
+                <td><strong>Gabriel de Freitas</strong></td>
+                <td>Integração com Firebase Realtime Database, sistema de gamificação (XP/Níveis), sincronização de dados em nuvem</td>
+            </tr>
+            <tr>
+                <td><strong>Marcel Eduardo</strong></td>
+                <td>Implementação do PWA (Service Worker, manifest.json, Cache API), sistema de calendário com importação .ics, timer Pomodoro</td>
+            </tr>
+            <tr>
+                <td><strong>Nicolas Vinícius</strong></td>
+                <td>Testes de funcionalidades, documentação técnica, relatórios de entrega, banco de questões dos quizzes, organização do repositório</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- ═══ SEÇÃO 6: EVOLUÇÃO DO PROJETO ═══ -->
+    <h2>📈 6. Evolução do Projeto (Ciclos 1, 2 e 3)</h2>
+
+    <table>
+        <thead>
+            <tr><th>Ciclo</th><th>O que foi entregue</th><th>Foco</th></tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Ciclo 1</strong><br>(Semanas 1-4)</td>
+                <td>Protótipo inicial com interface conceitual e primeiras interações de chat</td>
+                <td>Ideação, wireframes, validação do conceito</td>
+            </tr>
+            <tr>
+                <td><strong>Ciclo 2</strong><br>(Semanas 5-8)</td>
+                <td>Workspace completo com Hub de 100+ funções, sidebar dinâmica, integração visual com Lyceum e AVA</td>
+                <td>Interface expandida, arquitetura modular, mapeamento de funcionalidades</td>
+            </tr>
+            <tr>
+                <td><strong>Ciclo 3</strong><br>(Semanas 9-19)</td>
+                <td>Versão final com IA NLP local, FaceID, OCR, PWA, Firebase, gamificação completa</td>
+                <td>Ativação de todas as engrenagens lógicas, offline-first, biometria, nuvem</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>6.1 Principais Inovações do Ciclo 3</h3>
+    <ol>
+        <li><strong>Motor NLP Cognitivo 100% Offline:</strong> Substituição de APIs externas por classificador de intenções local com 22 categorias</li>
+        <li><strong>Biometria por FaceID:</strong> Login via câmera com mapeamento geométrico de landmarks faciais</li>
+        <li><strong>PWA & Service Workers:</strong> Aplicação instalável que carrega em menos de 1 segundo</li>
+        <li><strong>Sincronização Nuvem + Offline:</strong> Arquitetura híbrida com Firebase + LocalStorage</li>
+        <li><strong>OCR Neural:</strong> Extração de texto de fotos para resolução de exercícios via Tesseract.js</li>
+        <li><strong>Polimento Visual Premium:</strong> Splash screen cinemática, scroll reveal, micro-animações</li>
+    </ol>
+
+    <!-- ═══ SEÇÃO 7: DIFICULDADES E DECISÕES ═══ -->
+    <h2>⚔️ 7. Dificuldades Enfrentadas e Decisões Técnicas</h2>
+
+    <h3>7.1 Desafios Técnicos</h3>
+
+    <table>
+        <thead>
+            <tr><th>Desafio</th><th>Problema</th><th>Solução Adotada</th></tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>APIs de IA com CORS</strong></td>
+                <td>Chaves de API (OpenAI/Gemini) eram bloqueadas por CORS no frontend e expostas pelo GitHub Secret Scanning</td>
+                <td>Criamos um motor NLP 100% local em JavaScript, eliminando qualquer dependência de API externa</td>
+            </tr>
+            <tr>
+                <td><strong>Modelos de FaceID pesados</strong></td>
+                <td>Os modelos da face-api.js somam ~6MB e podem demorar para carregar em redes lentas</td>
+                <td>Implementamos um sistema de fallback: se a câmera/modelo falhar, o login por email/senha funciona normalmente</td>
+            </tr>
+            <tr>
+                <td><strong>OCR com precisão variável</strong></td>
+                <td>Tesseract.js tem dificuldade com fotos escuras, borradas ou com notação matemática complexa</td>
+                <td>Adicionamos pré-processamento da imagem e orientação ao usuário sobre qualidade da foto</td>
+            </tr>
+            <tr>
+                <td><strong>Service Worker e cache</strong></td>
+                <td>O SW falhava ao tentar cachear recursos externos (CDN) em localhost</td>
+                <td>Usamos try/catch no addAll() para que falhas de cache de CDN não impeçam a instalação do SW</td>
+            </tr>
+            <tr>
+                <td><strong>Sincronização offline/online</strong></td>
+                <td>Dados salvos offline poderiam conflitar com a versão do Firebase</td>
+                <td>Adotamos estratégia "last-write-wins" com timestamps e prioridade para dados mais recentes</td>
+            </tr>
+            <tr>
+                <td><strong>Performance em mobile</strong></td>
+                <td>A interface com muitas animações CSS ficava lenta em celulares antigos</td>
+                <td>Otimizamos com will-change, transform ao invés de left/top, e reduzimos animações em viewports pequenas</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>7.2 Justificativa da Arquitetura Client-Centric</h3>
+
+    <div class="info-card">
+        <p>Optamos deliberadamente por processar <strong>tudo no navegador</strong> pelos seguintes motivos:</p>
+        <ul>
+            <li><strong>Custo zero:</strong> Sem servidor backend, sem custos recorrentes de API ou hosting</li>
+            <li><strong>Privacidade:</strong> Dados acadêmicos e biométricos nunca saem do dispositivo do aluno</li>
+            <li><strong>Latência zero:</strong> Respostas da IA são instantâneas, sem round-trip de rede</li>
+            <li><strong>Resiliência:</strong> Funciona mesmo sem internet (offline-first)</li>
+            <li><strong>Simplicidade:</strong> Um único diretório com 6 arquivos = app completo</li>
+        </ul>
+    </div>
+
+    <!-- ═══ SEÇÃO 8: REFLEXÕES E APRENDIZADOS ═══ -->
+    <h2>💭 8. Reflexões sobre os Aprendizados do Processo</h2>
+
+    <h3>8.1 Aprendizados Técnicos</h3>
+    <ul>
+        <li><strong>Arquitetura importa mais que framework:</strong> Provamos que é possível construir uma aplicação completa e moderna usando apenas HTML, CSS e JavaScript vanilla, sem React, Angular ou Vue. A decisão arquitetural (client-centric) foi mais impactante que qualquer escolha de framework.</li>
+        <li><strong>PWA é subestimado:</strong> Com apenas dois arquivos extras (sw.js + manifest.json), transformamos uma página web em um app instalável que funciona offline. A barreira de entrada para PWA é surpreendentemente baixa.</li>
+        <li><strong>IA não precisa ser generativa:</strong> O motor NLP local, embora rule-based, entrega uma experiência surpreendentemente rica e personalizada. Para domínios específicos (como o acadêmico), um sistema bem projetado de classificação de intenções supera a necessidade de um LLM genérico.</li>
+        <li><strong>Biometria é acessível:</strong> Bibliotecas como face-api.js democratizaram o acesso a reconhecimento facial, tornando viável implementar autenticação biométrica em um projeto acadêmico.</li>
+    </ul>
+
+    <h3>8.2 Aprendizados de Processo</h3>
+    <ul>
+        <li><strong>Iteração progressiva:</strong> A abordagem de 3 ciclos (conceito → interface → funcionalidade completa) foi essencial. Cada ciclo construiu sobre o anterior sem descartar trabalho.</li>
+        <li><strong>Divisão clara de responsabilidades:</strong> Definir áreas de atuação (IA, frontend, backend, PWA, testes) desde o início evitou conflitos e acelerou o desenvolvimento.</li>
+        <li><strong>Git como espinha dorsal:</strong> O versionamento com Git permitiu trabalho paralelo e rastreabilidade de todas as mudanças.</li>
+        <li><strong>Documentação contínua:</strong> Manter relatórios atualizados a cada ciclo facilitou enormemente a compilação do relatório final.</li>
+    </ul>
+
+    <h3>8.3 Melhorias Futuras</h3>
+    <ul>
+        <li>🔄 <strong>IA Generativa Híbrida:</strong> Integrar uma API de LLM (como Gemini) como fallback quando há internet, mantendo o NLP local como engine primário</li>
+        <li>📊 <strong>Dashboard de Analytics:</strong> Gráficos de evolução do desempenho ao longo do semestre</li>
+        <li>🔔 <strong>Notificações Push:</strong> Alertas automáticos de provas e entregas próximas</li>
+        <li>🤝 <strong>Modo Colaborativo:</strong> Sala de estudo compartilhada entre colegas</li>
+        <li>📱 <strong>App Nativo:</strong> Versão React Native ou Flutter para acesso completo às APIs do sistema</li>
+        <li>🧪 <strong>Banco de Questões Expandido:</strong> Integração com bancos de questões reais do AVA</li>
+    </ul>
+
+    <!-- ═══ SEÇÃO 9: ROTEIRO DE APRESENTAÇÃO ═══ -->
+    <h2>🎤 9. Roteiro de Apresentação Oral</h2>
+
+    <div class="alert warning">
+        <strong>⚠️ Importante:</strong> Todos os 5 integrantes devem participar ativamente da apresentação. A divisão sugerida abaixo garante participação equitativa.
+    </div>
+
+    <table>
+        <thead>
+            <tr><th>Momento</th><th>Responsável</th><th>Conteúdo</th><th>Tempo</th></tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Abertura</strong></td>
+                <td>Augusto César</td>
+                <td>Apresentação do projeto, problema resolvido, diferencial técnico (IA offline, zero API keys)</td>
+                <td>2 min</td>
+            </tr>
+            <tr>
+                <td><strong>Demo: Login Facial</strong></td>
+                <td>Gabriel de Freitas</td>
+                <td>Demonstrar o FaceID ao vivo, explicar face-api.js e landmarks faciais</td>
+                <td>2 min</td>
+            </tr>
+            <tr>
+                <td><strong>Demo: Chat IA + Hub</strong></td>
+                <td>Eduardo Felipe</td>
+                <td>Demonstrar o chat com IA (quiz, flashcards, plano de estudos), explicar o motor NLP e a interface</td>
+                <td>3 min</td>
+            </tr>
+            <tr>
+                <td><strong>Demo: OCR + PWA</strong></td>
+                <td>Marcel Eduardo</td>
+                <td>Demonstrar OCR com foto de exercício, mostrar instalação PWA via QR Code, explicar Service Workers</td>
+                <td>2 min</td>
+            </tr>
+            <tr>
+                <td><strong>Fechamento</strong></td>
+                <td>Nicolas Vinícius</td>
+                <td>Dificuldades enfrentadas, aprendizados, melhorias futuras, agradecimentos</td>
+                <td>2 min</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>9.1 Dicas para a Apresentação</h3>
+    <ul>
+        <li>📷 Tenha uma <strong>foto de exercício</strong> pronta no celular para demonstrar o OCR</li>
+        <li>📱 Abra o app no celular via <strong>QR Code</strong> para mostrar a responsividade</li>
+        <li>🔌 Desconecte a internet brevemente para mostrar o <strong>funcionamento offline</strong></li>
+        <li>💬 Peça comandos à IA: "minhas notas", "quiz de python", "mapa mental de banco de dados"</li>
+        <li>⏱️ Ensaie o timing: a apresentação completa deve ter ~11 minutos + perguntas</li>
+    </ul>
+
+    <!-- ═══ SEÇÃO 10: ESTRUTURA DO CÓDIGO ═══ -->
+    <h2>📁 10. Estrutura e Organização do Código</h2>
+
+    <pre>
+MAGNED_Entrega_Ciclo3_Final/
+├── index.html              → Landing page + Login (FaceID + email/senha)
+│                             41.7 KB — 1181 linhas
+│                             Splash screen animada, cards de features
+│
+├── app.html                → Aplicação principal completa
+│                             128.5 KB — 1879 linhas
+│                             Chat IA, Workspace, Calendário, Hub
+│                             Modais: Pomodoro, Flashcards, Perfil, Config
+│
+├── magned_ai.js            → Motor de IA NLP local (Classe MagnedAI)
+│                             48.2 KB — 602 linhas
+│                             22 intents, 30+ questões, 6 tutores
+│                             Análise de notas, planos, motivação
+│
+├── manifest.json           → Configuração PWA
+│                             470 B — nome, ícones, tema
+│
+├── sw.js                   → Service Worker para cache offline
+│                             1.5 KB — install, fetch, activate
+│
+├── magned-icon.png         → Ícone do app (192x192 / 512x512)
+│                             485.6 KB
+│
+└── Relatorio_Entrega_Ciclo3.pdf → Relatório em PDF
+                              120.7 KB
+    </pre>
+
+    <div class="alert success">
+        <strong>✅ Código organizado:</strong> O projeto inteiro funciona com apenas <strong>6 arquivos</strong> (3 HTML/JS + 3 config/assets). Toda a lógica de IA está isolada em <code>magned_ai.js</code>, facilitando manutenção e evolução. O CSS está embutido nos HTMLs usando Design Tokens (variáveis CSS) para consistência visual.
+    </div>
+
+    <!-- ═══ SEÇÃO 11: CONCLUSÃO ═══ -->
+    <h2>✅ 11. Conclusão</h2>
+
+    <p>O <strong>MAGNED</strong> representa a culminação de um semestre inteiro de aprendizado e desenvolvimento colaborativo. Partimos de um conceito — "e se pudéssemos criar um assistente acadêmico inteligente que funcionasse sem internet?" — e construímos uma plataforma completa que:</p>
+
+    <ul>
+        <li>✅ <strong>Funciona 100% no navegador</strong> — sem backend, sem custos, sem chaves de API</li>
+        <li>✅ <strong>É instalável como app nativo</strong> — PWA com suporte offline total</li>
+        <li>✅ <strong>Integra IA real</strong> — Motor NLP com 22 categorias de intenção e personalização por tutor</li>
+        <li>✅ <strong>Implementa biometria facial</strong> — Login seguro via câmera</li>
+        <li>✅ <strong>Processa imagens com OCR</strong> — Resolução de exercícios por foto</li>
+        <li>✅ <strong>Sincroniza dados na nuvem</strong> — Firebase para portabilidade entre dispositivos</li>
+    </ul>
+
+    <p>Mais do que um projeto acadêmico, o MAGNED é uma prova de conceito de que é possível construir tecnologia <strong>inovadora, acessível e de nível corporativo</strong> usando ferramentas web modernas e uma arquitetura inteligente.</p>
+
+    <div class="info-card highlight">
+        <h4>🎯 Missão Cumprida</h4>
+        <p>O MAGNED resolve as dores reais do ecossistema acadêmico da UniEVANGÉLICA: unifica ferramentas fragmentadas (AVA, Lyceum, calendário), oferece estudo assistido por IA (quizzes, flashcards, planos personalizados), e funciona em qualquer dispositivo — mesmo sem internet.</p>
+    </div>
+
+</div>
+
+<div class="footer">
+    <strong>MAGNED</strong> — Módulo Avançado de Gestão Neural e Execução de Dados<br>
+    Grupo 01 · UniEVANGÉLICA · Engenharia de Software · Junho 2026<br><br>
+    Repositório: <a href="https://github.com/grupo01-bit/MAGNED" style="color:var(--primary)">github.com/grupo01-bit/MAGNED</a>
+</div>
+
+</body>
+</html>
