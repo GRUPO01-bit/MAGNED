@@ -14,15 +14,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap"
         rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-    <script>
-        if (!localStorage.getItem('magned_hard_reset_c4')) {
-            localStorage.clear();
-            sessionStorage.clear();
-            localStorage.setItem('magned_hard_reset_c4', '1');
-            window.location.reload();
-        }
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/@vladmandic/face-api/dist/face-api.js"></script>
+
 
     <style>
         /* Design System - Obsidian Ember (Ciclo 3) with Glassmorphism */
@@ -996,19 +988,30 @@
           appId: "1:795492792939:web:e83b03bb6109330276cf2e",
           measurementId: "G-8Q1F8BLPCE"
         };
-        firebase.initializeApp(firebaseConfig);
-        const fbDB = firebase.database();
+        let fbDB = null;
+        try {
+            if (typeof firebase !== 'undefined') {
+                firebase.initializeApp(firebaseConfig);
+                fbDB = firebase.database();
+            } else {
+                console.warn("Firebase nao encontrado, executando em modo offline.");
+            }
+        } catch (e) {
+            console.warn("Erro ao inicializar Firebase, executando em modo offline.", e);
+        }
 
         async function getDB() {
             try {
-                const snapshot = await fbDB.ref('magned_db').once('value');
-                if (snapshot.exists()) return snapshot.val();
+                if (fbDB) {
+                    const snapshot = await fbDB.ref('magned_db').once('value');
+                    if (snapshot.exists()) return snapshot.val();
+                }
             } catch (e) { console.error("Firebase error (regras bloqueadas?):", e); }
             return JSON.parse(localStorage.getItem('magned_db') || '{"users":[]}');
         }
 
         async function saveDB(db) {
-            try { await fbDB.ref('magned_db').set(db); } catch (e) { console.error(e); }
+            try { if (fbDB) await fbDB.ref('magned_db').set(db); } catch (e) { console.error(e); }
             localStorage.setItem('magned_db', JSON.stringify(db));
         }
 
@@ -1216,7 +1219,7 @@
 
             document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
         })();
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/@vladmandic/face-api/dist/face-api.js"></script>
 </body>
 
 </html>

@@ -10,15 +10,7 @@
     <meta name="description" content="MAGNED - Assistente acadêmico inteligente com IA generativa real, OCR, reconhecimento facial e calendário integrado ao AVA.">
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;0,14..32,800;1,14..32,400&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-    <script>
-        if (!localStorage.getItem('magned_hard_reset_c4')) {
-            localStorage.clear();
-            sessionStorage.clear();
-            localStorage.setItem('magned_hard_reset_c4', '1');
-            window.location.href = 'index.html';
-        }
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/@vladmandic/face-api/dist/face-api.js"></script>
+
     <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
     <script src="magned_ai.js"></script>
 <style>
@@ -1019,19 +1011,30 @@ const firebaseConfig = {
   appId: "1:795492792939:web:e83b03bb6109330276cf2e",
   measurementId: "G-8Q1F8BLPCE"
 };
-firebase.initializeApp(firebaseConfig);
-const fbDB = firebase.database();
+let fbDB = null;
+try {
+    if (typeof firebase !== 'undefined') {
+        firebase.initializeApp(firebaseConfig);
+        fbDB = firebase.database();
+    } else {
+        console.warn("Firebase nao encontrado, executando em modo offline.");
+    }
+} catch (e) {
+    console.warn("Erro ao inicializar Firebase, executando em modo offline.", e);
+}
 
 async function getDB() {
     try {
-        const snapshot = await fbDB.ref('magned_db').once('value');
-        if (snapshot.exists()) return snapshot.val();
+        if (fbDB) {
+            const snapshot = await fbDB.ref('magned_db').once('value');
+            if (snapshot.exists()) return snapshot.val();
+        }
     } catch (e) { console.error("Firebase error:", e); }
     return JSON.parse(localStorage.getItem('magned_db') || '{"users":[]}');
 }
 
 async function saveDB(dbData) {
-    try { await fbDB.ref('magned_db').set(dbData); } catch (e) { console.error(e); }
+    try { if (fbDB) await fbDB.ref('magned_db').set(dbData); } catch (e) { console.error(e); }
     localStorage.setItem('magned_db', JSON.stringify(dbData));
 }
 
@@ -2054,6 +2057,6 @@ function nextCard(){S.fcIdx=(S.fcIdx+1)%S.flashcards.length;renderFlash();gainXP
 function prevCard(){S.fcIdx=(S.fcIdx-1+S.flashcards.length)%S.flashcards.length;renderFlash();}
 function shuffleCards(){S.flashcards=S.flashcards.sort(()=>Math.random()-.5);S.fcIdx=0;renderFlash();toast('🔀 Embaralhado','Nova ordem aleatória!');}
 function genFlashAI(){closeModal('flashModal');fs(`Crie 8 flashcards no formato "P: pergunta\nR: resposta" sobre ${S.subject||'os temas que estudamos hoje'}. Seja conciso e didático.`);}
-</script>
+<script src="https://cdn.jsdelivr.net/npm/@vladmandic/face-api/dist/face-api.js"></script>
 </body>
 </html>
