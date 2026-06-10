@@ -1052,13 +1052,13 @@ const S = {
     faceDesc:null, faceModelsLoaded:false, faceStream:null, faceMode:null, faceLoop:null,
     synced: false,
     lyceumData: [
-        {disc:'Cidadania, Ética e Espiritualidade', prof:'Prof. Holehon Santos', n1:7.5, n2:null, faltas:2, totalAulas:20, status:'Cursando'},
-        {disc:'Leitura e Interpretação de Texto', prof:'Prof. Leonardo R. de Souza', n1:8.0, n2:6.5, faltas:4, totalAulas:20, status:'Cursando'},
-        {disc:'Fundamentos de Engenharia de Dados', prof:'Prof. Eduardo', n1:9.0, n2:null, faltas:1, totalAulas:20, status:'Cursando'},
-        {disc:'Fund. de Computação e Infraestrutura', prof:'Prof. Araújo', n1:6.0, n2:5.5, faltas:6, totalAulas:20, status:'Cursando'},
-        {disc:'Engenharia de Soluções', prof:'Prof. Holehon Santos', n1:null, n2:null, faltas:3, totalAulas:20, status:'Cursando'},
-        {disc:'Fund. Matemáticos para Computação', prof:'Prof. Otoniel Vargas Jr', n1:5.0, n2:null, faltas:5, totalAulas:20, status:'Cursando'},
-        {disc:'Componentes Integrados com IA', prof:'MAGNED IA', n1:8.5, n2:9.0, faltas:0, totalAulas:20, status:'Cursando'}
+        {disc:'Fundamentos de Engenharia de Dados', prof:'Prof. Eduardo Dias Pereira', n1:8.5, n2:null, faltas:2, totalAulas:20, status:'Cursando'},
+        {disc:'Introdução à Engenharia de Soluções', prof:'Prof. Henrique Valle e Holehon Santos', n1:9.0, n2:8.5, faltas:0, totalAulas:20, status:'Cursando'},
+        {disc:'Fundamentos Matemáticos para Computação', prof:'Prof. Otoniel Vargas Junior', n1:7.0, n2:null, faltas:4, totalAulas:20, status:'Cursando'},
+        {disc:'Cidadania, Ética e Espiritualidade', prof:'Prof. Holehon Santos Campos', n1:9.5, n2:null, faltas:1, totalAulas:20, status:'Cursando'},
+        {disc:'Fundamentos de Computação e Infraestrutura', prof:'Prof. Jeferson Silva Araujo', n1:6.5, n2:7.0, faltas:6, totalAulas:20, status:'Cursando'},
+        {disc:'Leitura e Interpretação de Texto - On-line', prof:'Prof. Leonardo Rodrigues de Souza', n1:8.0, n2:8.5, faltas:0, totalAulas:20, status:'Cursando'},
+        {disc:'Componentes Integrados com IA', prof:'MAGNED IA', n1:10.0, n2:10.0, faltas:0, totalAulas:20, status:'Aprovado'}
     ]
 };
 
@@ -1546,12 +1546,13 @@ function syncLyceumAuto() {
     `;
     setTimeout(() => {
         S.lyceumData = [
-            {disc:'Cidadania, Ética e Espiritualidade', prof:'Prof. Holehon Santos', n1:Math.round((Math.random()*4+6)*10)/10, n2:null, faltas:Math.floor(Math.random()*4), totalAulas:20, status:'Cursando', ava: Math.floor(Math.random()*60)+40},
-            {disc:'Leitura e Interpretação de Texto', prof:'Prof. Leonardo R. de Souza', n1:Math.round((Math.random()*4+6)*10)/10, n2:Math.round((Math.random()*4+6)*10)/10, faltas:Math.floor(Math.random()*6), totalAulas:20, status:'Cursando', ava: Math.floor(Math.random()*50)+50},
-            {disc:'Fundamentos de Engenharia de Dados', prof:'Prof. Eduardo', n1:Math.round((Math.random()*4+6)*10)/10, n2:null, faltas:0, totalAulas:20, status:'Cursando', ava: Math.floor(Math.random()*40)+60},
-            {disc:'Fund. de Computação e Infraestrutura', prof:'Prof. Araújo', n1:Math.round((Math.random()*4+6)*10)/10, n2:Math.round((Math.random()*4+6)*10)/10, faltas:Math.floor(Math.random()*8), totalAulas:20, status:'Cursando', ava: Math.floor(Math.random()*30)+70},
-            {disc:'Engenharia de Soluções', prof:'Prof. Holehon Santos', n1:null, n2:null, faltas:Math.floor(Math.random()*3), totalAulas:20, status:'Cursando', ava: Math.floor(Math.random()*70)+20},
-            {disc:'Componentes Integrados com IA', prof:'MAGNED IA', n1:Math.round((Math.random()*3+7)*10)/10, n2:Math.round((Math.random()*3+7)*10)/10, faltas:0, totalAulas:20, status:'Cursando', ava: 100}
+            {disc:'Fundamentos de Engenharia de Dados', prof:'Prof. Eduardo Dias Pereira', n1:8.5, n2:null, faltas:2, totalAulas:20, status:'Cursando', ava: 85},
+            {disc:'Introdução à Engenharia de Soluções', prof:'Prof. Henrique Valle e Holehon Santos', n1:9.0, n2:8.5, faltas:0, totalAulas:20, status:'Cursando', ava: 100},
+            {disc:'Fundamentos Matemáticos para Computação', prof:'Prof. Otoniel Vargas Junior', n1:7.0, n2:null, faltas:4, totalAulas:20, status:'Cursando', ava: 60},
+            {disc:'Cidadania, Ética e Espiritualidade', prof:'Prof. Holehon Santos Campos', n1:9.5, n2:null, faltas:1, totalAulas:20, status:'Cursando', ava: 90},
+            {disc:'Fundamentos de Computação e Infraestrutura', prof:'Prof. Jeferson Silva Araujo', n1:6.5, n2:7.0, faltas:6, totalAulas:20, status:'Cursando', ava: 45},
+            {disc:'Leitura e Interpretação de Texto - On-line', prof:'Prof. Leonardo Rodrigues de Souza', n1:8.0, n2:8.5, faltas:0, totalAulas:20, status:'Cursando', ava: 100},
+            {disc:'Componentes Integrados com IA', prof:'MAGNED IA', n1:10.0, n2:10.0, faltas:0, totalAulas:20, status:'Aprovado', ava: 100}
         ];
         
         const today = new Date();
