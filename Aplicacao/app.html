@@ -1022,6 +1022,8 @@ try {
 } catch (e) {
     console.warn("Erro ao inicializar Firebase, executando em modo offline.", e);
 }
+// Alias para compatibilidade com o resto do código que usa "db"
+const db = fbDB;
 
 async function getDB() {
     try {
@@ -1078,7 +1080,7 @@ function persist(){
     localStorage.setItem(STORE,JSON.stringify(d));
     
     // Cloud Sync
-    if(S.ra) {
+    if(S.ra && fbDB) {
         try {
             fbDB.ref('users/' + S.ra.replace(/\W/g, '')).set({
                 data: d, chat, notes
@@ -1103,7 +1105,8 @@ function hydrate(){
     document.getElementById('notifToggle').classList.toggle('on',S.notifOn);
     
     // Background Cloud Fetch
-    if(S.ra) {
+    if(S.ra && db) {
+        try {
         db.ref('users/' + S.ra.replace(/\W/g, '')).once('value').then(snap => {
             if(snap.exists()) {
                 const dbVal = snap.val();
@@ -1119,6 +1122,7 @@ function hydrate(){
                 updateUI();
             }
         });
+        } catch(e) { console.warn('Cloud fetch error:', e); }
     }
 }
 
@@ -1168,22 +1172,31 @@ async function iniciarSessao(){
     
     try {
         const safeRA = inputRA.replace(/\W/g, '');
-        const snap = await db.ref('users/' + safeRA).once('value');
-        if (snap.exists()) {
-            const dbVal = snap.val();
-            if(dbVal.data) {
-                if(!dbVal.data.apiKey) dbVal.data.apiKey = '';
-                Object.assign(S, dbVal.data);
+        if (db) {
+            const snap = await db.ref('users/' + safeRA).once('value');
+            if (snap.exists()) {
+                const dbVal = snap.val();
+                if(dbVal.data) {
+                    if(!dbVal.data.apiKey) dbVal.data.apiKey = '';
+                    Object.assign(S, dbVal.data);
+                }
+                if(dbVal.chat) localStorage.setItem(STORE+'_chat', dbVal.chat);
+                if(dbVal.notes) localStorage.setItem(STORE+'_notes', dbVal.notes);
+                S.ra = inputRA;
+                
+                // Refresh local UI elements
+                document.getElementById('chatBox').innerHTML = '<div class="chat-welcome" id="chatWelcome"><div class="welcome-ico">🧠</div><h2 id="wTitle">Restaurando...</h2></div>';
+                if(dbVal.chat) JSON.parse(dbVal.chat).forEach(m=>addMsg(m.t,m.s,false));
+                if(dbVal.notes) document.getElementById('notesTA').value=dbVal.notes;
+            } else {
+                S.name=document.getElementById('regNome').value.trim()||'Estudante';
+                S.course=document.getElementById('regCurso').value.trim()||'Engenharia de Software';
+                S.ra=inputRA;
+                S.inst=document.getElementById('regInst').value.trim();
+                S.sessions=0;
             }
-            if(dbVal.chat) localStorage.setItem(STORE+'_chat', dbVal.chat);
-            if(dbVal.notes) localStorage.setItem(STORE+'_notes', dbVal.notes);
-            S.ra = inputRA;
-            
-            // Refresh local UI elements
-            document.getElementById('chatBox').innerHTML = '<div class="chat-welcome" id="chatWelcome"><div class="welcome-ico">🧠</div><h2 id="wTitle">Restaurando...</h2></div>';
-            if(dbVal.chat) JSON.parse(dbVal.chat).forEach(m=>addMsg(m.t,m.s,false));
-            if(dbVal.notes) document.getElementById('notesTA').value=dbVal.notes;
         } else {
+            // Offline mode
             S.name=document.getElementById('regNome').value.trim()||'Estudante';
             S.course=document.getElementById('regCurso').value.trim()||'Engenharia de Software';
             S.ra=inputRA;
