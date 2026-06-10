@@ -1590,9 +1590,7 @@ async function callGemini(userMsg){
         {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
     if(!res.ok){
         const err=await res.json();
-        const msg = err.error?.message||'';
-        if (msg.includes('quota') || err.error?.code === 429) throw new Error('Cota de uso gratuita excedida no Google Cloud (Erro 429). Você precisa criar uma nova conta no Google AI Studio ou adicionar um cartão de crédito.');
-        throw new Error(msg||'Erro da API Gemini');
+        throw new Error(err.error?.message || 'Erro da API Gemini');
     }
     const data=await res.json();
     const bot=data.candidates?.[0]?.content?.parts?.[0]?.text||'Sem resposta.';
@@ -1606,9 +1604,19 @@ async function sendMsg(){
     addMsg(txt,'user');inp.value='';inp.style.height='auto';showTyping();gainXP(5,'Pergunta enviada');
     try{
         if(S.apiKey) {
-            await callGemini(txt);
-            document.getElementById('modeBadge').innerHTML = '<i class="fas fa-check-circle"></i> Respondido';
-            setTimeout(() => document.getElementById('modeBadge').innerHTML = '<i class="fas fa-microchip"></i> Gemini Ativo', 2000);
+            try {
+                await callGemini(txt);
+                document.getElementById('modeBadge').innerHTML = '<i class="fas fa-check-circle"></i> Respondido';
+                setTimeout(() => document.getElementById('modeBadge').innerHTML = '<i class="fas fa-microchip"></i> Gemini Ativo', 2000);
+            } catch(geminiError) {
+                console.warn("Gemini API falhou (cota excedida ou erro). Acionando Fallback Silencioso...", geminiError);
+                // Fallback silencioso para o motor local
+                const response = await aiEngine.generateResponse(txt);
+                rmTyping();
+                addMsg(response, 'bot');
+                document.getElementById('modeBadge').innerHTML = '<i class="fas fa-check-circle"></i> Respondido (Offline)';
+                setTimeout(() => document.getElementById('modeBadge').innerHTML = '<i class="fas fa-microchip"></i> Motor Local', 2000);
+            }
         } else {
             const response = await aiEngine.generateResponse(txt);
             rmTyping();
@@ -1618,7 +1626,7 @@ async function sendMsg(){
         }
     }catch(e){
         rmTyping();
-        addMsg(`⚠️ Erro na IA: ${e.message}. Verifique sua API Key em ⚙️.`,'bot');
+        addMsg(`⚠️ Erro no sistema: ${e.message}.`,'bot');
     }
 }
 
@@ -1672,8 +1680,15 @@ async function handleFile(input){
             
             try {
                 if(S.apiKey) {
-                    S.history.push({role:'user',parts:[{text:prompt}]});
-                    await callGemini(prompt);
+                    try {
+                        S.history.push({role:'user',parts:[{text:prompt}]});
+                        await callGemini(prompt);
+                    } catch(geminiErr) {
+                        console.warn("Gemini falhou no OCR, caindo para modo local");
+                        const response = await aiEngine.generateResponse(prompt);
+                        rmTyping();
+                        addMsg(response, 'bot');
+                    }
                 } else {
                     const response = await aiEngine.generateResponse(prompt);
                     rmTyping();
