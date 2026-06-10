@@ -1,4 +1,4 @@
-const CACHE_NAME = 'magned-v1';
+﻿const CACHE_NAME = 'magned-v1';
 const urlsToCache = [
   './index.html',
   './app.html',

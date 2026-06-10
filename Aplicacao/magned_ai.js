@@ -39,7 +39,7 @@ class MagnedAI {
       { intent: 'lyceum_grades',  keys: ['nota','media','média','boletim','lyceum','n1','n2','aprovad','reprovad','desempenho academ'] },
       { intent: 'lyceum_faltas',  keys: ['falta','frequencia','frequência','presença','ausencia','ausência'] },
       { intent: 'lyceum_risco',   keys: ['risco','reprova','recupera','perigo','situação academ','critico','crítico'] },
-      { intent: 'ava_eventos',    keys: ['prova','entrega','prazo','deadline','agenda','evento','calendario','calendário','pendente','proxim'] },
+      { intent: 'ava_eventos',    keys: ['aps','prova','entrega','prazo','deadline','agenda','evento','calendario','calendário','pendente','proxim'] },
       { intent: 'study_plan',     keys: ['cronograma','plano de estudo','rotina','organiz','semana','planej'] },
       { intent: 'quiz',           keys: ['quiz','questão','questao','questões','questoes','simulado','teste','avalia','exercicio','exercício'] },
       { intent: 'flashcard',      keys: ['flashcard','flash card','cartão','cartao','p:/r:','p: ','r: '] },
@@ -296,7 +296,7 @@ class MagnedAI {
   _avaEventos() {
     const upcoming = this._upcomingEvents(30);
     if (!upcoming.length) {
-      return `📅 **Agenda AVA:** Nenhum evento cadastrado nos próximos 30 dias.\n\nVocê pode:\n- **Importar** um arquivo .ics do AVA/Google Calendar na aba Agenda\n- **Adicionar** eventos manualmente\n\n> 💡 Mantenha sua agenda sincronizada para alertas automáticos!`;
+      return `📅 **Agenda AVA:** Nenhum evento ou APS cadastrado nos próximos 30 dias.\n\nNa UniEVANGÉLICA, **APS (Atividade Prática Supervisionada)** é um trabalho acadêmico realizado no AVA.\nVocê pode:\n- **Importar** um arquivo .ics do AVA/Google Calendar na aba Agenda\n- **Adicionar** eventos manualmente\n\n> 💡 Mantenha sua agenda sincronizada para alertas automáticos!`;
     }
 
     let r = `**📅 Agenda Acadêmica — AVA**\n*${upcoming.length} evento(s) próximo(s)*\n\n`;

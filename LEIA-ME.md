@@ -1,4 +1,4 @@
-# MAGNED — Entrega Final (Ciclo 3) · Grupo 01
+﻿# MAGNED — Entrega Final (Ciclo 3) · Grupo 01
 
 ## 📂 Conteúdo desta Entrega
 

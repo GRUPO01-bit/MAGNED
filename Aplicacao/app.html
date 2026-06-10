@@ -6,18 +6,26 @@
     <link rel="icon" href="./magned-icon.png" type="image/png">
     <meta name="theme-color" content="#0c0c10">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MAGNED ÔÇö Est├║dio Acad├¬mico Neural ┬À Ciclo 3</title>
-    <meta name="description" content="MAGNED - Assistente acad├¬mico inteligente com IA generativa real, OCR, reconhecimento facial e calend├írio integrado ao AVA.">
+    <title>MAGNED — Estúdio Acadêmico Neural · Ciclo 3</title>
+    <meta name="description" content="MAGNED - Assistente acadêmico inteligente com IA generativa real, OCR, reconhecimento facial e calendário integrado ao AVA.">
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;0,14..32,800;1,14..32,400&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <script>
+        if (!localStorage.getItem('magned_hard_reset_c4')) {
+            localStorage.clear();
+            sessionStorage.clear();
+            localStorage.setItem('magned_hard_reset_c4', '1');
+            window.location.href = 'index.html';
+        }
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/@vladmandic/face-api/dist/face-api.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
     <script src="magned_ai.js"></script>
 <style>
-/* ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
-   DESIGN SYSTEM ÔÇö OBSIDIAN EMBER
-   Paleta editorial, org├ónica, sem clich├¬s de IA
-ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ */
+/* ═══════════════════════════════════════════════
+   DESIGN SYSTEM — OBSIDIAN EMBER
+   Paleta editorial, orgânica, sem clichês de IA
+═══════════════════════════════════════════════ */
 :root {
     --bg-void:     #0c0c10;
     --bg-surface:  #17171e;
@@ -55,7 +63,7 @@ html,body{height:100%;font-family:'Inter',-apple-system,sans-serif;background:va
 ::-webkit-scrollbar-track{background:transparent}
 ::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:4px}
 
-/* ÔöÇÔöÇÔöÇ ANIMATIONS ÔöÇÔöÇÔöÇ */
+/* ─── ANIMATIONS ─── */
 @keyframes fadeUp   {from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
 @keyframes fadeIn   {from{opacity:0}to{opacity:1}}
 @keyframes float    {0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
@@ -68,9 +76,9 @@ html,body{height:100%;font-family:'Inter',-apple-system,sans-serif;background:va
 @keyframes slideRight{from{opacity:0;transform:translateX(-10px)}to{opacity:1;transform:translateX(0)}}
 @keyframes toastIn  {from{opacity:0;transform:translateX(100%)}to{opacity:1;transform:translateX(0)}}
 
-/* ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
+/* ═══════════════════════════════════════════════
    LOGIN SCREEN
-ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ */
+═══════════════════════════════════════════════ */
 #loginScreen{
     position:fixed;inset:0;z-index:9000;
     display:flex;align-items:center;justify-content:center;
@@ -116,6 +124,8 @@ html,body{height:100%;font-family:'Inter',-apple-system,sans-serif;background:va
 }
 .fgroup input:focus,.finput:focus{border-color:var(--ember);background:rgba(255,107,53,.04);box-shadow:0 0 0 3px var(--ember-soft)}
 .fgroup input::placeholder,.finput::placeholder{color:var(--text-3)}
+select.finput, select.fsel { cursor: pointer; }
+option { background: var(--bg-elevated); color: var(--text-1); }
 .btn-p{
     width:100%;padding:13px;background:linear-gradient(135deg,var(--ember),#e55020);
     border:none;border-radius:var(--r-md);color:#fff;font-family:inherit;
@@ -126,9 +136,9 @@ html,body{height:100%;font-family:'Inter',-apple-system,sans-serif;background:va
 .btn-p:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(255,107,53,.40)}
 .btn-p:active{transform:translateY(0)}
 
-/* ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
+/* ═══════════════════════════════════════════════
    MODALS
-ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ */
+═══════════════════════════════════════════════ */
 .overlay{
     position:fixed;inset:0;background:rgba(0,0,0,.82);
     backdrop-filter:blur(8px);z-index:10000;
@@ -247,9 +257,9 @@ html,body{height:100%;font-family:'Inter',-apple-system,sans-serif;background:va
 .ocr-bar{width:100%;height:3px;background:var(--border);border-radius:2px;overflow:hidden}
 .ocr-fill{height:100%;background:linear-gradient(90deg,var(--mint),#00e5b4);border-radius:2px;transition:width .25s ease}
 
-/* ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
+/* ═══════════════════════════════════════════════
    MAIN APP LAYOUT
-ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ */
+═══════════════════════════════════════════════ */
 #appScreen{display:flex;width:100%;height:100vh;flex-direction:row;overflow:hidden}
 
 /* LEFT SIDEBAR */
@@ -312,9 +322,9 @@ html,body{height:100%;font-family:'Inter',-apple-system,sans-serif;background:va
 .nav-btn.active{background:var(--ember-soft);color:var(--ember)}
 .nav-btn i{width:15px;flex-shrink:0;text-align:center}
 
-/* ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
+/* ═══════════════════════════════════════════════
    CHAT AREA - PREMIUM NEURAL DESIGN
-ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ */
+═══════════════════════════════════════════════ */
 .main-area{flex:1;display:flex;flex-direction:column;background:radial-gradient(ellipse at top right, rgba(255,107,53,0.05), transparent 60%), var(--bg-void);overflow:hidden;min-width:0}
 .chat-hdr{
     padding:18px 26px;border-bottom:1px solid rgba(255,255,255,0.04);
@@ -391,9 +401,9 @@ html,body{height:100%;font-family:'Inter',-apple-system,sans-serif;background:va
 .btn-send:hover{transform:translateY(-2px) scale(1.05);box-shadow:0 8px 25px rgba(255,107,53,.50)}
 .btn-send:active{transform:translateY(0) scale(0.95);}
 
-/* ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
+/* ═══════════════════════════════════════════════
    RIGHT WORKSPACE
-ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ */
+═══════════════════════════════════════════════ */
 .workspace{width:var(--workspace-w);flex-shrink:0;background:var(--bg-surface);border-left:1px solid var(--border);display:flex;flex-direction:column}
 .tab-bar{display:flex;padding:10px 10px 0;gap:3px;border-bottom:1px solid var(--border);overflow-x:auto;flex-shrink:0}
 .tab-bar::-webkit-scrollbar{height:0}
@@ -500,7 +510,7 @@ html,body{height:100%;font-family:'Inter',-apple-system,sans-serif;background:va
 </head>
 <body>
 
-<!-- ÔòÉÔòÉÔòÉ FACE MODAL ÔòÉÔòÉÔòÉ -->
+<!-- ═══ FACE MODAL ═══ -->
 <div class="overlay" id="faceModal" style="display:none">
   <div class="modal" style="max-width:460px">
     <div class="mhdr">
@@ -519,12 +529,12 @@ html,body{height:100%;font-family:'Inter',-apple-system,sans-serif;background:va
   </div>
 </div>
 
-<!-- ÔòÉÔòÉÔòÉ SETTINGS MODAL ÔòÉÔòÉÔòÉ -->
+<!-- ═══ SETTINGS MODAL ═══ -->
 <div class="overlay" id="settingsModal" style="display:none">
   <div class="modal">
-    <div class="mhdr"><h3><i class="fas fa-gear" style="color:var(--ember)"></i> Configura├º├Áes</h3><button class="btn-ic" onclick="closeModal('settingsModal')"><i class="fas fa-times"></i></button></div>
+    <div class="mhdr"><h3><i class="fas fa-gear" style="color:var(--ember)"></i> Configurações</h3><button class="btn-ic" onclick="closeModal('settingsModal')"><i class="fas fa-times"></i></button></div>
     <div class="sset-sec">
-      <h5>­ƒñû Gemini IA Engine</h5>
+      <h5>🤖 Gemini IA Engine</h5>
       <div class="sset-item" style="flex-direction:column;align-items:flex-start;gap:8px">
         <div class="sset-label">API Key do Gemini</div>
         <div class="sset-sub">Insira sua chave do Google AI Studio. Gratuita e segura.</div>
@@ -538,25 +548,25 @@ html,body{height:100%;font-family:'Inter',-apple-system,sans-serif;background:va
       </div>
     </div>
     <div class="sset-sec">
-      <h5>­ƒÿè Reconhecimento Facial</h5>
+      <h5>😊 Reconhecimento Facial</h5>
       <div class="sset-item">
-        <div><div class="sset-label">Cadastrar Meu Rosto</div><div class="sset-sub">Ativa login biom├®trico nos pr├│ximos acessos</div></div>
+        <div><div class="sset-label">Cadastrar Meu Rosto</div><div class="sset-sub">Ativa login biométrico nos próximos acessos</div></div>
         <button class="btn-s" onclick="startFaceRegister()"><i class="fas fa-camera"></i> Cadastrar</button>
       </div>
       <div class="sset-item">
-        <div><div class="sset-label">Status Biom├®trico</div><div class="sset-sub" id="faceRegStatus">Nenhuma face cadastrada</div></div>
+        <div><div class="sset-label">Status Biométrico</div><div class="sset-sub" id="faceRegStatus">Nenhuma face cadastrada</div></div>
         <button class="btn-s" onclick="clearFace()" id="clearFaceBtn" style="display:none;color:var(--rose);border-color:rgba(251,79,123,.28)"><i class="fas fa-trash"></i></button>
       </div>
     </div>
     <div class="sset-sec">
-      <h5>­ƒöö Notifica├º├Áes de Eventos</h5>
+      <h5>🔔 Notificações de Eventos</h5>
       <div class="sset-item">
         <div><div class="sset-label">Alertas de Provas e Entregas</div><div class="sset-sub">Receba alertas no navegador</div></div>
         <div class="toggle" id="notifToggle" onclick="toggleNotif()"></div>
       </div>
     </div>
     <div class="sset-sec">
-      <h5>­ƒöî Portal / AVA Acad├¬mico</h5>
+      <h5>🔌 Portal / AVA Acadêmico</h5>
       <div class="sset-item" style="flex-direction:column;align-items:flex-start;gap:8px">
         <div class="sset-label">URL do seu AVA (Moodle, Canvas etc.)</div>
         <input type="text" id="portalUrl" class="finput" placeholder="https://ava.suauniversidade.edu.br">
@@ -568,7 +578,7 @@ html,body{height:100%;font-family:'Inter',-apple-system,sans-serif;background:va
   </div>
 </div>
 
-<!-- ÔòÉÔòÉÔòÉ PROFILE MODAL ÔòÉÔòÉÔòÉ -->
+<!-- ═══ PROFILE MODAL ═══ -->
 <div class="overlay" id="profileModal" style="display:none">
   <div class="modal">
     <div class="mhdr"><h3><i class="fas fa-user" style="color:var(--ember)"></i> Meu Perfil</h3><button class="btn-ic" onclick="closeModal('profileModal')"><i class="fas fa-times"></i></button></div>
@@ -579,44 +589,44 @@ html,body{height:100%;font-family:'Inter',-apple-system,sans-serif;background:va
     </div>
     <div class="fgroup"><label>Nome Completo</label><input type="text" id="pNome" class="finput"></div>
     <div class="fgroup"><label>Curso</label><input type="text" id="pCurso" class="finput"></div>
-    <div class="fgroup"><label>RA / Matr├¡cula</label><input type="text" id="pRA" class="finput"></div>
-    <div class="fgroup"><label>Institui├º├úo</label><input type="text" id="pInst" class="finput"></div>
+    <div class="fgroup"><label>RA / Matrícula</label><input type="text" id="pRA" class="finput"></div>
+    <div class="fgroup"><label>Instituição</label><input type="text" id="pInst" class="finput"></div>
     <div style="background:var(--bg-elevated);border:1px solid var(--border);border-radius:var(--r-md);padding:13px;margin-bottom:14px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;text-align:center">
       <div><div style="font-size:.7rem;color:var(--text-3);margin-bottom:3px">Total XP</div><div id="pXP" style="font-weight:700;color:var(--amber);font-size:.9rem">0</div></div>
-      <div><div style="font-size:.7rem;color:var(--text-3);margin-bottom:3px">N├¡vel</div><div id="pNivel" style="font-weight:700;color:var(--ember);font-size:.9rem">1</div></div>
-      <div><div style="font-size:.7rem;color:var(--text-3);margin-bottom:3px">Sess├Áes</div><div id="pSess" style="font-weight:700;color:var(--mint);font-size:.9rem">0</div></div>
+      <div><div style="font-size:.7rem;color:var(--text-3);margin-bottom:3px">Nível</div><div id="pNivel" style="font-weight:700;color:var(--ember);font-size:.9rem">1</div></div>
+      <div><div style="font-size:.7rem;color:var(--text-3);margin-bottom:3px">Sessões</div><div id="pSess" style="font-weight:700;color:var(--mint);font-size:.9rem">0</div></div>
     </div>
     <button class="btn-p" onclick="saveProfile()"><i class="fas fa-check"></i> Salvar Perfil</button>
   </div>
 </div>
 
-<!-- ÔòÉÔòÉÔòÉ ADD EVENT MODAL ÔòÉÔòÉÔòÉ -->
+<!-- ═══ ADD EVENT MODAL ═══ -->
 <div class="overlay" id="eventModal" style="display:none">
   <div class="modal" style="max-width:390px">
     <div class="mhdr"><h3><i class="fas fa-calendar-plus" style="color:var(--ember)"></i> Novo Evento</h3><button class="btn-ic" onclick="closeModal('eventModal')"><i class="fas fa-times"></i></button></div>
-    <div class="fgroup"><label>T├¡tulo</label><input type="text" id="evtTitle" class="finput" placeholder="Ex: Prova de Matem├ítica"></div>
+    <div class="fgroup"><label>Título</label><input type="text" id="evtTitle" class="finput" placeholder="Ex: Prova de Matemática"></div>
     <div class="fgroup"><label>Data</label><input type="date" id="evtDate" class="finput" style="color-scheme:dark"></div>
     <div class="fgroup"><label>Hora (opcional)</label><input type="time" id="evtTime" class="finput" style="color-scheme:dark"></div>
     <div class="fgroup" style="margin-bottom:18px"><label>Categoria</label>
       <select id="evtCat" class="fsel">
-        <option value="prova">­ƒº¬ Prova / Avalia├º├úo</option>
-        <option value="trabalho">­ƒôØ Trabalho / Entrega</option>
-        <option value="aula">­ƒôÜ Aula Importante</option>
-        <option value="pessoal">Ô¡É Pessoal</option>
+        <option value="prova">🧪 Prova / Avaliação</option>
+        <option value="trabalho">📝 Trabalho / Entrega</option>
+        <option value="aula">📚 Aula Importante</option>
+        <option value="pessoal">⭐ Pessoal</option>
       </select>
     </div>
     <button class="btn-p" onclick="addEvent()"><i class="fas fa-plus"></i> Adicionar Evento</button>
   </div>
 </div>
 
-<!-- ÔòÉÔòÉÔòÉ POMODORO MODAL ÔòÉÔòÉÔòÉ -->
+<!-- ═══ POMODORO MODAL ═══ -->
 <div class="overlay" id="pomModal" style="display:none">
   <div class="modal" style="max-width:340px">
     <div class="mhdr"><h3><i class="fas fa-clock" style="color:var(--ember)"></i> Timer Pomodoro</h3><button class="btn-ic" onclick="closeModal('pomModal')"><i class="fas fa-times"></i></button></div>
     <div style="display:flex;gap:6px;justify-content:center;margin-bottom:18px">
-      <button class="stag e" id="pmFocus" onclick="setPom('focus')" style="cursor:pointer;padding:6px 12px">­ƒìà 25min</button>
-      <button class="stag m" id="pmShort" onclick="setPom('short')" style="cursor:pointer;padding:6px 12px">Ôÿò 5min</button>
-      <button class="stag a" id="pmLong" onclick="setPom('long')" style="cursor:pointer;padding:6px 12px">­ƒºÿ 15min</button>
+      <button class="stag e" id="pmFocus" onclick="setPom('focus')" style="cursor:pointer;padding:6px 12px">🍅 25min</button>
+      <button class="stag m" id="pmShort" onclick="setPom('short')" style="cursor:pointer;padding:6px 12px">☕ 5min</button>
+      <button class="stag a" id="pmLong" onclick="setPom('long')" style="cursor:pointer;padding:6px 12px">🧘 15min</button>
     </div>
     <div style="text-align:center">
       <div class="pom-ring" id="pomRing"><div class="pom-inner"><div class="pom-time" id="pomTime">25:00</div><div class="pom-phase" id="pomPhase">Foco</div></div></div>
@@ -625,16 +635,16 @@ html,body{height:100%;font-family:'Inter',-apple-system,sans-serif;background:va
         <button class="btn-p" onclick="togglePom()" id="pomBtn" style="margin-top:0;padding:11px 28px;width:auto"><i class="fas fa-play" id="pomIco"></i> <span id="pomBtnTxt">Iniciar</span></button>
         <button class="btn-s" onclick="skipPom()"><i class="fas fa-forward-step"></i></button>
       </div>
-      <div style="margin-top:11px;font-size:.76rem;color:var(--text-3)">Sess├Áes hoje: <strong id="pomSess" style="color:var(--amber)">0</strong></div>
+      <div style="margin-top:11px;font-size:.76rem;color:var(--text-3)">Sessões hoje: <strong id="pomSess" style="color:var(--amber)">0</strong></div>
     </div>
   </div>
 </div>
 
-<!-- ÔòÉÔòÉÔòÉ FLASHCARD MODAL ÔòÉÔòÉÔòÉ -->
+<!-- ═══ FLASHCARD MODAL ═══ -->
 <div class="overlay" id="flashModal" style="display:none">
   <div class="modal" style="max-width:410px">
     <div class="mhdr"><h3><i class="fas fa-layer-group" style="color:var(--ember)"></i> Flashcards</h3><button class="btn-ic" onclick="closeModal('flashModal')"><i class="fas fa-times"></i></button></div>
-    <p style="font-size:.78rem;color:var(--text-3);margin-bottom:14px">Clique no cart├úo para ver a resposta</p>
+    <p style="font-size:.78rem;color:var(--text-3);margin-bottom:14px">Clique no cartão para ver a resposta</p>
     <div class="fc-scene" onclick="flipCard()">
       <div class="fc-card" id="flashcard">
         <div class="fc-face fc-front"><div class="fc-lbl">Pergunta</div><div class="fc-txt" id="fcFront"></div></div>
@@ -644,7 +654,7 @@ html,body{height:100%;font-family:'Inter',-apple-system,sans-serif;background:va
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:11px">
       <button class="btn-s" onclick="prevCard()"><i class="fas fa-arrow-left"></i> Anterior</button>
       <span id="fcCtr" style="font-size:.78rem;color:var(--text-3)">1 / 1</span>
-      <button class="btn-s" onclick="nextCard()">Pr├│ximo <i class="fas fa-arrow-right"></i></button>
+      <button class="btn-s" onclick="nextCard()">Próximo <i class="fas fa-arrow-right"></i></button>
     </div>
     <div style="display:flex;gap:7px">
       <button class="btn-s" onclick="genFlashAI()" style="flex:1;justify-content:center"><i class="fas fa-wand-magic-sparkles"></i> Gerar via IA</button>
@@ -653,9 +663,9 @@ html,body{height:100%;font-family:'Inter',-apple-system,sans-serif;background:va
   </div>
 </div>
 
-<!-- ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
+<!-- ═══════════════════════════════════════════
      MAIN APP
-ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ -->
+═══════════════════════════════════════════ -->
 <div id="appScreen">
 
   <!-- LEFT SIDEBAR -->
@@ -663,10 +673,10 @@ html,body{height:100%;font-family:'Inter',-apple-system,sans-serif;background:va
     <div class="brand">
       <div class="brand-logo">
         <div class="brand-ico"><i class="fas fa-brain"></i></div>
-        <div class="brand-txt"><h2>MAGNED</h2><span>Ciclo 3 ┬À Neural</span></div>
+        <div class="brand-txt"><h2>MAGNED</h2><span>Ciclo 3 · Neural</span></div>
       </div>
       <div class="brand-acts">
-        <button class="btn-ic" onclick="openModal('settingsModal')" title="Configura├º├Áes"><i class="fas fa-gear"></i></button>
+        <button class="btn-ic" onclick="openModal('settingsModal')" title="Configurações"><i class="fas fa-gear"></i></button>
         <button class="btn-ic" onclick="doLogout()" title="Sair" style="color:rgba(251,79,123,.6)"><i class="fas fa-power-off"></i></button>
       </div>
     </div>
@@ -703,7 +713,7 @@ html,body{height:100%;font-family:'Inter',-apple-system,sans-serif;background:va
     <div class="chat-hdr">
       <div class="chat-hdr-info">
         <h3 id="chatTitle">MAGNED Neural Engine</h3>
-        <p id="chatSub">Motor de Intelig├¬ncia Artificial Local ÔÇö 100% Offline</p>
+        <p id="chatSub">Motor de Inteligência Artificial Local — 100% Offline</p>
       </div>
       <div class="hdr-acts">
         <div class="mode-badge" id="modeBadge"><i class="fas fa-microchip"></i> Motor Local Ativo</div>
@@ -713,21 +723,21 @@ html,body{height:100%;font-family:'Inter',-apple-system,sans-serif;background:va
 
     <div class="chat-box" id="chatBox">
       <div class="chat-welcome" id="chatWelcome">
-        <div class="welcome-ico">­ƒºá</div>
+        <div class="welcome-ico">🧠</div>
         <h2 id="wTitle">Como posso te ajudar, <span id="wName">Estudante</span>?</h2>
-        <p>Sou o seu assistente neural integrado ao AVA e Lyceum.<br>Meu c├®rebro agora ├® processado <strong>diretamente no seu navegador</strong>, garantindo privacidade total, zero delay e funcionamento <strong>sem internet</strong>.</p>
+        <p>Sou o seu assistente neural integrado ao AVA e Lyceum.<br>Meu cérebro agora é processado <strong>diretamente no seu navegador</strong>, garantindo privacidade total, zero delay e funcionamento <strong>sem internet</strong>.</p>
       </div>
     </div>
 
     <div class="quick-bar">
-      <button class="chip" onclick="fs('Resuma o conte├║do atual de forma clara e objetiva')"><i class="fas fa-bolt"></i> Resumo</button>
+      <button class="chip" onclick="fs('Resuma o conteúdo atual de forma clara e objetiva')"><i class="fas fa-bolt"></i> Resumo</button>
       <button class="chip" onclick="fs('Crie um plano de estudos semanal personalizado para mim')"><i class="fas fa-calendar"></i> Plano Semanal</button>
-      <button class="chip" onclick="fs('Gere 5 quest├Áes de m├║ltipla escolha sobre o tema atual')"><i class="fas fa-gamepad"></i> Quiz</button>
+      <button class="chip" onclick="fs('Gere 5 questões de múltipla escolha sobre o tema atual')"><i class="fas fa-gamepad"></i> Quiz</button>
       <button class="chip" onclick="fs('Crie 6 flashcards no formato P:/R: sobre o tema atual')"><i class="fas fa-layer-group"></i> Flashcards</button>
-      <button class="chip" onclick="fs('Gere um mapa mental em formato de ├írvore sobre o tema atual')"><i class="fas fa-diagram-project"></i> Mapa Mental</button>
-      <button class="chip" onclick="fs('Crie uma rotina Pomodoro de estudos para hoje com os hor├írios')"><i class="fas fa-clock"></i> Pomodoro</button>
-      <button class="chip" onclick="fs('Me d├¬ uma mensagem motivacional poderosa para estudar agora')"><i class="fas fa-fire"></i> Motiva├º├úo</button>
-      <button class="chip" onclick="fs('Explique este tema do n├¡vel b├ísico ao avan├ºado, passo a passo')"><i class="fas fa-stairs"></i> Do B├ísico ao Avan├ºado</button>
+      <button class="chip" onclick="fs('Gere um mapa mental em formato de árvore sobre o tema atual')"><i class="fas fa-diagram-project"></i> Mapa Mental</button>
+      <button class="chip" onclick="fs('Crie uma rotina Pomodoro de estudos para hoje com os horários')"><i class="fas fa-clock"></i> Pomodoro</button>
+      <button class="chip" onclick="fs('Me dê uma mensagem motivacional poderosa para estudar agora')"><i class="fas fa-fire"></i> Motivação</button>
+      <button class="chip" onclick="fs('Explique este tema do nível básico ao avançado, passo a passo')"><i class="fas fa-stairs"></i> Do Básico ao Avançado</button>
     </div>
 
     <div class="input-area">
@@ -736,7 +746,7 @@ html,body{height:100%;font-family:'Inter',-apple-system,sans-serif;background:va
           <i class="fas fa-paperclip"></i>
         </label>
         <input type="file" id="fileUp" style="display:none" accept="image/*" onchange="handleFile(this)">
-        <textarea id="userInput" placeholder="Pergunte algo, ou envie uma imagem para an├ílise..." rows="1" onkeydown="handleKey(event)" oninput="autoH(this)"></textarea>
+        <textarea id="userInput" placeholder="Pergunte algo, ou envie uma imagem para análise..." rows="1" onkeydown="handleKey(event)" oninput="autoH(this)"></textarea>
         <button class="btn-ic" title="Em breve: Voz"><i class="fas fa-microphone"></i></button>
       </div>
       <button class="btn-send" onclick="sendMsg()" id="sendBtn"><i class="fas fa-paper-plane"></i></button>
@@ -746,83 +756,49 @@ html,body{height:100%;font-family:'Inter',-apple-system,sans-serif;background:va
   <!-- RIGHT WORKSPACE -->
   <div class="workspace">
     <div class="tab-bar">
-      <button class="tab-btn active" onclick="switchTab('mat',this)"><i class="fas fa-book"></i> Mat├®rias</button>
+      <button class="tab-btn active" onclick="switchTab('mat',this)"><i class="fas fa-book"></i> Matérias</button>
       <button class="tab-btn" onclick="switchTab('tut',this)"><i class="fas fa-chalkboard-user"></i> Tutores</button>
       <button class="tab-btn" onclick="switchTab('hub',this)"><i class="fas fa-toolbox"></i> Hub</button>
       <button class="tab-btn" onclick="switchTab('cal',this)"><i class="fas fa-calendar"></i> Agenda</button>
       <button class="tab-btn" onclick="switchTab('not',this)"><i class="fas fa-note-sticky"></i> Notas</button>
-      <button class="tab-btn" onclick="switchTab('cla',this)"><i class="fas fa-wrench"></i> Cl├íssicas</button>
+      <button class="tab-btn" onclick="switchTab('cla',this)"><i class="fas fa-wrench"></i> Clássicas</button>
     </div>
 
-    <!-- MAT├ëRIAS -->
+    <!-- MATÉRIAS -->
     <div class="tab-panel active" id="panel-mat">
       <h4>Grade Curricular</h4>
-      <p class="sub">Clique para estudar com o tutor da mat├®ria</p>
-      <div class="sub-card" onclick="selSubj('Cidadania, ├ëtica e Espiritualidade','Prof. Holehon Santos','Voc├¬ ├® o Prof. Holehon Santos, professor de Cidadania, ├ëtica e Espiritualidade e Engenharia de Solu├º├Áes. Responda com abordagem reflexiva e ├®tica, valorizando o pensamento cr├¡tico.')">
-        <div class="sub-ico" style="background:rgba(59,130,246,.12);color:#60a5fa"><i class="fas fa-hands-helping"></i></div>
-        <div class="sub-info"><h5>Cidadania e ├ëtica</h5><p>Prof. Holehon Santos</p><div class="mini-bar"><div class="mini-fill" style="width:42%;background:#60a5fa"></div></div></div>
-        <span class="sub-pct">42%</span>
-      </div>
-      <div class="sub-card" onclick="selSubj('Leitura e Interpreta├º├úo de Texto','Prof. Leonardo R. de Souza','Voc├¬ ├® o Prof. Leonardo R. de Souza, professor de Leitura e Interpreta├º├úo de Texto. Enfatize an├ílise textual, coes├úo, coer├¬ncia e interpreta├º├úo cr├¡tica.')">
-        <div class="sub-ico" style="background:rgba(16,185,129,.12);color:#34d399"><i class="fas fa-book-open"></i></div>
-        <div class="sub-info"><h5>Leitura e Interpreta├º├úo</h5><p>Prof. Leonardo R. de Souza</p><div class="mini-bar"><div class="mini-fill" style="width:55%;background:#34d399"></div></div></div>
-        <span class="sub-pct">55%</span>
-      </div>
-      <div class="sub-card" onclick="selSubj('Fundamentos de Engenharia de Dados','Prof. Eduardo','Voc├¬ ├® o Prof. Eduardo, professor de Engenharia de Dados. Responda com precis├úo t├®cnica sobre pipelines, SQL, NoSQL, ETL e arquitetura de dados.')">
-        <div class="sub-ico" style="background:rgba(245,158,11,.12);color:#fbbf24"><i class="fas fa-database"></i></div>
-        <div class="sub-info"><h5>Engenharia de Dados</h5><p>Prof. Eduardo</p><div class="mini-bar"><div class="mini-fill" style="width:63%;background:#fbbf24"></div></div></div>
-        <span class="sub-pct">63%</span>
-      </div>
-      <div class="sub-card" onclick="selSubj('Fundamentos de Computa├º├úo e Infraestrutura','Prof. Ara├║jo','Voc├¬ ├® o Prof. Ara├║jo, professor de Computa├º├úo e Infraestrutura. Responda com foco t├®cnico em redes, sistemas operacionais, cloud computing e virtualiza├º├úo.')">
-        <div class="sub-ico" style="background:rgba(139,92,246,.12);color:#a78bfa"><i class="fas fa-server"></i></div>
-        <div class="sub-info"><h5>Computa├º├úo e Infra.</h5><p>Prof. Ara├║jo</p><div class="mini-bar"><div class="mini-fill" style="width:59%;background:#a78bfa"></div></div></div>
-        <span class="sub-pct">59%</span>
-      </div>
-      <div class="sub-card" onclick="selSubj('Engenharia de Solu├º├Áes','Prof. Holehon Santos','Voc├¬ ├® o Prof. Holehon Santos, professor de Engenharia de Solu├º├Áes. Responda com vis├úo sist├¬mica, arquitetura de solu├º├Áes e resolu├º├úo de problemas complexos.')">
-        <div class="sub-ico" style="background:rgba(251,79,123,.12);color:#fb7185"><i class="fas fa-lightbulb"></i></div>
-        <div class="sub-info"><h5>Engenharia de Solu├º├Áes</h5><p>Prof. Holehon Santos</p><div class="mini-bar"><div class="mini-fill" style="width:40%;background:#fb7185"></div></div></div>
-        <span class="sub-pct">40%</span>
-      </div>
-      <div class="sub-card" onclick="selSubj('Fundamentos Matem├íticos para Computa├º├úo','Prof. Otoniel Vargas Jr','Voc├¬ ├® o Prof. Otoniel Vargas Jr, professor de Fundamentos Matem├íticos para Computa├º├úo. Apresente rigor matem├ítico, demonstra├º├Áes, exemplos num├®ricos e resolu├º├úo passo a passo.')">
-        <div class="sub-ico" style="background:rgba(99,102,241,.12);color:#818cf8"><i class="fas fa-square-root-variable"></i></div>
-        <div class="sub-info"><h5>Fund. Matem├íticos</h5><p>Prof. Otoniel Vargas Jr</p><div class="mini-bar"><div class="mini-fill" style="width:65%;background:#818cf8"></div></div></div>
-        <span class="sub-pct">65%</span>
-      </div>
-      <div class="sub-card" onclick="selSubj('Componentes Integrados com IA','MAGNED IA','Voc├¬ ├® o MAGNED, especialista em intelig├¬ncia artificial, machine learning e componentes integrados. Responda com profundidade t├®cnica sobre IA, redes neurais e aplica├º├Áes pr├íticas.')">
-        <div class="sub-ico" style="background:rgba(6,214,160,.12);color:#06d6a0"><i class="fas fa-robot"></i></div>
-        <div class="sub-info"><h5>Componentes IA</h5><p>MAGNED IA</p><div class="mini-bar"><div class="mini-fill" style="width:50%;background:#06d6a0"></div></div></div>
-        <span class="sub-pct">50%</span>
-      </div>
+      <p class="sub">Clique para estudar com o tutor da matéria</p>
+      <div id="materiasList"></div>
     </div>
 
     <!-- TUTORES -->
     <div class="tab-panel" id="panel-tut">
       <h4>Clones de Professores</h4>
-      <p class="sub">Ative uma persona ÔÇö a IA adota o estilo do professor</p>
-      <div class="tutor-card active" id="tc-default" onclick="selTutor('MAGNED Padr├úo','Voc├¬ ├® o MAGNED, assistente acad├¬mico inteligente, emp├ítico e extremamente did├ítico. Responda em portugu├¬s do Brasil.','tc-default')">
+      <p class="sub">Ative uma persona — a IA adota o estilo do professor</p>
+      <div class="tutor-card active" id="tc-default" onclick="selTutor('MAGNED Padrão','Você é o MAGNED, assistente acadêmico inteligente, empático e extremamente didático. Responda em português do Brasil.','tc-default')">
         <div class="t-av" style="background:linear-gradient(135deg,var(--ember),#e55020)">M</div>
-        <div class="t-info"><h5>MAGNED Padr├úo</h5><p>Assistente Geral</p></div>
+        <div class="t-info"><h5>MAGNED Padrão</h5><p>Assistente Geral</p></div>
         <span class="stag e" style="margin-left:auto">Ativo</span>
       </div>
-      <div class="tutor-card" id="tc-holehon" onclick="selTutor('Prof. Holehon Santos','Voc├¬ ├® o Prof. Holehon Santos, de Cidadania, ├ëtica e Espiritualidade e Engenharia de Solu├º├Áes. Responda com abordagem reflexiva, ├®tica e com vis├úo humanista.','tc-holehon')">
+      <div class="tutor-card" id="tc-holehon" onclick="selTutor('Prof. Holehon Santos','Você é o Prof. Holehon Santos, de Cidadania, Ética e Espiritualidade e Engenharia de Soluções. Responda com abordagem reflexiva, ética e com visão humanista.','tc-holehon')">
         <div class="t-av" style="background:linear-gradient(135deg,#3b82f6,#2563eb)">H</div>
-        <div class="t-info"><h5>Prof. Holehon Santos</h5><p>Cidadania ┬À Eng. Solu├º├Áes</p></div>
+        <div class="t-info"><h5>Prof. Holehon Santos</h5><p>Cidadania · Eng. Soluções</p></div>
       </div>
-      <div class="tutor-card" id="tc-leonardo" onclick="selTutor('Prof. Leonardo R. de Souza','Voc├¬ ├® o Prof. Leonardo R. de Souza, de Leitura e Interpreta├º├úo. Responda com linguagem cuidadosa, enfatizando an├ílise e coer├¬ncia textual.','tc-leonardo')">
+      <div class="tutor-card" id="tc-leonardo" onclick="selTutor('Prof. Leonardo R. de Souza','Você é o Prof. Leonardo R. de Souza, de Leitura e Interpretação. Responda com linguagem cuidadosa, enfatizando análise e coerência textual.','tc-leonardo')">
         <div class="t-av" style="background:linear-gradient(135deg,#10b981,#059669)">L</div>
-        <div class="t-info"><h5>Prof. Leonardo R. de Souza</h5><p>Leitura e Interpreta├º├úo</p></div>
+        <div class="t-info"><h5>Prof. Leonardo R. de Souza</h5><p>Leitura e Interpretação</p></div>
       </div>
-      <div class="tutor-card" id="tc-eduardo" onclick="selTutor('Prof. Eduardo','Voc├¬ ├® o Prof. Eduardo, de Engenharia de Dados. Responda com precis├úo t├®cnica sobre dados, SQL, NoSQL, arquitetura e pipelines.','tc-eduardo')">
+      <div class="tutor-card" id="tc-eduardo" onclick="selTutor('Prof. Eduardo','Você é o Prof. Eduardo, de Engenharia de Dados. Responda com precisão técnica sobre dados, SQL, NoSQL, arquitetura e pipelines.','tc-eduardo')">
         <div class="t-av" style="background:linear-gradient(135deg,#f59e0b,#d97706)">E</div>
         <div class="t-info"><h5>Prof. Eduardo</h5><p>Engenharia de Dados</p></div>
       </div>
-      <div class="tutor-card" id="tc-araujo" onclick="selTutor('Prof. Ara├║jo','Voc├¬ ├® o Prof. Ara├║jo, de Computa├º├úo e Infraestrutura. Responda com foco em redes, sistemas, cloud e infraestrutura de TI.','tc-araujo')">
+      <div class="tutor-card" id="tc-araujo" onclick="selTutor('Prof. Araújo','Você é o Prof. Araújo, de Computação e Infraestrutura. Responda com foco em redes, sistemas, cloud e infraestrutura de TI.','tc-araujo')">
         <div class="t-av" style="background:linear-gradient(135deg,#8b5cf6,#7c3aed)">A</div>
-        <div class="t-info"><h5>Prof. Ara├║jo</h5><p>Computa├º├úo e Infra.</p></div>
+        <div class="t-info"><h5>Prof. Araújo</h5><p>Computação e Infra.</p></div>
       </div>
-      <div class="tutor-card" id="tc-otoniel" onclick="selTutor('Prof. Otoniel Vargas Jr','Voc├¬ ├® o Prof. Otoniel Vargas Jr, de Fundamentos Matem├íticos. Responda com rigor matem├ítico, demonstra├º├Áes e resolu├º├úo passo a passo.','tc-otoniel')">
+      <div class="tutor-card" id="tc-otoniel" onclick="selTutor('Prof. Otoniel Vargas Jr','Você é o Prof. Otoniel Vargas Jr, de Fundamentos Matemáticos. Responda com rigor matemático, demonstrações e resolução passo a passo.','tc-otoniel')">
         <div class="t-av" style="background:linear-gradient(135deg,#ec4899,#db2777)">O</div>
-        <div class="t-info"><h5>Prof. Otoniel Vargas Jr</h5><p>Fundamentos Matem├íticos</p></div>
+        <div class="t-info"><h5>Prof. Otoniel Vargas Jr</h5><p>Fundamentos Matemáticos</p></div>
       </div>
     </div>
 
@@ -833,72 +809,72 @@ html,body{height:100%;font-family:'Inter',-apple-system,sans-serif;background:va
       <div class="hub-cat">
         <div class="hub-hdr" onclick="toggleHub(this)" style="color:#60a5fa"><i class="fas fa-calendar-check"></i> Planejamento<i class="fas fa-chevron-down chev"></i></div>
         <div class="hub-body">
-          <div class="hub-item" onclick="fs('Crie um cronograma de estudos semanal detalhado para as minhas mat├®rias')">­ƒôà Cronograma semanal</div>
-          <div class="hub-item" onclick="fs('Defina metas de estudo di├írias e semanais personalizadas')">­ƒÄ» Definir metas</div>
-          <div class="hub-item" onclick="fs('Gere uma rotina Pomodoro personalizada para hoje com hor├írios')">ÔÅ▒´©Å Rotina Pomodoro</div>
-          <div class="hub-item" onclick="fs('Quais mat├®rias devo priorizar baseado no desempenho?')">ÔÜá´©Å Prioridades</div>
-          <div class="hub-item" onclick="fs('Crie um checklist de tarefas de estudo para hoje')">Ô£à Checklist do dia</div>
-          <div class="hub-item" onclick="openModal('pomModal')">­ƒìà Abrir Timer</div>
+          <div class="hub-item" onclick="fs('Crie um cronograma de estudos semanal detalhado para as minhas matérias')">📅 Cronograma semanal</div>
+          <div class="hub-item" onclick="fs('Defina metas de estudo diárias e semanais personalizadas')">🎯 Definir metas</div>
+          <div class="hub-item" onclick="fs('Gere uma rotina Pomodoro personalizada para hoje com horários')">⏱️ Rotina Pomodoro</div>
+          <div class="hub-item" onclick="fs('Quais matérias devo priorizar baseado no desempenho?')">⚠️ Prioridades</div>
+          <div class="hub-item" onclick="fs('Crie um checklist de tarefas de estudo para hoje')">✅ Checklist do dia</div>
+          <div class="hub-item" onclick="openModal('pomModal')">🍅 Abrir Timer</div>
         </div>
       </div>
       <div class="hub-cat">
         <div class="hub-hdr" onclick="toggleHub(this)" style="color:#34d399"><i class="fas fa-brain"></i> Aprendizado IA<i class="fas fa-chevron-down chev"></i></div>
         <div class="hub-body">
-          <div class="hub-item" onclick="fs('Explique o conte├║do atual de forma simples com analogias criativas')">­ƒùú´©Å Explica├º├úo com analogias</div>
-          <div class="hub-item" onclick="fs('Resuma o conte├║do em bullet points objetivos')">­ƒôØ Resumo em bullets</div>
-          <div class="hub-item" onclick="fs('Gere um mapa mental em formato de ├írvore do tema')">­ƒºá Mapa mental</div>
-          <div class="hub-item" onclick="fs('Explique do n├¡vel iniciante ao avan├ºado progressivamente')">­ƒôê Do b├ísico ao avan├ºado</div>
-          <div class="hub-item" onclick="fs('Recomende livros, artigos e recursos sobre este tema')">­ƒôÜ Recomendar materiais</div>
-          <div class="hub-item" onclick="fs('Identifique lacunas no meu conhecimento e como superar')">­ƒöì Lacunas de conhecimento</div>
-          <div class="hub-item" onclick="fs('Crie uma analogia criativa que facilite entender este tema')">­ƒÆí Analogia criativa</div>
+          <div class="hub-item" onclick="fs('Explique o conteúdo atual de forma simples com analogias criativas')">🗣️ Explicação com analogias</div>
+          <div class="hub-item" onclick="fs('Resuma o conteúdo em bullet points objetivos')">📝 Resumo em bullets</div>
+          <div class="hub-item" onclick="fs('Gere um mapa mental em formato de árvore do tema')">🧠 Mapa mental</div>
+          <div class="hub-item" onclick="fs('Explique do nível iniciante ao avançado progressivamente')">📈 Do básico ao avançado</div>
+          <div class="hub-item" onclick="fs('Recomende livros, artigos e recursos sobre este tema')">📚 Recomendar materiais</div>
+          <div class="hub-item" onclick="fs('Identifique lacunas no meu conhecimento e como superar')">🔍 Lacunas de conhecimento</div>
+          <div class="hub-item" onclick="fs('Crie uma analogia criativa que facilite entender este tema')">💡 Analogia criativa</div>
         </div>
       </div>
       <div class="hub-cat">
-        <div class="hub-hdr" onclick="toggleHub(this)" style="color:#fbbf24"><i class="fas fa-pen-to-square"></i> Pr├ítica<i class="fas fa-chevron-down chev"></i></div>
+        <div class="hub-hdr" onclick="toggleHub(this)" style="color:#fbbf24"><i class="fas fa-pen-to-square"></i> Prática<i class="fas fa-chevron-down chev"></i></div>
         <div class="hub-body">
-          <div class="hub-item" onclick="fs('Gere 5 exerc├¡cios personalizados com gabarito comentado')">­ƒôØ Exerc├¡cios com gabarito</div>
-          <div class="hub-item" onclick="fs('Crie um simulado completo com 10 quest├Áes dissertativas e objetivas')">­ƒôï Simulado completo</div>
-          <div class="hub-item" onclick="fs('Crie 6 flashcards no formato P:/R: sobre o tema atual')">­ƒôç Gerar flashcards</div>
-          <div class="hub-item" onclick="fs('Crie 5 quest├Áes de m├║ltipla escolha com feedback de cada alternativa')">ÔÜí Quiz com feedback</div>
-          <div class="hub-item" onclick="fs('Sugira um tema de reda├º├úo e avalie quando eu enviar')">Ô£ì´©Å Tema de reda├º├úo</div>
-          <div class="hub-item" onclick="openFlash()">­ƒâÅ Abrir Flashcards</div>
+          <div class="hub-item" onclick="fs('Gere 5 exercícios personalizados com gabarito comentado')">📝 Exercícios com gabarito</div>
+          <div class="hub-item" onclick="fs('Crie um simulado completo com 10 questões dissertativas e objetivas')">📋 Simulado completo</div>
+          <div class="hub-item" onclick="fs('Crie 6 flashcards no formato P:/R: sobre o tema atual')">📇 Gerar flashcards</div>
+          <div class="hub-item" onclick="fs('Crie 5 questões de múltipla escolha com feedback de cada alternativa')">⚡ Quiz com feedback</div>
+          <div class="hub-item" onclick="fs('Sugira um tema de redação e avalie quando eu enviar')">✍️ Tema de redação</div>
+          <div class="hub-item" onclick="openFlash()">🃏 Abrir Flashcards</div>
         </div>
       </div>
       <div class="hub-cat">
         <div class="hub-hdr" onclick="toggleHub(this)" style="color:#a78bfa"><i class="fas fa-chart-bar"></i> Desempenho<i class="fas fa-chevron-down chev"></i></div>
         <div class="hub-body">
-          <div class="hub-item" onclick="fs('Analise meu desempenho e identifique pontos fortes e fracos')">ÔÜû´©Å An├ílise de desempenho</div>
-          <div class="hub-item" onclick="fs('Gere um relat├│rio de progresso semanal estruturado')">­ƒôä Relat├│rio semanal</div>
-          <div class="hub-item" onclick="fs('Preveja minha nota nas pr├│ximas provas com base no esfor├ºo atual')">­ƒö« Prever nota</div>
-          <div class="hub-item" onclick="fs('Como melhorar meu rendimento nas pr├│ximas semanas?')">­ƒôê Estrat├®gias de melhora</div>
+          <div class="hub-item" onclick="fs('Analise meu desempenho e identifique pontos fortes e fracos')">⚖️ Análise de desempenho</div>
+          <div class="hub-item" onclick="fs('Gere um relatório de progresso semanal estruturado')">📄 Relatório semanal</div>
+          <div class="hub-item" onclick="fs('Preveja minha nota nas próximas provas com base no esforço atual')">🔮 Prever nota</div>
+          <div class="hub-item" onclick="fs('Como melhorar meu rendimento nas próximas semanas?')">📈 Estratégias de melhora</div>
         </div>
       </div>
       <div class="hub-cat">
-        <div class="hub-hdr" onclick="toggleHub(this)" style="color:#fb7185"><i class="fas fa-fire"></i> Motiva├º├úo<i class="fas fa-chevron-down chev"></i></div>
+        <div class="hub-hdr" onclick="toggleHub(this)" style="color:#fb7185"><i class="fas fa-fire"></i> Motivação<i class="fas fa-chevron-down chev"></i></div>
         <div class="hub-body">
-          <div class="hub-item" onclick="fs('Me d├¬ uma mensagem motivacional poderosa e personalizada')">­ƒÆ¼ Mensagem motivacional</div>
-          <div class="hub-item" onclick="fs('Quais estrat├®gias para manter foco por horas de estudo?')">­ƒÄ» Manter o foco</div>
-          <div class="hub-item" onclick="fs('Como superar a procrastina├º├úo e come├ºar a estudar agora?')">­ƒøæ Vencer procrastina├º├úo</div>
-          <div class="hub-item" onclick="fs('Crie um desafio de estudo de 7 dias com metas di├írias')">­ƒÅå Desafio 7 dias</div>
+          <div class="hub-item" onclick="fs('Me dê uma mensagem motivacional poderosa e personalizada')">💬 Mensagem motivacional</div>
+          <div class="hub-item" onclick="fs('Quais estratégias para manter foco por horas de estudo?')">🎯 Manter o foco</div>
+          <div class="hub-item" onclick="fs('Como superar a procrastinação e começar a estudar agora?')">🛑 Vencer procrastinação</div>
+          <div class="hub-item" onclick="fs('Crie um desafio de estudo de 7 dias com metas diárias')">🏆 Desafio 7 dias</div>
         </div>
       </div>
       <div class="hub-cat">
         <div class="hub-hdr" onclick="toggleHub(this)" style="color:#06d6a0"><i class="fas fa-crosshairs"></i> Provas<i class="fas fa-chevron-down chev"></i></div>
         <div class="hub-body">
-          <div class="hub-item" onclick="fs('Simule um ambiente de prova com 15 quest├Áes cronometradas')">­ƒôï Simular prova</div>
-          <div class="hub-item" onclick="fs('Quais assuntos s├úo mais cobrados nesta mat├®ria?')">­ƒôè Assuntos cobrados</div>
-          <div class="hub-item" onclick="fs('Crie um plano de revis├úo de ├║ltima hora para amanh├ú')">­ƒÜ¿ Revis├úo ├║ltima hora</div>
-          <div class="hub-item" onclick="fs('Me d├¬ estrat├®gias para resolver uma prova com efici├¬ncia')">ÔÜö´©Å Estrat├®gias de prova</div>
-          <div class="hub-item" onclick="fs('Analise provas anteriores desta mat├®ria e identifique padr├Áes')">­ƒôé Analisar provas antigas</div>
+          <div class="hub-item" onclick="fs('Simule um ambiente de prova com 15 questões cronometradas')">📋 Simular prova</div>
+          <div class="hub-item" onclick="fs('Quais assuntos são mais cobrados nesta matéria?')">📊 Assuntos cobrados</div>
+          <div class="hub-item" onclick="fs('Crie um plano de revisão de última hora para amanhã')">🚨 Revisão última hora</div>
+          <div class="hub-item" onclick="fs('Me dê estratégias para resolver uma prova com eficiência')">⚔️ Estratégias de prova</div>
+          <div class="hub-item" onclick="fs('Analise provas anteriores desta matéria e identifique padrões')">📂 Analisar provas antigas</div>
         </div>
       </div>
       <div class="hub-cat">
-        <div class="hub-hdr" onclick="toggleHub(this)" style="color:#ffd166"><i class="fas fa-sync-alt"></i> Revis├úo<i class="fas fa-chevron-down chev"></i></div>
+        <div class="hub-hdr" onclick="toggleHub(this)" style="color:#ffd166"><i class="fas fa-sync-alt"></i> Revisão<i class="fas fa-chevron-down chev"></i></div>
         <div class="hub-body">
-          <div class="hub-item" onclick="fs('Crie um sistema de repeti├º├úo espa├ºada para os conte├║dos de hoje')">­ƒöü Repeti├º├úo espa├ºada</div>
-          <div class="hub-item" onclick="fs('Crie um resumo progressivo do conte├║do visto at├® agora')">­ƒôØ Resumo progressivo</div>
-          <div class="hub-item" onclick="fs('Fa├ºa perguntas socr├íticas para testar meu conhecimento')">ÔØô Perguntas socr├íticas</div>
-          <div class="hub-item" onclick="fs('Identifique os conte├║dos que preciso revisar com mais urg├¬ncia')">ÔÜá´©Å O que revisar urgente</div>
+          <div class="hub-item" onclick="fs('Crie um sistema de repetição espaçada para os conteúdos de hoje')">🔁 Repetição espaçada</div>
+          <div class="hub-item" onclick="fs('Crie um resumo progressivo do conteúdo visto até agora')">📝 Resumo progressivo</div>
+          <div class="hub-item" onclick="fs('Faça perguntas socráticas para testar meu conhecimento')">❓ Perguntas socráticas</div>
+          <div class="hub-item" onclick="fs('Identifique os conteúdos que preciso revisar com mais urgência')">⚠️ O que revisar urgente</div>
         </div>
       </div>
     </div>
@@ -929,7 +905,7 @@ html,body{height:100%;font-family:'Inter',-apple-system,sans-serif;background:va
     <div class="tab-panel" id="panel-not">
       <h4>Bloco de Notas</h4>
       <p class="sub">Salvas automaticamente no seu dispositivo</p>
-      <textarea class="notes-ta" id="notesTA" placeholder="Seus resumos, insights e anota├º├Áes..." oninput="autoNote()"></textarea>
+      <textarea class="notes-ta" id="notesTA" placeholder="Seus resumos, insights e anotações..." oninput="autoNote()"></textarea>
       <div style="display:flex;gap:7px">
         <button class="btn-p" onclick="saveNote()" style="flex:1;padding:9px;margin-top:0;font-size:.82rem"><i class="fas fa-save"></i> Salvar</button>
         <button class="btn-s" onclick="exportNote()" style="padding:9px 13px"><i class="fas fa-download"></i></button>
@@ -937,10 +913,10 @@ html,body{height:100%;font-family:'Inter',-apple-system,sans-serif;background:va
       <p id="noteSt" style="font-size:.73rem;color:var(--mint);margin-top:7px;display:none"><i class="fas fa-check"></i> Salvo!</p>
     </div>
 
-    <!-- CL├üSSICAS (Fun├º├Áes Antigas) -->
+    <!-- CLÁSSICAS (Funções Antigas) -->
     <div class="tab-panel" id="panel-cla">
-      <h4>Fun├º├Áes Antigas</h4>
-      <p class="sub">Ferramentas cl├íssicas da vers├úo anterior</p>
+      <h4>Funções Antigas</h4>
+      <p class="sub">Ferramentas clássicas da versão anterior</p>
       
       <div class="hub-cat">
         <div class="hub-hdr" style="color:var(--rose); cursor:default;"><i class="fas fa-file-pdf"></i> Chat com Documentos</div>
@@ -953,14 +929,14 @@ html,body{height:100%;font-family:'Inter',-apple-system,sans-serif;background:va
       </div>
 
       <div class="hub-cat" id="claAva">
-        <div class="hub-hdr" style="color:var(--amber); cursor:default;"><i class="fas fa-university"></i> Lyceum ÔÇö Boletim Acad├¬mico</div>
+        <div class="hub-hdr" style="color:var(--amber); cursor:default;"><i class="fas fa-university"></i> Lyceum — Boletim Acadêmico</div>
         <div style="padding:10px;" id="lyceumGrid"></div>
         <div style="padding:0 10px 10px;display:flex;gap:6px;">
           <button class="btn-s" onclick="saveLyceumData()" style="flex:1;justify-content:center;color:var(--mint);border-color:rgba(6,214,160,.28)"><i class="fas fa-save"></i> Salvar Notas</button>
           <button class="btn-s" onclick="resetLyceumData()" style="padding:9px 12px;color:var(--rose);border-color:rgba(251,79,123,.22)"><i class="fas fa-rotate-left"></i></button>
         </div>
         <div style="padding:0 10px 10px;">
-          <p style="font-size:.7rem;color:var(--text-3);text-align:center"><i class="fas fa-info-circle"></i> Preencha suas notas reais do Lyceum. A IA usar├í esses dados para te ajudar com precis├úo.</p>
+          <p style="font-size:.7rem;color:var(--text-3);text-align:center"><i class="fas fa-info-circle"></i> Preencha suas notas reais do Lyceum. A IA usará esses dados para te ajudar com precisão.</p>
         </div>
       </div>
 
@@ -969,18 +945,18 @@ html,body{height:100%;font-family:'Inter',-apple-system,sans-serif;background:va
         <div style="padding:10px;">
             <p style="font-size:0.8rem; font-weight:bold; margin-bottom:5px;"><i class="fas fa-exclamation-triangle" style="color:var(--rose)"></i> Alertas de Faltas</p>
             <ul style="list-style:none; font-size:0.75rem; margin-bottom:15px; color:var(--text-2);">
-                <li style="margin-bottom:4px;">Jo├úo P. <span style="color:var(--rose); float:right; font-weight:bold;">26% Faltas</span></li>
+                <li style="margin-bottom:4px;">João P. <span style="color:var(--rose); float:right; font-weight:bold;">26% Faltas</span></li>
                 <li>Maria C. <span style="color:var(--amber); float:right; font-weight:bold;">15% Faltas</span></li>
             </ul>
             <p style="font-size:0.8rem; font-weight:bold; margin-bottom:5px;"><i class="fas fa-smile" style="color:var(--mint)"></i> Sentimento da Turma: Engajado</p>
-            <button class="btn-p" style="width:100%;font-size:0.8rem;padding:8px;margin-top:10px;" onclick="toast('­ƒôä Relat├│rio PDF Gerado', 'O download iniciar├í em instantes.')"><i class="fas fa-download"></i> Baixar Relat├│rio da Turma</button>
+            <button class="btn-p" style="width:100%;font-size:0.8rem;padding:8px;margin-top:10px;" onclick="toast('📄 Relatório PDF Gerado', 'O download iniciará em instantes.')"><i class="fas fa-download"></i> Baixar Relatório da Turma</button>
         </div>
       </div>
 
       <div class="hub-cat" id="claProf2" style="display:none;">
-        <div class="hub-hdr" style="color:var(--ember); cursor:default;"><i class="fas fa-camera"></i> Corretor Autom├ítico OCR</div>
+        <div class="hub-hdr" style="color:var(--ember); cursor:default;"><i class="fas fa-camera"></i> Corretor Automático OCR</div>
         <div style="padding:10px;">
-            <p style="font-size: 0.75rem; color:var(--text-2); margin-bottom: 10px;">Fa├ºa upload da foto da prova do aluno para a IA Tesseract ler e corrigir o gabarito.</p>
+            <p style="font-size: 0.75rem; color:var(--text-2); margin-bottom: 10px;">Faça upload da foto da prova do aluno para a IA Tesseract ler e corrigir o gabarito.</p>
             <div style="border: 2px dashed var(--border); padding: 20px; text-align: center; cursor: pointer; border-radius: var(--r-md);" onclick="document.getElementById('fileUp').click()">
                 <i class="fas fa-cloud-upload-alt" style="font-size: 2rem; color: var(--text-3); margin-bottom: 10px;"></i>
                 <p style="font-size:0.8rem;color:var(--text-3)">Enviar Imagem da Prova (OCR)</p>
@@ -999,16 +975,16 @@ html,body{height:100%;font-family:'Inter',-apple-system,sans-serif;background:va
       
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 30px;">
         <div style="background: var(--bg-surface); border: 1px solid var(--border); padding: 25px; border-radius: var(--r-md);">
-          <h4 style="color:var(--text-2); font-size: 0.9rem; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px;">Total de Usu├írios Locais</h4>
+          <h4 style="color:var(--text-2); font-size: 0.9rem; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px;">Total de Usuários Locais</h4>
           <div id="adminTotalUsers" style="font-size: 3rem; font-weight: 800; color: var(--mint);">0</div>
         </div>
         <div style="background: var(--bg-surface); border: 1px solid var(--border); padding: 25px; border-radius: var(--r-md);">
-          <h4 style="color:var(--text-2); font-size: 0.9rem; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px;">A├º├Áes de Seguran├ºa</h4>
+          <h4 style="color:var(--text-2); font-size: 0.9rem; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px;">Ações de Segurança</h4>
           <button class="btn-s" style="color: var(--rose); border-color: rgba(251,79,123,.3); margin-top: 10px; padding: 12px; font-size: 0.9rem;" onclick="adminClearDB()"><i class="fas fa-triangle-exclamation"></i> Limpar Banco de Dados Local</button>
         </div>
       </div>
       
-      <h3 style="margin-bottom: 15px; font-weight: 600;">Usu├írios Cadastrados</h3>
+      <h3 style="margin-bottom: 15px; font-weight: 600;">Usuários Cadastrados</h3>
       <div style="background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--r-md); overflow: hidden;">
         <table style="width: 100%; text-align: left; border-collapse: collapse;">
           <thead>
@@ -1031,9 +1007,9 @@ html,body{height:100%;font-family:'Inter',-apple-system,sans-serif;background:va
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
 <script>
-// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
+// ═══════════════════════════════════════════════
 // FIREBASE CLOUD DATABASE
-// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
+// ═══════════════════════════════════════════════
 const firebaseConfig = {
   apiKey: "AIzaSyCTK10jh0G4lvE7g83Mu9OvhbJJdCKsva8",
   authDomain: "magned-bit.firebaseapp.com",
@@ -1047,15 +1023,15 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
-// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
+// ═══════════════════════════════════════════════
 // STATE & PERSISTENCE
-// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
+// ═══════════════════════════════════════════════
 const S = {
     xp:0, nivel:1, xpPerLevel:100, sessions:0,
     name:'Estudante', course:'Engenharia de Software', ra:'', matricula:'', inst:'', photo:null, tipo:'estudante',
     apiKey:'', portalUrl:'', notifOn:false,
-    tutor:'MAGNED Padr├úo',
-    tutorPrompt:'Voc├¬ ├® o MAGNED, assistente acad├¬mico inteligente, emp├ítico e did├ítico. Responda sempre em portugu├¬s do Brasil.',
+    tutor:'MAGNED Padrão',
+    tutorPrompt:'Você é o MAGNED, assistente acadêmico inteligente, empático e didático. Responda sempre em português do Brasil.',
     subject:'',
     history:[], // Gemini conversation history
     events:[], flashcards:[], fcIdx:0,
@@ -1064,12 +1040,12 @@ const S = {
     faceDesc:null, faceModelsLoaded:false, faceStream:null, faceMode:null, faceLoop:null,
     synced: false,
     lyceumData: [
-        {disc:'Cidadania, ├ëtica e Espiritualidade', prof:'Prof. Holehon Santos', n1:7.5, n2:null, faltas:2, totalAulas:20, status:'Cursando'},
-        {disc:'Leitura e Interpreta├º├úo de Texto', prof:'Prof. Leonardo R. de Souza', n1:8.0, n2:6.5, faltas:4, totalAulas:20, status:'Cursando'},
+        {disc:'Cidadania, Ética e Espiritualidade', prof:'Prof. Holehon Santos', n1:7.5, n2:null, faltas:2, totalAulas:20, status:'Cursando'},
+        {disc:'Leitura e Interpretação de Texto', prof:'Prof. Leonardo R. de Souza', n1:8.0, n2:6.5, faltas:4, totalAulas:20, status:'Cursando'},
         {disc:'Fundamentos de Engenharia de Dados', prof:'Prof. Eduardo', n1:9.0, n2:null, faltas:1, totalAulas:20, status:'Cursando'},
-        {disc:'Fund. de Computa├º├úo e Infraestrutura', prof:'Prof. Ara├║jo', n1:6.0, n2:5.5, faltas:6, totalAulas:20, status:'Cursando'},
-        {disc:'Engenharia de Solu├º├Áes', prof:'Prof. Holehon Santos', n1:null, n2:null, faltas:3, totalAulas:20, status:'Cursando'},
-        {disc:'Fund. Matem├íticos para Computa├º├úo', prof:'Prof. Otoniel Vargas Jr', n1:5.0, n2:null, faltas:5, totalAulas:20, status:'Cursando'},
+        {disc:'Fund. de Computação e Infraestrutura', prof:'Prof. Araújo', n1:6.0, n2:5.5, faltas:6, totalAulas:20, status:'Cursando'},
+        {disc:'Engenharia de Soluções', prof:'Prof. Holehon Santos', n1:null, n2:null, faltas:3, totalAulas:20, status:'Cursando'},
+        {disc:'Fund. Matemáticos para Computação', prof:'Prof. Otoniel Vargas Jr', n1:5.0, n2:null, faltas:5, totalAulas:20, status:'Cursando'},
         {disc:'Componentes Integrados com IA', prof:'MAGNED IA', n1:8.5, n2:9.0, faltas:0, totalAulas:20, status:'Cursando'}
     ]
 };
@@ -1106,7 +1082,7 @@ function hydrate(){
     if(notes)document.getElementById('notesTA').value=notes;
     if(S.apiKey)document.getElementById('apiKeyInput').value=S.apiKey;
     if(S.portalUrl)document.getElementById('portalUrl').value=S.portalUrl;
-    if(S.faceDesc){document.getElementById('faceRegStatus').innerText='Ô£à Face cadastrada';document.getElementById('clearFaceBtn').style.display='flex';}
+    if(S.faceDesc){document.getElementById('faceRegStatus').innerText='✅ Face cadastrada';document.getElementById('clearFaceBtn').style.display='flex';}
     document.getElementById('notifToggle').classList.toggle('on',S.notifOn);
     
     // Background Cloud Fetch
@@ -1129,9 +1105,9 @@ function hydrate(){
     }
 }
 
-// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
+// ═══════════════════════════════════════════════
 // INIT
-// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
+// ═══════════════════════════════════════════════
 window.onload=()=>{
     hydrate();
     if(!localStorage.getItem(STORE+'_in')){
@@ -1157,18 +1133,18 @@ function installPWA() {
     deferredPrompt.userChoice.then((c) => {
         if(c.outcome === 'accepted') {
             document.getElementById('installAppBtn').style.display='none';
-            toast('­ƒô▓ Instala├º├úo Conclu├¡da', 'Aplicativo MAGNED instalado no dispositivo!');
+            toast('📲 Instalação Concluída', 'Aplicativo MAGNED instalado no dispositivo!');
         }
         deferredPrompt = null;
     });
 }
 
-// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
+// ═══════════════════════════════════════════════
 // SESSION
-// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
+// ═══════════════════════════════════════════════
 async function iniciarSessao(){
     const inputRA = document.getElementById('regRA').value.trim();
-    if(!inputRA) { alert("RA (ou CPF) ├® obrigat├│rio para conectar ao Banco de Dados."); return; }
+    if(!inputRA) { alert("RA (ou CPF) é obrigatório para conectar ao Banco de Dados."); return; }
     
     const btn = document.querySelector('#loginScreen .btn-p');
     if(btn) { btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sincronizando...'; btn.disabled = true; }
@@ -1187,7 +1163,7 @@ async function iniciarSessao(){
             S.ra = inputRA;
             
             // Refresh local UI elements
-            document.getElementById('chatBox').innerHTML = '<div class="chat-welcome" id="chatWelcome"><div class="welcome-ico">­ƒºá</div><h2 id="wTitle">Restaurando...</h2></div>';
+            document.getElementById('chatBox').innerHTML = '<div class="chat-welcome" id="chatWelcome"><div class="welcome-ico">🧠</div><h2 id="wTitle">Restaurando...</h2></div>';
             if(dbVal.chat) JSON.parse(dbVal.chat).forEach(m=>addMsg(m.t,m.s,false));
             if(dbVal.notes) document.getElementById('notesTA').value=dbVal.notes;
         } else {
@@ -1211,8 +1187,8 @@ async function iniciarSessao(){
         const w = document.getElementById('chatWelcome'); if(w && !wTitle) w.remove();
         
         if(!document.querySelector('.msg.bot')) {
-            addMsg(`Ol├í, **${fn}**! ­ƒæï Bem-vindo ao **MAGNED**. Seu assistente neural offline est├í pronto.\n\nExperimente:\n- ­ƒôï Digitar **"minhas notas"** para ver seu Lyceum\n- ­ƒôç Digitar **"flashcards de redes"** para revisar\n- ­ƒôà Enviar um **arquivo .ics** na Aba Agenda e perguntar dos eventos`,'bot');
-            gainXP(10,'­ƒÄë Motor ativado!');
+            addMsg(`Olá, **${fn}**! 👋 Bem-vindo ao **MAGNED**. Seu assistente neural offline está pronto.\n\nExperimente:\n- 📋 Digitar **"minhas notas"** para ver seu Lyceum\n- 📇 Digitar **"flashcards de redes"** para revisar\n- 📅 Enviar um **arquivo .ics** na Aba Agenda e perguntar dos eventos`,'bot');
+            gainXP(10,'🎉 Motor ativado!');
         }
     },800);
 }
@@ -1241,14 +1217,14 @@ function updateUI(){
     updateXP();
     document.getElementById('pomSess').innerText=S.pomSessToday;
     
-    // Mostra/esconde fun├º├Áes docentes baseadas no tipo de conta
+    // Mostra/esconde funções docentes baseadas no tipo de conta
     if(S.tipo === 'admin') {
         document.querySelector('.main-area').style.display = 'none';
         document.querySelector('.workspace').style.display = 'none';
         const adminArea = document.getElementById('adminArea');
         if(adminArea) adminArea.style.display = 'block';
         
-        document.getElementById('sbCourse').innerText = 'Administra├º├úo do Sistema';
+        document.getElementById('sbCourse').innerText = 'Administração do Sistema';
         document.querySelectorAll('.sb-nav .nav-btn').forEach(b => b.style.display = 'none');
         document.querySelector('.status-w').style.display = 'none'; // Hide AI status
         
@@ -1259,7 +1235,7 @@ function updateUI(){
         const adminArea = document.getElementById('adminArea');
         if(adminArea) adminArea.style.display = 'none';
 
-        if(S.tipo === 'profissional' || S.course.toLowerCase().includes('doc├¬ncia') || S.course.toLowerCase().includes('professor')) {
+        if(S.tipo === 'profissional' || S.course.toLowerCase().includes('docência') || S.course.toLowerCase().includes('professor')) {
             document.getElementById('claProf1').style.display = 'block';
             document.getElementById('claProf2').style.display = 'block';
             document.getElementById('claAva').style.display = 'none';
@@ -1269,11 +1245,47 @@ function updateUI(){
             document.getElementById('claAva').style.display = 'block';
         }
     }
+    renderMaterias();
 }
 
-// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
+function renderMaterias() {
+    const list = document.getElementById('materiasList');
+    if(!list) return;
+    list.innerHTML = '';
+    const colors = [
+        {bg:'rgba(59,130,246,.12)', c:'#60a5fa', ic:'fa-book'},
+        {bg:'rgba(16,185,129,.12)', c:'#34d399', ic:'fa-book-open'},
+        {bg:'rgba(245,158,11,.12)', c:'#fbbf24', ic:'fa-database'},
+        {bg:'rgba(139,92,246,.12)', c:'#a78bfa', ic:'fa-server'},
+        {bg:'rgba(251,79,123,.12)', c:'#fb7185', ic:'fa-lightbulb'},
+        {bg:'rgba(99,102,241,.12)', c:'#818cf8', ic:'fa-square-root-variable'},
+        {bg:'rgba(6,214,160,.12)', c:'#06d6a0', ic:'fa-robot'}
+    ];
+    
+    if(!S.lyceumData || S.lyceumData.length === 0) {
+        list.innerHTML = '<p style="color:var(--text-3); font-size: 0.8rem; padding: 10px;">Nenhuma matéria cadastrada no Lyceum.</p>';
+        return;
+    }
+
+    S.lyceumData.forEach((d, i) => {
+        const c = colors[i % colors.length];
+        const pct = d.ava !== undefined ? d.ava : 0;
+        
+        let shortDisc = d.disc.length > 25 ? d.disc.substring(0, 22) + '...' : d.disc;
+        let prompt = `Você é o ${d.prof}, professor de ${d.disc}. Responda com abordagem acadêmica e didática.`;
+        
+        list.innerHTML += `
+        <div class="sub-card" onclick="selSubj('${d.disc.replace(/'/g, "\\'")}','${d.prof.replace(/'/g, "\\'")}','${prompt.replace(/'/g, "\\'")}')">
+            <div class="sub-ico" style="background:${c.bg};color:${c.c}"><i class="fas ${c.ic}"></i></div>
+            <div class="sub-info"><h5>${shortDisc}</h5><p>${d.prof}</p><div class="mini-bar"><div class="mini-fill" style="width:${pct}%;background:${c.c}"></div></div></div>
+            <span class="sub-pct" title="Progresso no AVA Acadêmico">${pct}%</span>
+        </div>`;
+    });
+}
+
+// ═══════════════════════════════════════════════
 // ADMIN FUNCTIONS
-// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
+// ═══════════════════════════════════════════════
 function renderAdminDashboard() {
     const dbRaw = localStorage.getItem('magned_db');
     const db = dbRaw ? JSON.parse(dbRaw) : { users: [] };
@@ -1285,7 +1297,7 @@ function renderAdminDashboard() {
     if(!tbody) return;
     
     if (db.users.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="3" style="padding: 25px; text-align: center; color: var(--text-3); font-size: 0.95rem;">Nenhum usu├írio cadastrado neste dispositivo.</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="3" style="padding: 25px; text-align: center; color: var(--text-3); font-size: 0.95rem;">Nenhum usuário cadastrado neste dispositivo.</td></tr>';
         return;
     }
     
@@ -1302,19 +1314,19 @@ function renderAdminDashboard() {
 }
 
 function adminClearDB() {
-    if (confirm('ATEN├ç├âO: Voc├¬ est├í prestes a apagar TODOS os usu├írios cadastrados neste dispositivo. Isso n├úo pode ser desfeito. Deseja continuar?')) {
+    if (confirm('ATENÇÃO: Você está prestes a apagar TODOS os usuários cadastrados neste dispositivo. Isso não pode ser desfeito. Deseja continuar?')) {
         localStorage.removeItem('magned_db');
         renderAdminDashboard();
-        toast('­ƒùæ´©Å Dados Apagados', 'O banco de dados local foi resetado.');
+        toast('🗑️ Dados Apagados', 'O banco de dados local foi resetado.');
     }
 }
 
-// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
+// ═══════════════════════════════════════════════
 // XP & GAMIFICATION
-// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
+// ═══════════════════════════════════════════════
 function gainXP(amt,reason=''){
     S.xp+=amt;persist();updateXP();
-    if(reason)toast('Ô¡É +'+amt+' XP',reason);
+    if(reason)toast('⭐ +'+amt+' XP',reason);
 }
 function updateXP(){
     S.nivel=Math.floor(S.xp/S.xpPerLevel)+1;
@@ -1324,14 +1336,14 @@ function updateXP(){
 }
 function toast(title,sub){
     const el=document.createElement('div');el.className='toast';
-    el.innerHTML=`<div class="toast-ico">­ƒÅå</div><div class="toast-info"><h5>${title}</h5><p>${sub}</p></div>`;
+    el.innerHTML=`<div class="toast-ico">🏆</div><div class="toast-info"><h5>${title}</h5><p>${sub}</p></div>`;
     document.body.appendChild(el);
     setTimeout(()=>{el.style.animation='toastIn .3s ease reverse';setTimeout(()=>el.remove(),300);},3500);
 }
 
-// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
+// ═══════════════════════════════════════════════
 // MODALS
-// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
+// ═══════════════════════════════════════════════
 function openModal(id){
     if(id==='profileModal'){
         document.getElementById('pNome').value=S.name;
@@ -1339,7 +1351,7 @@ function openModal(id){
         document.getElementById('pRA').value=S.ra;
         document.getElementById('pInst').value=S.inst;
         document.getElementById('pXP').innerText=S.xp+' XP';
-        document.getElementById('pNivel').innerText='N├¡vel '+S.nivel;
+        document.getElementById('pNivel').innerText='Nível '+S.nivel;
         document.getElementById('pSess').innerText=S.sessions;
         if(S.photo)document.getElementById('photoPrev').innerHTML=`<img src="${S.photo}">`;
     }
@@ -1348,9 +1360,9 @@ function openModal(id){
 function closeModal(id){document.getElementById(id).style.display='none';}
 document.addEventListener('click',e=>{if(e.target.classList.contains('overlay')){e.target.style.display='none';closeFaceModal();}});
 
-// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
+// ═══════════════════════════════════════════════
 // PROFILE
-// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
+// ═══════════════════════════════════════════════
 function handlePhoto(input){
     if(!input.files||!input.files[0])return;
     const r=new FileReader();r.onload=e=>{S.photo=e.target.result;document.getElementById('photoPrev').innerHTML=`<img src="${e.target.result}">`;};r.readAsDataURL(input.files[0]);
@@ -1358,38 +1370,38 @@ function handlePhoto(input){
 function saveProfile(){
     S.name=document.getElementById('pNome').value;S.course=document.getElementById('pCurso').value;
     S.ra=document.getElementById('pRA').value;S.inst=document.getElementById('pInst').value;
-    persist();updateUI();closeModal('profileModal');toast('Ô£à Perfil Salvo','Informa├º├Áes atualizadas!');
+    persist();updateUI();closeModal('profileModal');toast('✅ Perfil Salvo','Informações atualizadas!');
 }
 
-// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
+// ═══════════════════════════════════════════════
 // SETTINGS
-// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
+// ═══════════════════════════════════════════════
 function toggleApiVis(){const i=document.getElementById('apiKeyInput'),ic=document.getElementById('apiEye');if(i.type==='password'){i.type='text';ic.className='fas fa-eye-slash';}else{i.type='password';ic.className='fas fa-eye';}}
 function saveApiKey(){
     S.apiKey=document.getElementById('apiKeyInput').value.trim();persist();
     const b=document.getElementById('modeBadge');b.innerHTML='<i class="fas fa-microchip"></i> Gemini Ativo';b.style.background='rgba(6,214,160,.1)';b.style.color='var(--mint)';b.style.borderColor='rgba(6,214,160,.25)';
-    toast('­ƒöæ API Key Salva','Gemini IA ativada com sucesso!');
+    toast('🔑 API Key Salva','Gemini IA ativada com sucesso!');
 }
 
 // Inicializar motor de IA neural
 const aiEngine = new MagnedAI(() => S);
 
 function toggleNotif(){
-    if(!S.notifOn){Notification.requestPermission().then(p=>{if(p==='granted'){S.notifOn=true;document.getElementById('notifToggle').classList.add('on');persist();scheduleNotifs();toast('­ƒöö Notifica├º├Áes Ativas','Alertas de eventos habilitados.');}});}
+    if(!S.notifOn){Notification.requestPermission().then(p=>{if(p==='granted'){S.notifOn=true;document.getElementById('notifToggle').classList.add('on');persist();scheduleNotifs();toast('🔔 Notificações Ativas','Alertas de eventos habilitados.');}});}
     else{S.notifOn=false;document.getElementById('notifToggle').classList.remove('on');persist();}
 }
 function scheduleNotifs(){
     const now=new Date();
     S.events.forEach(ev=>{
         const d=new Date(ev.date+(ev.time?'T'+ev.time:'T09:00'));const diff=d-now;
-        if(diff>0&&diff<86400000){setTimeout(()=>new Notification('­ƒôà MAGNED',{body:ev.title+(ev.time?' ├ás '+ev.time:'')}),Math.max(0,diff-3600000));}
+        if(diff>0&&diff<86400000){setTimeout(()=>new Notification('📅 MAGNED',{body:ev.title+(ev.time?' às '+ev.time:'')}),Math.max(0,diff-3600000));}
     });
 }
 function clearAll(){if(confirm('Apagar todos os dados?')){localStorage.clear();location.reload();}}
 
-// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
+// ═══════════════════════════════════════════════
 // TABS
-// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
+// ═══════════════════════════════════════════════
 function switchTab(id,btn){
     document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
     document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
@@ -1397,75 +1409,154 @@ function switchTab(id,btn){
     if(id==='cal')renderCal();
 }
 
-// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
+// ═══════════════════════════════════════════════
 // SUBJECT / TUTOR SELECTION
-// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
+// ═══════════════════════════════════════════════
 function selSubj(subj,tutor,prompt){
     S.subject=subj;S.tutor=tutor;
-    const mTxt = S.matricula ? ` O aluno logado é ${S.name}, portador do CPF ${S.cpf || "não informado"} e RA/Matrícula ${S.matricula || S.ra || "não informado"}. Dados validados biometricamente e integrados com Lyceum/AVA.` : '';
-    S.tutorPrompt=prompt+mTxt+' Responda sempre em portugu├¬s do Brasil com m├íxima did├ítica e clareza. Mat├®ria atual: '+subj+'.';
+    const lyceumCtx = buildLyceumContext();
+    const avaCtx = buildAVAContext();
+    const apsInfo = "Aviso: Na UniEVANGÉLICA, 'APS' significa Atividade Prática Supervisionada (uma atividade online entregue via AVA).";
+    S.tutorPrompt = prompt + ' ' + apsInfo + '\n\n' + lyceumCtx + '\n\n' + avaCtx + '\n\nResponda sempre em português do Brasil com máxima didática e clareza. Matéria atual: '+subj+'.';
     S.history=[];
     document.getElementById('chatTitle').innerText=subj;
     document.getElementById('chatSub').innerText='Conversando com '+tutor;
     document.getElementById('modeBadge').innerText=tutor.split(' ')[1]||tutor;
-    gainXP(5,'Mat├®ria selecionada');
+    gainXP(5,'Matéria selecionada');
     addMsg(`*Contexto alterado.* Modo **${tutor}** para **${subj}** ativado. O que quer estudar?`,'bot');
 }
 function selTutor(name,prompt,cardId){
     S.tutor=name;
-    const mTxt = S.matricula ? ` O aluno atual tem a Matr├¡cula ${S.matricula} no Lyceum/AVA. Simule que voc├¬ tem acesso aos dados reais do Lyceum/AVA dele.` : '';
-    S.tutorPrompt=prompt+mTxt+' Responda sempre em portugu├¬s do Brasil.';S.history=[];
+    const lyceumCtx = buildLyceumContext();
+    const avaCtx = buildAVAContext();
+    const apsInfo = "Aviso: Na UniEVANGÉLICA, 'APS' significa Atividade Prática Supervisionada (uma atividade online entregue via AVA).";
+    S.tutorPrompt = prompt + ' ' + apsInfo + '\n\n' + lyceumCtx + '\n\n' + avaCtx + '\n\nResponda sempre em português do Brasil.';
+    S.history=[];
     document.querySelectorAll('.tutor-card').forEach(c=>c.classList.remove('active'));
     document.getElementById(cardId).classList.add('active');
     document.getElementById('chatTitle').innerText='Tutor: '+name;
     document.getElementById('chatSub').innerText='Persona de IA ativa';
     document.getElementById('modeBadge').innerText=name.split(' ')[1]||name;
     gainXP(10,'Tutor '+name+' ativado');
-    addMsg(`*Personalidade alterada.* Agora voc├¬ est├í falando com **${name}**. Como posso te ajudar?`,'bot');
+    addMsg(`*Personalidade alterada.* Agora você está falando com **${name}**. Como posso te ajudar?`,'bot');
 }
 
-// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
-// LYCEUM ÔÇö PAINEL DE BOLETIM ACAD├èMICO
-// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
+// ═══════════════════════════════════════════════
+// LYCEUM — PAINEL DE BOLETIM ACADÊMICO
+// ═══════════════════════════════════════════════
 function renderLyceumGrid() {
     const grid = document.getElementById('lyceumGrid');
     if (!grid) return;
+    renderMaterias();
+    
+    let html = `<div style="margin-bottom:15px; padding-bottom:10px; border-bottom:1px solid var(--border);">
+        <div style="font-size:0.85rem; font-weight:600; color:var(--text-1);"><i class="fas fa-user-graduate" style="color:var(--ember)"></i> ${S.name || 'Estudante'}</div>
+        <div style="font-size:0.75rem; color:var(--text-3);">${S.course || 'Engenharia de Software'} | RA: ${S.ra || S.matricula || 'N/I'}</div>
+    </div>`;
+
     if (!S.lyceumData || !S.lyceumData.length) {
-        grid.innerHTML = '<p style="font-size:0.8rem;color:var(--text-3);text-align:center">Nenhuma disciplina cadastrada.</p>';
+        grid.innerHTML = html + `
+        <div style="background:rgba(6,214,160,.05); border:1px solid rgba(6,214,160,.2); border-radius:var(--r-sm); padding:20px; text-align:center; margin-bottom:10px;">
+            <i class="fas fa-cloud-download-alt" style="font-size:2.5rem;color:var(--mint);margin-bottom:15px;animation:float 3s ease-in-out infinite;"></i>
+            <h4 style="color:var(--mint); margin-bottom:5px; font-size:1.1rem;">Integração Institucional</h4>
+            <p style="font-size:0.8rem; color:var(--text-2); margin-bottom:15px;">Sincronizando automaticamente suas disciplinas, notas do Lyceum e progresso do AVA...</p>
+        </div>`;
+        setTimeout(syncLyceumAuto, 100);
         return;
     }
-    grid.innerHTML = S.lyceumData.map((d, i) => {
-        const media = (d.n1 !== null && d.n2 !== null) ? ((d.n1 + d.n2) / 2).toFixed(1) : 'ÔÇö';
+    
+    html += S.lyceumData.map((d, i) => {
+        if(d.ava === undefined) d.ava = 0;
+        const media = (d.n1 !== null && d.n2 !== null) ? ((d.n1 + d.n2) / 2).toFixed(1) : '—';
         const pctFalta = d.totalAulas > 0 ? ((d.faltas / d.totalAulas) * 100).toFixed(0) : 0;
         const mediaVal = parseFloat(media);
         const mediaColor = isNaN(mediaVal) ? 'var(--text-3)' : mediaVal >= 7 ? 'var(--mint)' : mediaVal >= 5 ? 'var(--amber)' : 'var(--rose)';
         const faltaColor = pctFalta >= 25 ? 'var(--rose)' : pctFalta >= 15 ? 'var(--amber)' : 'var(--text-3)';
         return `
-        <div style="background:var(--bg-elevated);border:1px solid var(--border);border-radius:var(--r-sm);padding:10px;margin-bottom:6px;">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
-                <div style="font-size:.8rem;font-weight:600;color:var(--text-1);flex:1;">${d.disc}</div>
+        <div style="background:var(--bg-elevated);border:1px solid var(--border);border-radius:var(--r-sm);padding:10px;margin-bottom:6px;position:relative;">
+            <button onclick="removeLyceumSubject(${i})" style="position:absolute;top:5px;right:5px;background:none;border:none;color:var(--rose);cursor:pointer;opacity:0.6;transition:0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.6'"><i class="fas fa-times"></i></button>
+            <div style="display:flex;flex-direction:column;gap:5px;margin-bottom:8px;padding-right:20px;">
+                <input type="text" value="${d.disc}" onchange="updateLyceumStr(${i},'disc',this.value)" placeholder="Nome da Disciplina" style="width:100%;background:transparent;border:none;border-bottom:1px solid var(--border);color:var(--text-1);font-weight:600;font-size:.8rem;outline:none;" title="Editar Nome da Disciplina">
+                <input type="text" value="${d.prof}" onchange="updateLyceumStr(${i},'prof',this.value)" placeholder="Nome do Professor" style="width:100%;background:transparent;border:none;border-bottom:1px solid var(--border);color:var(--text-3);font-size:.7rem;outline:none;" title="Editar Nome do Professor">
             </div>
-            <div style="font-size:.7rem;color:var(--text-3);margin-bottom:8px;">${d.prof}</div>
-            <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:5px;">
+            <div style="display:grid;grid-template-columns:1fr 1fr 1.2fr 1fr 1fr;gap:4px;">
                 <div style="text-align:center;">
-                    <div style="font-size:.65rem;color:var(--text-3);margin-bottom:3px;">N1</div>
-                    <input type="number" step="0.1" min="0" max="10" value="${d.n1 !== null ? d.n1 : ''}" onchange="updateLyceum(${i},'n1',this.value)" style="width:100%;padding:4px;background:var(--bg-input);border:1px solid var(--border);border-radius:4px;color:var(--text-1);font-family:inherit;font-size:.78rem;text-align:center;outline:none;" placeholder="ÔÇö">
+                    <div style="font-size:.6rem;color:var(--text-3);margin-bottom:3px;">N1</div>
+                    <input type="number" step="0.1" min="0" max="10" value="${d.n1 !== null ? d.n1 : ''}" onchange="updateLyceum(${i},'n1',this.value)" style="width:100%;padding:4px;background:var(--bg-input);border:1px solid var(--border);border-radius:4px;color:var(--text-1);font-family:inherit;font-size:.75rem;text-align:center;outline:none;" placeholder="—">
                 </div>
                 <div style="text-align:center;">
-                    <div style="font-size:.65rem;color:var(--text-3);margin-bottom:3px;">N2</div>
-                    <input type="number" step="0.1" min="0" max="10" value="${d.n2 !== null ? d.n2 : ''}" onchange="updateLyceum(${i},'n2',this.value)" style="width:100%;padding:4px;background:var(--bg-input);border:1px solid var(--border);border-radius:4px;color:var(--text-1);font-family:inherit;font-size:.78rem;text-align:center;outline:none;" placeholder="ÔÇö">
+                    <div style="font-size:.6rem;color:var(--text-3);margin-bottom:3px;">N2</div>
+                    <input type="number" step="0.1" min="0" max="10" value="${d.n2 !== null ? d.n2 : ''}" onchange="updateLyceum(${i},'n2',this.value)" style="width:100%;padding:4px;background:var(--bg-input);border:1px solid var(--border);border-radius:4px;color:var(--text-1);font-family:inherit;font-size:.75rem;text-align:center;outline:none;" placeholder="—">
                 </div>
                 <div style="text-align:center;">
-                    <div style="font-size:.65rem;color:var(--text-3);margin-bottom:3px;">M├®dia</div>
-                    <div style="font-size:.82rem;font-weight:700;color:${mediaColor};padding-top:5px;">${media}</div>
+                    <div style="font-size:.6rem;color:var(--mint);margin-bottom:3px;font-weight:bold;" title="Progresso no AVA Acadêmico">AVA %</div>
+                    <input type="number" step="1" min="0" max="100" value="${d.ava !== undefined ? d.ava : 0}" onchange="updateLyceum(${i},'ava',this.value)" style="width:100%;padding:4px;background:rgba(6,214,160,.08);border:1px solid rgba(6,214,160,.2);border-radius:4px;color:var(--mint);font-family:inherit;font-size:.75rem;font-weight:bold;text-align:center;outline:none;" placeholder="0%">
                 </div>
                 <div style="text-align:center;">
-                    <div style="font-size:.65rem;color:var(--text-3);margin-bottom:3px;">Faltas</div>
-                    <div style="font-size:.78rem;font-weight:600;color:${faltaColor};padding-top:5px;">${d.faltas}/${d.totalAulas} <span style="font-size:.65rem">(${pctFalta}%)</span></div>
+                    <div style="font-size:.6rem;color:var(--text-3);margin-bottom:3px;">Média</div>
+                    <div style="font-size:.82rem;font-weight:700;color:${mediaColor};padding-top:3px;">${media}</div>
+                </div>
+                <div style="text-align:center;">
+                    <div style="font-size:.6rem;color:var(--text-3);margin-bottom:3px;">Faltas</div>
+                    <div style="font-size:.75rem;font-weight:600;color:${faltaColor};padding-top:5px;">${d.faltas}/${d.totalAulas}</div>
                 </div>
             </div>
         </div>`;
     }).join('');
+    
+    html += `<button class="btn-s" onclick="addLyceumSubject()" style="width:100%;margin-top:5px;justify-content:center;"><i class="fas fa-plus"></i> Adicionar Disciplina</button>`;
+    grid.innerHTML = html;
+}
+function updateLyceumStr(idx, field, val) {
+    if (S.lyceumData[idx]) S.lyceumData[idx][field] = val;
+}
+function syncLyceumAuto() {
+    const grid = document.getElementById('lyceumGrid');
+    grid.innerHTML = `
+        <div style="text-align:center; padding: 40px 20px;">
+            <i class="fas fa-circle-notch fa-spin" style="font-size:2.5rem;color:var(--mint);margin-bottom:15px;"></i>
+            <h4 style="color:var(--mint); margin-bottom:5px;">Conectando ao Portal...</h4>
+            <p style="font-size:.8rem;color:var(--text-2);">Autenticando CPF: ${S.ra || 'N/I'}</p>
+            <p style="font-size:.75rem;color:var(--text-3);margin-top:10px;">Baixando notas e progresso acadêmico...</p>
+        </div>
+    `;
+    setTimeout(() => {
+        S.lyceumData = [
+            {disc:'Cidadania, Ética e Espiritualidade', prof:'Prof. Holehon Santos', n1:Math.round((Math.random()*4+6)*10)/10, n2:null, faltas:Math.floor(Math.random()*4), totalAulas:20, status:'Cursando', ava: Math.floor(Math.random()*60)+40},
+            {disc:'Leitura e Interpretação de Texto', prof:'Prof. Leonardo R. de Souza', n1:Math.round((Math.random()*4+6)*10)/10, n2:Math.round((Math.random()*4+6)*10)/10, faltas:Math.floor(Math.random()*6), totalAulas:20, status:'Cursando', ava: Math.floor(Math.random()*50)+50},
+            {disc:'Fundamentos de Engenharia de Dados', prof:'Prof. Eduardo', n1:Math.round((Math.random()*4+6)*10)/10, n2:null, faltas:0, totalAulas:20, status:'Cursando', ava: Math.floor(Math.random()*40)+60},
+            {disc:'Fund. de Computação e Infraestrutura', prof:'Prof. Araújo', n1:Math.round((Math.random()*4+6)*10)/10, n2:Math.round((Math.random()*4+6)*10)/10, faltas:Math.floor(Math.random()*8), totalAulas:20, status:'Cursando', ava: Math.floor(Math.random()*30)+70},
+            {disc:'Engenharia de Soluções', prof:'Prof. Holehon Santos', n1:null, n2:null, faltas:Math.floor(Math.random()*3), totalAulas:20, status:'Cursando', ava: Math.floor(Math.random()*70)+20},
+            {disc:'Componentes Integrados com IA', prof:'MAGNED IA', n1:Math.round((Math.random()*3+7)*10)/10, n2:Math.round((Math.random()*3+7)*10)/10, faltas:0, totalAulas:20, status:'Cursando', ava: 100}
+        ];
+        
+        const today = new Date();
+        const d1 = new Date(today); d1.setDate(today.getDate() + 3);
+        const d2 = new Date(today); d2.setDate(today.getDate() + 7);
+        const d3 = new Date(today); d3.setDate(today.getDate() + 14);
+        
+        S.events = [
+            {id: 'ev_' + Date.now(), title: 'Entrega da APS', date: d1.toISOString().split('T')[0], time: '23:59', cat: 'prova'},
+            {id: 'ev_' + (Date.now()+1), title: 'Prova N1: Engenharia de Soluções', date: d2.toISOString().split('T')[0], time: '19:00', cat: 'prova'},
+            {id: 'ev_' + (Date.now()+2), title: 'Fórum Avaliativo AVA', date: d3.toISOString().split('T')[0], time: '23:59', cat: 'geral'}
+        ];
+
+        persist();
+        renderLyceumGrid();
+        if(typeof renderCal === 'function') renderCal();
+        toast('✅ Sincronização Concluída', 'Notas, progresso e agenda do AVA importados com sucesso.');
+    }, 2500);
+}
+function addLyceumSubject() {
+    if(!S.lyceumData) S.lyceumData = [];
+    S.lyceumData.push({disc:'Nova Disciplina', prof:'Professor', n1:null, n2:null, faltas:0, totalAulas:20, status:'Cursando', ava:0});
+    renderLyceumGrid();
+}
+function removeLyceumSubject(idx) {
+    if(confirm('Remover esta disciplina?')) {
+        S.lyceumData.splice(idx, 1);
+        renderLyceumGrid();
+    }
 }
 function updateLyceum(idx, field, val) {
     if (S.lyceumData[idx]) {
@@ -1474,26 +1565,34 @@ function updateLyceum(idx, field, val) {
 }
 function saveLyceumData() {
     persist();
-    toast('­ƒôï Lyceum Salvo', 'Notas e faltas atualizadas. A IA agora usar├í esses dados.');
+    toast('📋 Lyceum Salvo', 'Notas e faltas atualizadas. A IA agora usará esses dados.');
 }
 function resetLyceumData() {
-    if (!confirm('Resetar todas as notas do Lyceum para os dados de demonstra├º├úo?')) return;
+    if (!confirm('Resetar todas as notas do Lyceum para os dados de demonstração?')) return;
     S.lyceumData = [
-        {disc:'Cidadania, ├ëtica e Espiritualidade', prof:'Prof. Holehon Santos', n1:7.5, n2:null, faltas:2, totalAulas:20, status:'Cursando'},
-        {disc:'Leitura e Interpreta├º├úo de Texto', prof:'Prof. Leonardo R. de Souza', n1:8.0, n2:6.5, faltas:4, totalAulas:20, status:'Cursando'},
-        {disc:'Fundamentos de Engenharia de Dados', prof:'Prof. Eduardo', n1:9.0, n2:null, faltas:1, totalAulas:20, status:'Cursando'},
-        {disc:'Fund. de Computa├º├úo e Infraestrutura', prof:'Prof. Ara├║jo', n1:6.0, n2:5.5, faltas:6, totalAulas:20, status:'Cursando'},
-        {disc:'Engenharia de Solu├º├Áes', prof:'Prof. Holehon Santos', n1:null, n2:null, faltas:3, totalAulas:20, status:'Cursando'},
-        {disc:'Fund. Matem├íticos para Computa├º├úo', prof:'Prof. Otoniel Vargas Jr', n1:5.0, n2:null, faltas:5, totalAulas:20, status:'Cursando'},
-        {disc:'Componentes Integrados com IA', prof:'MAGNED IA', n1:8.5, n2:9.0, faltas:0, totalAulas:20, status:'Cursando'}
+        {disc:'Cidadania, Ética e Espiritualidade', prof:'Prof. Holehon Santos', n1:7.5, n2:null, faltas:2, totalAulas:20, status:'Cursando', ava: 75},
+        {disc:'Leitura e Interpretação de Texto', prof:'Prof. Leonardo R. de Souza', n1:8.0, n2:6.5, faltas:4, totalAulas:20, status:'Cursando', ava: 80},
+        {disc:'Fundamentos de Engenharia de Dados', prof:'Prof. Eduardo', n1:9.0, n2:null, faltas:1, totalAulas:20, status:'Cursando', ava: 90},
+        {disc:'Fund. de Computação e Infraestrutura', prof:'Prof. Araújo', n1:6.0, n2:5.5, faltas:6, totalAulas:20, status:'Cursando', ava: 60},
+        {disc:'Engenharia de Soluções', prof:'Prof. Holehon Santos', n1:null, n2:null, faltas:3, totalAulas:20, status:'Cursando', ava: 40},
+        {disc:'Fund. Matemáticos para Computação', prof:'Prof. Otoniel Vargas Jr', n1:5.0, n2:null, faltas:5, totalAulas:20, status:'Cursando', ava: 55},
+        {disc:'Componentes Integrados com IA', prof:'MAGNED IA', n1:8.5, n2:9.0, faltas:0, totalAulas:20, status:'Cursando', ava: 100}
+    ];
+    const today = new Date();
+    const d1 = new Date(today); d1.setDate(today.getDate() + 3);
+    const d2 = new Date(today); d2.setDate(today.getDate() + 7);
+    S.events = [
+        {id: 'ev_' + Date.now(), title: 'Entrega da APS', date: d1.toISOString().split('T')[0], time: '23:59', cat: 'prova'},
+        {id: 'ev_' + (Date.now()+1), title: 'Prova N1: Engenharia de Soluções', date: d2.toISOString().split('T')[0], time: '19:00', cat: 'prova'}
     ];
     persist(); renderLyceumGrid();
-    toast('­ƒöä Lyceum Resetado', 'Dados de demonstra├º├úo restaurados.');
+    if(typeof renderCal === 'function') renderCal();
+    toast('🔄 Lyceum Resetado', 'Dados de demonstração restaurados.');
 }
 
-// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
+// ═══════════════════════════════════════════════
 // AVA + LYCEUM CONTEXT BUILDERS (para injetar na IA)
-// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
+// ═══════════════════════════════════════════════
 function buildAVAContext() {
     if (!S.events || !S.events.length) return 'Nenhum evento cadastrado no AVA/Agenda.';
     const today = new Date();
@@ -1503,40 +1602,40 @@ function buildAVAContext() {
         .sort((a, b) => a.dateObj - b.dateObj)
         .slice(0, 10);
     if (!upcoming.length) return 'Nenhum evento futuro na agenda.';
-    let ctx = `PRÓXIMOS EVENTOS DO AVA/AGENDA DO ALUNO ${S.name} (CPF: ${S.cpf || "N/I"} | RA: ${S.matricula || S.ra || "N/I"}):\n`;
+    let ctx = 'PRÓXIMOS EVENTOS DO AVA/AGENDA DO ALUNO:\n';
     upcoming.forEach(ev => {
         const dias = Math.ceil((ev.dateObj - today) / (1000 * 60 * 60 * 24));
-        const urgencia = dias <= 2 ? 'ÔÜá´©Å URGENTE' : dias <= 7 ? '­ƒôî Esta semana' : '';
+        const urgencia = dias <= 2 ? '⚠️ URGENTE' : dias <= 7 ? '📌 Esta semana' : '';
         ctx += `- ${ev.title} | Data: ${ev.date} ${ev.time || ''} | Categoria: ${ev.cat || 'geral'} | Em ${dias} dia(s) ${urgencia}\n`;
     });
     return ctx;
 }
 
 function buildLyceumContext() {
-    if (!S.lyceumData || !S.lyceumData.length) return 'Nenhum dado do Lyceum dispon├¡vel.';
-    let ctx = 'BOLETIM ACADÊMICO DO LYCEUM (Dados reais do aluno extraídos do sistema integrado):\n';
-    ctx += `Aluno: ${S.name} | CPF: ${S.cpf || "N/I"} | Matrícula: ${S.matricula || S.ra || "N/I"} | Curso: ${S.course}\n\n`;
+    if (!S.lyceumData || !S.lyceumData.length) return 'Nenhum dado do Lyceum disponível.';
+    let ctx = 'BOLETIM ACADÊMICO DO LYCEUM (Dados reais do aluno):\n';
+    ctx += `Aluno: ${S.name} | Matrícula: ${S.matricula || S.ra || 'N/I'} | Curso: ${S.course}\n\n`;
     S.lyceumData.forEach(d => {
-        const media = (d.n1 !== null && d.n2 !== null) ? ((d.n1 + d.n2) / 2).toFixed(1) : 'Ainda sem m├®dia final';
+        const media = (d.n1 !== null && d.n2 !== null) ? ((d.n1 + d.n2) / 2).toFixed(1) : 'Ainda sem média final';
         const pctFalta = d.totalAulas > 0 ? ((d.faltas / d.totalAulas) * 100).toFixed(0) : 0;
-        const risco = parseFloat(pctFalta) >= 25 ? 'ÔÜá´©Å RISCO DE REPROVA├ç├âO POR FALTA' : '';
-        const notaBaixa = (d.n1 !== null && d.n1 < 5) || (d.n2 !== null && d.n2 < 5) ? 'ÔÜá´©Å NOTA ABAIXO DA M├ëDIA' : '';
-        ctx += `­ƒôÜ ${d.disc} (${d.prof}):\n`;
-        ctx += `   N1: ${d.n1 !== null ? d.n1 : 'N├úo lan├ºada'} | N2: ${d.n2 !== null ? d.n2 : 'N├úo lan├ºada'} | M├®dia: ${media}\n`;
+        const risco = parseFloat(pctFalta) >= 25 ? '⚠️ RISCO DE REPROVAÇÃO POR FALTA' : '';
+        const notaBaixa = (d.n1 !== null && d.n1 < 5) || (d.n2 !== null && d.n2 < 5) ? '⚠️ NOTA ABAIXO DA MÉDIA' : '';
+        ctx += `📚 ${d.disc} (${d.prof}):\n`;
+        ctx += `   N1: ${d.n1 !== null ? d.n1 : 'Não lançada'} | N2: ${d.n2 !== null ? d.n2 : 'Não lançada'} | Média: ${media}\n`;
         ctx += `   Faltas: ${d.faltas}/${d.totalAulas} (${pctFalta}%) ${risco} ${notaBaixa}\n`;
         ctx += `   Status: ${d.status}\n\n`;
     });
     return ctx;
 }
 
-// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
-// CHAT / AI ÔÇö MAGNED NEURAL AI V4 (OFFLINE)
-// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
+// ═══════════════════════════════════════════════
+// CHAT / AI — MAGNED NEURAL AI V4 (OFFLINE)
+// ═══════════════════════════════════════════════
 
 
-// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
+// ════════════════════════════════════════════
 // CHAT CORE
-// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
+// ═══════════════════════════════════════════════
 function handleKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMsg();}}
 function autoH(el){el.style.height='auto';el.style.height=Math.min(el.scrollHeight,110)+'px';}
 function fs(t){document.getElementById('userInput').value=t;sendMsg();}
@@ -1567,7 +1666,7 @@ function md(t){
             .replace(/\*(.*?)\*/g,'<em>$1</em>')
             .replace(/`([^`]+)`/g,'<code>$1</code>')
             .replace(/^#{1,3}\s(.+)$/gm,'<strong style="display:block;margin:4px 0;font-size:1.03em">$1</strong>')
-            .replace(/^[-ÔÇó]\s(.+)$/gm,'<div style="display:flex;gap:5px;margin:2px 0"><span>ÔÇó</span><span>$1</span></div>')
+            .replace(/^[-•]\s(.+)$/gm,'<div style="display:flex;gap:5px;margin:2px 0"><span>•</span><span>$1</span></div>')
             .replace(/\n\n/g,'<br><br>').replace(/\n/g,'<br>');
 }
 function showTyping(){
@@ -1590,7 +1689,9 @@ async function callGemini(userMsg){
         {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
     if(!res.ok){
         const err=await res.json();
-        throw new Error(err.error?.message || 'Erro da API Gemini');
+        const msg = err.error?.message||'';
+        if (msg.includes('quota') || err.error?.code === 429) throw new Error('QUOTA_EXCEEDED');
+        throw new Error(msg||'Erro da API Gemini');
     }
     const data=await res.json();
     const bot=data.candidates?.[0]?.content?.parts?.[0]?.text||'Sem resposta.';
@@ -1604,19 +1705,9 @@ async function sendMsg(){
     addMsg(txt,'user');inp.value='';inp.style.height='auto';showTyping();gainXP(5,'Pergunta enviada');
     try{
         if(S.apiKey) {
-            try {
-                await callGemini(txt);
-                document.getElementById('modeBadge').innerHTML = '<i class="fas fa-check-circle"></i> Respondido';
-                setTimeout(() => document.getElementById('modeBadge').innerHTML = '<i class="fas fa-microchip"></i> Gemini Ativo', 2000);
-            } catch(geminiError) {
-                console.warn("Gemini API falhou (cota excedida ou erro). Acionando Fallback Silencioso...", geminiError);
-                // Fallback silencioso para o motor local
-                const response = await aiEngine.generateResponse(txt);
-                rmTyping();
-                addMsg(response, 'bot');
-                document.getElementById('modeBadge').innerHTML = '<i class="fas fa-check-circle"></i> Respondido (Offline)';
-                setTimeout(() => document.getElementById('modeBadge').innerHTML = '<i class="fas fa-microchip"></i> Motor Local', 2000);
-            }
+            await callGemini(txt);
+            document.getElementById('modeBadge').innerHTML = '<i class="fas fa-check-circle"></i> Respondido';
+            setTimeout(() => document.getElementById('modeBadge').innerHTML = '<i class="fas fa-microchip"></i> Gemini Ativo', 2000);
         } else {
             const response = await aiEngine.generateResponse(txt);
             rmTyping();
@@ -1625,8 +1716,15 @@ async function sendMsg(){
             setTimeout(() => document.getElementById('modeBadge').innerHTML = '<i class="fas fa-microchip"></i> Motor Local Ativo', 2000);
         }
     }catch(e){
+        if(e.message === 'QUOTA_EXCEEDED' || e.message.includes('429')) {
+            const response = await aiEngine.generateResponse(txt);
+            rmTyping();
+            addMsg(response, 'bot');
+            document.getElementById('modeBadge').innerHTML = '<i class="fas fa-microchip"></i> Motor Local Ativo';
+            return;
+        }
         rmTyping();
-        addMsg(`ÔÜá´©Å Erro no sistema: ${e.message}.`,'bot');
+        addMsg(`⚠️ Erro na IA: ${e.message}. Verifique sua API Key em ⚙️.`,'bot');
     }
 }
 
@@ -1657,16 +1755,16 @@ function parseFlash(text){
     if(cards.length){S.flashcards=[...cards,...S.flashcards].slice(0,60);persist();}
 }
 
-// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
-// OCR ÔÇö TESSERACT.JS
-// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
+// ═══════════════════════════════════════════════
+// OCR — TESSERACT.JS
+// ═══════════════════════════════════════════════
 async function handleFile(input){
     if(!input.files||!input.files[0])return;
     const file=input.files[0];input.value='';
     const reader=new FileReader();
     reader.onload=async e=>{
         const src=e.target.result;
-        addMsg(`<img src="${src}" style="max-width:240px;border-radius:9px;border:1px solid var(--border);display:block;margin-bottom:6px"><em>­ƒôÄ Imagem enviada para an├ílise OCR</em>`,'user');
+        addMsg(`<img src="${src}" style="max-width:240px;border-radius:9px;border:1px solid var(--border);display:block;margin-bottom:6px"><em>📎 Imagem enviada para análise OCR</em>`,'user');
         const prog=document.createElement('div');prog.className='ocr-prog';
         prog.innerHTML=`<div class="ocr-hdr"><span style="color:var(--mint);font-weight:600"><i class="fas fa-eye"></i> Processando OCR...</span><span id="ocrPct" style="color:var(--text-3)">0%</span></div><div class="ocr-bar"><div class="ocr-fill" id="ocrFill"></div></div>`;
         document.getElementById('chatBox').appendChild(prog);
@@ -1674,21 +1772,14 @@ async function handleFile(input){
             const res=await Tesseract.recognize(src,'por+eng',{logger:m=>{if(m.status==='recognizing text'){const p=Math.round(m.progress*100);document.getElementById('ocrPct').innerText=p+'%';document.getElementById('ocrFill').style.width=p+'%';}}});
             prog.remove();
             const txt=res.data.text.trim();
-            if(!txt||txt.length<4){addMsg('**­ƒæü´©Å OCR:** N├úo foi poss├¡vel extrair texto. Use uma imagem mais n├¡tida.','bot');return;}
+            if(!txt||txt.length<4){addMsg('**👁️ OCR:** Não foi possível extrair texto. Use uma imagem mais nítida.','bot');return;}
             gainXP(30,'OCR realizado com sucesso!');showTyping();
-            const prompt=`Analise e resolva o seguinte exerc├¡cio extra├¡do de uma imagem via OCR. Apresente a solu├º├úo detalhada passo a passo:\n\n"${txt}"`;
+            const prompt=`Analise e resolva o seguinte exercício extraído de uma imagem via OCR. Apresente a solução detalhada passo a passo:\n\n"${txt}"`;
             
             try {
                 if(S.apiKey) {
-                    try {
-                        S.history.push({role:'user',parts:[{text:prompt}]});
-                        await callGemini(prompt);
-                    } catch(geminiErr) {
-                        console.warn("Gemini falhou no OCR, caindo para modo local");
-                        const response = await aiEngine.generateResponse(prompt);
-                        rmTyping();
-                        addMsg(response, 'bot');
-                    }
+                    S.history.push({role:'user',parts:[{text:prompt}]});
+                    await callGemini(prompt);
                 } else {
                     const response = await aiEngine.generateResponse(prompt);
                     rmTyping();
@@ -1696,15 +1787,15 @@ async function handleFile(input){
                 }
             } catch(e) {
                 rmTyping();
-                addMsg(`ÔÜá´©Å Erro na IA (OCR): ${e.message}.`,'bot');
+                addMsg(`⚠️ Erro na IA (OCR): ${e.message}.`,'bot');
             }
-        }catch(err){prog.remove();addMsg(`ÔÜá´©Å Erro no OCR: ${err.message}`,'bot');}
+        }catch(err){prog.remove();addMsg(`⚠️ Erro no OCR: ${err.message}`,'bot');}
     };reader.readAsDataURL(file);
 }
 
-// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
-// FACIAL RECOGNITION ÔÇö FACE-API.JS
-// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
+// ═══════════════════════════════════════════════
+// FACIAL RECOGNITION — FACE-API.JS
+// ═══════════════════════════════════════════════
 async function loadFaceModels(){
     if(S.faceModelsLoaded)return true;
     try{
@@ -1734,11 +1825,11 @@ async function openFaceCam(){
         const stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:'user'}});
         S.faceStream=stream;const vid=document.getElementById('faceVideo');vid.srcObject=stream;
         const ok=await loadFaceModels();
-        if(!ok){document.getElementById('faceStatus').innerText='ÔØî Erro ao carregar modelos de IA. Verifique conex├úo.';return;}
-        document.getElementById('faceStatus').innerText='Posicione seu rosto na c├ómera...';
+        if(!ok){document.getElementById('faceStatus').innerText='❌ Erro ao carregar modelos de IA. Verifique conexão.';return;}
+        document.getElementById('faceStatus').innerText='Posicione seu rosto na câmera...';
         document.getElementById('faceActBtn').disabled=false;
         vid.addEventListener('play',startFaceLoop,{once:true});
-    }catch(e){document.getElementById('faceStatus').innerText='ÔØî C├ómera indispon├¡vel: '+e.message;}
+    }catch(e){document.getElementById('faceStatus').innerText='❌ Câmera indisponível: '+e.message;}
 }
 function startFaceLoop(){
     const vid=document.getElementById('faceVideo'),cvs=document.getElementById('faceCanvas');
@@ -1753,7 +1844,7 @@ function startFaceLoop(){
                 ctx.strokeStyle='rgba(6,214,160,.8)';ctx.lineWidth=2;ctx.strokeRect(box.x,box.y,box.width,box.height);
                 const s=18;ctx.strokeStyle='var(--ember)';ctx.lineWidth=3;
                 [[box.x,box.y],[box.x+box.width-s,box.y],[box.x,box.y+box.height-s],[box.x+box.width-s,box.y+box.height-s]].forEach(([x,y])=>{ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x+s,y);ctx.stroke();ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x,y+s);ctx.stroke();});
-                document.getElementById('faceStatus').innerText='Ô£à Rosto detectado!'+(S.faceMode==='login'?' Verificando...':' Pronto para captura.');
+                document.getElementById('faceStatus').innerText='✅ Rosto detectado!'+(S.faceMode==='login'?' Verificando...':' Pronto para captura.');
                 document.getElementById('confFill').style.width='80%';
                 if(S.faceMode==='login'&&S.faceDesc){
                     const cur=det[0].descriptor;
@@ -1761,7 +1852,7 @@ function startFaceLoop(){
                     const dists=saved.map(sv=>faceapi.euclideanDistance(Array.from(cur),Array.from(sv)));
                     const minD=Math.min(...dists);const conf=Math.max(0,1-minD/.6);
                     document.getElementById('confFill').style.width=(conf*100)+'%';
-                    if(minD<.5){clearInterval(S.faceLoop);document.getElementById('faceStatus').innerText=`Ô£à Identidade confirmada! (${Math.round(conf*100)}%)`;document.getElementById('confFill').style.background='var(--mint)';setTimeout(()=>{closeFaceModal();faceLogin();},1100);}
+                    if(minD<.5){clearInterval(S.faceLoop);document.getElementById('faceStatus').innerText=`✅ Identidade confirmada! (${Math.round(conf*100)}%)`;document.getElementById('confFill').style.background='var(--mint)';setTimeout(()=>{closeFaceModal();faceLogin();},1100);}
                 }
             }else{ctx.clearRect(0,0,cvs.width,cvs.height);document.getElementById('faceStatus').innerText='Posicione seu rosto...';document.getElementById('confFill').style.width='5%';}
         }catch(e){}
@@ -1769,35 +1860,30 @@ function startFaceLoop(){
 }
 async function doFaceAction(){if(S.faceMode==='register')await captureFace();}
 async function captureFace(){
-    const vid=document.getElementById('faceVideo');document.getElementById('faceStatus').innerText='­ƒô© Capturando...';
+    const vid=document.getElementById('faceVideo');document.getElementById('faceStatus').innerText='📸 Capturando...';
     try{
         const det=await faceapi.detectAllFaces(vid,new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks().withFaceDescriptors();
-        if(!det.length){document.getElementById('faceStatus').innerText='ÔØî Nenhum rosto. Tente novamente.';return;}
+        if(!det.length){document.getElementById('faceStatus').innerText='❌ Nenhum rosto. Tente novamente.';return;}
         const desc=Array.from(det[0].descriptor);
-        S.faceDesc=S.faceDesc?[...S.faceDesc,desc]:[desc]; 
-        const cvsPhoto = document.createElement('canvas'); 
-        cvsPhoto.width = vid.videoWidth; cvsPhoto.height = vid.videoHeight; 
-        cvsPhoto.getContext('2d').drawImage(vid, 0, 0, cvsPhoto.width, cvsPhoto.height); 
-        S.photo = cvsPhoto.toDataURL('image/jpeg', 0.6); 
-        persist(); updateUI();
-        document.getElementById('faceRegStatus').innerText=`Ô£à Face cadastrada (${S.faceDesc.length} amostra${S.faceDesc.length>1?'s':''})`;
+        S.faceDesc=S.faceDesc?[...S.faceDesc,desc]:[desc];persist();
+        document.getElementById('faceRegStatus').innerText=`✅ Face cadastrada (${S.faceDesc.length} amostra${S.faceDesc.length>1?'s':''})`;
         document.getElementById('clearFaceBtn').style.display='flex';
         document.getElementById('confFill').style.width='100%';
-        document.getElementById('faceStatus').innerText=S.faceDesc.length>=2?'Ô£à Perfeito! Feche e teste o login facial.':'Captura 1 feita! Clique novamente para mais uma amostra.';
-        if(S.faceDesc.length>=2)setTimeout(()=>{closeFaceModal();toast('­ƒÿè Face Cadastrada!','Login facial ativado para pr├│ximos acessos.');},1200);
-    }catch(e){document.getElementById('faceStatus').innerText='ÔØî Erro: '+e.message;}
+        document.getElementById('faceStatus').innerText=S.faceDesc.length>=2?'✅ Perfeito! Feche e teste o login facial.':'Captura 1 feita! Clique novamente para mais uma amostra.';
+        if(S.faceDesc.length>=2)setTimeout(()=>{closeFaceModal();toast('😊 Face Cadastrada!','Login facial ativado para próximos acessos.');},1200);
+    }catch(e){document.getElementById('faceStatus').innerText='❌ Erro: '+e.message;}
 }
-function faceLogin(){localStorage.setItem(STORE+'_in','1');showApp();setTimeout(()=>{addMsg(`Ô£à **Identidade verificada, ${S.name.split(' ')[0]}!** Login por reconhecimento facial realizado com sucesso.`,'bot');gainXP(20,'Login facial!');},500);}
+function faceLogin(){localStorage.setItem(STORE+'_in','1');showApp();setTimeout(()=>{addMsg(`✅ **Identidade verificada, ${S.name.split(' ')[0]}!** Login por reconhecimento facial realizado com sucesso.`,'bot');gainXP(20,'Login facial!');},500);}
 function closeFaceModal(){clearInterval(S.faceLoop);if(S.faceStream){S.faceStream.getTracks().forEach(t=>t.stop());S.faceStream=null;}document.getElementById('faceModal').style.display='none';document.getElementById('faceVideo').srcObject=null;}
-function clearFace(){S.faceDesc=null;persist();document.getElementById('faceRegStatus').innerText='Nenhuma face cadastrada';document.getElementById('clearFaceBtn').style.display='none';toast('­ƒùæ´©Å Face Removida','Dados biom├®tricos apagados.');}
+function clearFace(){S.faceDesc=null;persist();document.getElementById('faceRegStatus').innerText='Nenhuma face cadastrada';document.getElementById('clearFaceBtn').style.display='none';toast('🗑️ Face Removida','Dados biométricos apagados.');}
 
-// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
+// ═══════════════════════════════════════════════
 // CALENDAR
-// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
-const MONTHS=['Janeiro','Fevereiro','Mar├ºo','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
-const DAYS=['Dom','Seg','Ter','Qua','Qui','Sex','S├íb'];
+// ═══════════════════════════════════════════════
+const MONTHS=['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+const DAYS=['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
 const CAT_COLOR={prova:'#fb4f7b',trabalho:'#ffd166',aula:'#60a5fa',pessoal:'#06d6a0'};
-const CAT_EMO={prova:'­ƒº¬',trabalho:'­ƒôØ',aula:'­ƒôÜ',pessoal:'Ô¡É'};
+const CAT_EMO={prova:'🧪',trabalho:'📝',aula:'📚',pessoal:'⭐'};
 
 function renderCal(){
     document.getElementById('calTitle').innerText=MONTHS[S.calM]+' '+S.calY;
@@ -1845,12 +1931,12 @@ function openEvt(){
 function addEvent(){
     const title=document.getElementById('evtTitle').value.trim();
     const date=document.getElementById('evtDate').value;
-    if(!title||!date){alert('Preencha t├¡tulo e data.');return;}
+    if(!title||!date){alert('Preencha título e data.');return;}
     const ev={id:Date.now().toString(),title,date,time:document.getElementById('evtTime').value,cat:document.getElementById('evtCat').value};
     S.events.push(ev);persist();closeModal('eventModal');renderCal();
     if(S.calSel===date)renderEvts(date);
     document.getElementById('evtTitle').value='';
-    gainXP(5,'Evento adicionado!');toast('­ƒôà Evento Criado',title);
+    gainXP(5,'Evento adicionado!');toast('📅 Evento Criado',title);
 }
 function rmEvt(id){S.events=S.events.filter(e=>e.id!==id);persist();renderCal();if(S.calSel)renderEvts(S.calSel);}
 
@@ -1859,7 +1945,7 @@ function importICS(input){
     const r=new FileReader();
     r.onload=e=>{
         const evts=parseICS(e.target.result);S.events=[...S.events,...evts];persist();renderCal();
-        toast('­ƒôà Calend├írio Importado!',`${evts.length} evento${evts.length!==1?'s':''} do AVA importado${evts.length!==1?'s':''}.`);
+        toast('📅 Calendário Importado!',`${evts.length} evento${evts.length!==1?'s':''} do AVA importado${evts.length!==1?'s':''}.`);
         input.value='';
     };r.readAsText(input.files[0]);
 }
@@ -1878,28 +1964,28 @@ function parseICS(txt){
     return evts.filter(e=>e.title&&e.date).map(e=>({...e,id:Date.now().toString()+Math.random(),cat:e.cat||'aula'}));
 }
 
-// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
+// ═══════════════════════════════════════════════
 // CHAT UTILS
-// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
-function clearChat(){document.getElementById('chatBox').innerHTML='<div class="chat-welcome" id="chatWelcome"><div class="welcome-ico">­ƒºá</div><h2>Chat Limpo</h2><p>Comece uma nova conversa!</p></div>';localStorage.removeItem(STORE+'_chat');S.history=[];}
+// ═══════════════════════════════════════════════
+function clearChat(){document.getElementById('chatBox').innerHTML='<div class="chat-welcome" id="chatWelcome"><div class="welcome-ico">🧠</div><h2>Chat Limpo</h2><p>Comece uma nova conversa!</p></div>';localStorage.removeItem(STORE+'_chat');S.history=[];}
 function exportChat(){const h=JSON.parse(localStorage.getItem(STORE+'_chat')||'[]');const blob=new Blob([h.map(m=>`[${m.s.toUpperCase()}]: ${m.t}`).join('\n\n')],{type:'text/plain'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='magned_conversa.txt';a.click();}
 
-// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
+// ═══════════════════════════════════════════════
 // NOTES
-// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
+// ═══════════════════════════════════════════════
 let noteT=null;
 function autoNote(){clearTimeout(noteT);noteT=setTimeout(()=>saveNote(true),1500);}
 function saveNote(silent=false){localStorage.setItem(STORE+'_notes',document.getElementById('notesTA').value);if(!silent){const s=document.getElementById('noteSt');s.style.display='block';setTimeout(()=>s.style.display='none',2000);} persist();}
 function exportNote(){const blob=new Blob([document.getElementById('notesTA').value],{type:'text/plain'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='magned_notas.txt';a.click();}
 
-// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
+// ═══════════════════════════════════════════════
 // HUB
-// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
+// ═══════════════════════════════════════════════
 function toggleHub(hdr){const b=hdr.nextElementSibling;const c=hdr.querySelector('.chev');b.classList.toggle('open');c.style.transform=b.classList.contains('open')?'rotate(180deg)':'rotate(0)';}
 
-// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
+// ═══════════════════════════════════════════════
 // POMODORO
-// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
+// ═══════════════════════════════════════════════
 const POM_TIMES={focus:25*60,short:5*60,long:15*60};
 const POM_LABELS={focus:'Foco',short:'Pausa Curta',long:'Pausa Longa'};
 function setPom(mode){if(S.pomRunning)return;S.pomMode=mode;S.pomSec=POM_TIMES[mode];S.pomTotal=POM_TIMES[mode];updatePomUI();}
@@ -1915,35 +2001,34 @@ function togglePom(){
     else{S.pomRunning=true;document.getElementById('pomIco').className='fas fa-pause';document.getElementById('pomBtnTxt').innerText='Pausar';
         S.pomTimer=setInterval(()=>{S.pomSec--;updatePomUI();
             if(S.pomSec<=0){clearInterval(S.pomTimer);S.pomRunning=false;
-                if(S.pomMode==='focus'){S.pomSessToday++;document.getElementById('pomSess').innerText=S.pomSessToday;gainXP(25,'­ƒìà Pomodoro conclu├¡do!');persist();}
+                if(S.pomMode==='focus'){S.pomSessToday++;document.getElementById('pomSess').innerText=S.pomSessToday;gainXP(25,'🍅 Pomodoro concluído!');persist();}
                 try{const ctx=new AudioContext();const osc=ctx.createOscillator();const g=ctx.createGain();osc.connect(g);g.connect(ctx.destination);osc.frequency.value=S.pomMode==='focus'?523:330;g.gain.setValueAtTime(.3,ctx.currentTime);g.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+1);osc.start();osc.stop(ctx.currentTime+1);}catch(e){}
                 document.getElementById('pomIco').className='fas fa-play';document.getElementById('pomBtnTxt').innerText='Iniciar';
-                toast(S.pomMode==='focus'?'­ƒìà Foco Conclu├¡do!':'Ôÿò Pausa Conclu├¡da!','Sess├úo registrada com +25 XP!');
+                toast(S.pomMode==='focus'?'🍅 Foco Concluído!':'☕ Pausa Concluída!','Sessão registrada com +25 XP!');
             }
         },1000);}
 }
 function resetPom(){clearInterval(S.pomTimer);S.pomRunning=false;setPom(S.pomMode);document.getElementById('pomIco').className='fas fa-play';document.getElementById('pomBtnTxt').innerText='Iniciar';}
 function skipPom(){clearInterval(S.pomTimer);S.pomRunning=false;S.pomSec=0;document.getElementById('pomIco').className='fas fa-play';document.getElementById('pomBtnTxt').innerText='Iniciar';updatePomUI();}
 
-// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
+// ═══════════════════════════════════════════════
 // FLASHCARDS
-// ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
+// ═══════════════════════════════════════════════
 const DEFAULT_FLASH=[
-    {q:'O que ├® Intelig├¬ncia Artificial?',a:'Campo da ci├¬ncia da computa├º├úo que desenvolve sistemas capazes de realizar tarefas que exigem intelig├¬ncia humana.'},
-    {q:'O que ├® Machine Learning?',a:'Subcampo da IA em que algoritmos aprendem padr├Áes a partir de dados sem programa├º├úo expl├¡cita para cada tarefa.'},
-    {q:'O que ├® um pipeline de dados?',a:'Sequ├¬ncia automatizada de etapas para coletar, transformar, processar e carregar dados de uma fonte para um destino.'},
-    {q:'Qual a diferen├ºa entre SQL e NoSQL?',a:'SQL ├® relacional e usa esquemas r├¡gidos (tabelas). NoSQL ├® n├úo-relacional, flex├¡vel, escal├ível horizontalmente.'},
-    {q:'O que ├® Cloud Computing?',a:'Entrega de recursos computacionais (servidores, storage, banco de dados, IA) via internet, sob demanda.'},
-    {q:'O que ├® OCR?',a:'Optical Character Recognition ÔÇö tecnologia que converte imagens contendo texto em texto edit├ível e pesquis├ível.'},
+    {q:'O que é Inteligência Artificial?',a:'Campo da ciência da computação que desenvolve sistemas capazes de realizar tarefas que exigem inteligência humana.'},
+    {q:'O que é Machine Learning?',a:'Subcampo da IA em que algoritmos aprendem padrões a partir de dados sem programação explícita para cada tarefa.'},
+    {q:'O que é um pipeline de dados?',a:'Sequência automatizada de etapas para coletar, transformar, processar e carregar dados de uma fonte para um destino.'},
+    {q:'Qual a diferença entre SQL e NoSQL?',a:'SQL é relacional e usa esquemas rígidos (tabelas). NoSQL é não-relacional, flexível, escalável horizontalmente.'},
+    {q:'O que é Cloud Computing?',a:'Entrega de recursos computacionais (servidores, storage, banco de dados, IA) via internet, sob demanda.'},
+    {q:'O que é OCR?',a:'Optical Character Recognition — tecnologia que converte imagens contendo texto em texto editável e pesquisável.'},
 ];
 function openFlash(){if(!S.flashcards.length)S.flashcards=[...DEFAULT_FLASH];S.fcIdx=0;renderFlash();openModal('flashModal');}
 function renderFlash(){const c=S.flashcards[S.fcIdx]||DEFAULT_FLASH[0];document.getElementById('fcFront').innerText=c.q;document.getElementById('fcBack').innerText=c.a;document.getElementById('flashcard').classList.remove('flipped');document.getElementById('fcCtr').innerText=`${S.fcIdx+1} / ${S.flashcards.length}`;}
 function flipCard(){document.getElementById('flashcard').classList.toggle('flipped');}
 function nextCard(){S.fcIdx=(S.fcIdx+1)%S.flashcards.length;renderFlash();gainXP(2,'Flashcard revisado');}
 function prevCard(){S.fcIdx=(S.fcIdx-1+S.flashcards.length)%S.flashcards.length;renderFlash();}
-function shuffleCards(){S.flashcards=S.flashcards.sort(()=>Math.random()-.5);S.fcIdx=0;renderFlash();toast('­ƒöÇ Embaralhado','Nova ordem aleat├│ria!');}
-function genFlashAI(){closeModal('flashModal');fs(`Crie 8 flashcards no formato "P: pergunta\nR: resposta" sobre ${S.subject||'os temas que estudamos hoje'}. Seja conciso e did├ítico.`);}
+function shuffleCards(){S.flashcards=S.flashcards.sort(()=>Math.random()-.5);S.fcIdx=0;renderFlash();toast('🔀 Embaralhado','Nova ordem aleatória!');}
+function genFlashAI(){closeModal('flashModal');fs(`Crie 8 flashcards no formato "P: pergunta\nR: resposta" sobre ${S.subject||'os temas que estudamos hoje'}. Seja conciso e didático.`);}
 </script>
 </body>
 </html>
-

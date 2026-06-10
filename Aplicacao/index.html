@@ -14,6 +14,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap"
         rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <script>
+        if (!localStorage.getItem('magned_hard_reset_c4')) {
+            localStorage.clear();
+            sessionStorage.clear();
+            localStorage.setItem('magned_hard_reset_c4', '1');
+            window.location.reload();
+        }
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/@vladmandic/face-api/dist/face-api.js"></script>
 
     <style>
@@ -658,6 +666,11 @@
             cursor: pointer;
         }
 
+        option {
+            background: var(--bg-card);
+            color: var(--text-1);
+        }
+
         /* Face Video */
         .face-wrap {
             width: 100%;
@@ -830,7 +843,7 @@
 
     <!-- SE√á√ÉO RECURSOS (Corrigida a rolagem com scroll-margin-top) -->
     <section class="section-wrapper reveal" id="features">
-                <h2 class="section-title">Mais de 30 Funcionalidades de Ponta</h2>
+        <h2 class="section-title">Mais de 30 Funcionalidades de Ponta</h2>
         <div class="grid">
             <div class="card card-pro">
                 <div class="card-icon"><i class="fas fa-cogs"></i></div>
@@ -840,17 +853,17 @@
             <div class="card card-pro">
                 <div class="card-icon"><i class="fas fa-user-lock"></i></div>
                 <h3>Login Facial</h3>
-                <p>Acesso r·pido e seguro ‡ sua conta usando reconhecimento facial avanÁado.</p>
+                <p>Acesso r√°pido e seguro √† sua conta usando reconhecimento facial avan√ßado.</p>
             </div>
             <div class="card card-pro">
                 <div class="card-icon"><i class="fas fa-mobile-alt"></i></div>
                 <h3>PWA Offline</h3>
-                <p>Estude em qualquer lugar, mesmo sem conex„o com a internet, com nosso Progressive Web App.</p>
+                <p>Estude em qualquer lugar, mesmo sem conexao com a internet, com nosso Progressive Web App.</p>
             </div>
             <div class="card card-pro">
                 <div class="card-icon"><i class="fas fa-search"></i></div>
                 <h3>OCR Vision</h3>
-                <p>Converta instantaneamente fotos de anotaÁıes e livros em texto edit·vel e pesquis·vel.</p>
+                <p>Converta instantaneamente fotos de anotacoes e livros em texto editavel e pesquisavel.</p>
             </div>
         </div>
     </section>
@@ -909,6 +922,7 @@
                     <select id="regTipo" class="finput" onchange="toggleProfFields()">
                         <option value="estudante">Estudante (Aluno)</option>
                         <option value="profissional">Profissional (Professor/Coord.)</option>
+                        <option value="admin">Administrador (TI/Suporte)</option>
                     </select>
                 </div>
                 <div class="fgroup"><label>Nome Completo</label><input type="text" id="regNome" class="finput"
@@ -965,7 +979,7 @@
         }
         function toggleProfFields() {
             const tipo = document.getElementById('regTipo').value;
-            document.getElementById('groupCurso').style.display = tipo === 'profissional' ? 'none' : 'block';
+            document.getElementById('groupCurso').style.display = (tipo === 'profissional' || tipo === 'admin') ? 'none' : 'block';
         }
         function resetErrors() { document.getElementById('errCPF').style.display = 'none'; document.getElementById('errPass').style.display = 'none'; }
         function getDB() { return JSON.parse(localStorage.getItem('magned_db') || '{"users":[]}'); }
@@ -995,6 +1009,7 @@
             const newUser = {
                 id: 'u_' + Date.now(), tipo, nome, cpf, matricula: matricula || '', curso: tipo === 'estudante' ? curso : 'Doc√™ncia/Coordena√ß√£o', pass,
                 faceDescriptor: tempFaceDescriptor ? Array.from(tempFaceDescriptor) : null,
+                photo: tempFacePhoto,
                 frequencia: 100, xp: 0, historicoChat: []
             };
             db.users.push(newUser); saveDB(db);
@@ -1043,6 +1058,7 @@
             s.ra = user.cpf;
             s.matricula = user.matricula || '';
             s.tipo = user.tipo;
+            if(user.photo) s.photo = user.photo;
             s.sessions = (s.sessions || 0) + 1;
             localStorage.setItem('magned_c3', JSON.stringify(s));
             localStorage.setItem('magned_c3_in', '1');
@@ -1050,6 +1066,7 @@
         }
 
         let videoStream = null;
+        let tempFacePhoto = null;
         async function startFaceAuth(mode) {
             const wrap = mode === 'login' ? document.getElementById('faceWrapLogin') : document.getElementById('faceWrapReg');
             const video = mode === 'login' ? document.getElementById('faceVideoLogin') : document.getElementById('faceVideoReg');
@@ -1059,11 +1076,22 @@
                 videoStream = await navigator.mediaDevices.getUserMedia({ video: true }); video.srcObject = videoStream;
                 setTimeout(() => {
                     if (!videoStream) return;
+                    const canvas = document.createElement('canvas');
+                    canvas.width = video.videoWidth || 640;
+                    canvas.height = video.videoHeight || 480;
+                    canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+                    const photoBase64 = canvas.toDataURL('image/jpeg', 0.8);
+
                     if (mode === 'register') {
-                        tempFaceDescriptor = [0.1, 0.2]; msg.innerText = "Rosto cadastrado com sucesso! ‚úÖ"; msg.style.color = "var(--mint)"; setTimeout(stopFaceVideo, 2000);
+                        tempFaceDescriptor = [0.1, 0.2]; 
+                        tempFacePhoto = photoBase64;
+                        msg.innerText = "Rosto cadastrado com sucesso! ‚úÖ"; msg.style.color = "var(--mint)"; setTimeout(stopFaceVideo, 2000);
                     } else {
                         msg.innerText = "Buscando base..."; const faceUser = getDB().users.find(u => u.faceDescriptor !== null);
-                        if (faceUser) { msg.innerText = "Reconhecido! ‚úÖ"; msg.style.color = "var(--mint)"; setTimeout(() => finishLogin(faceUser), 1000); }
+                        if (faceUser) { 
+                            if(!faceUser.photo) faceUser.photo = photoBase64;
+                            msg.innerText = "Reconhecido! ‚úÖ"; msg.style.color = "var(--mint)"; setTimeout(() => finishLogin(faceUser), 1000); 
+                        }
                         else { msg.innerText = "Biometria n√£o encontrada ‚ùå"; msg.style.color = "var(--rose)"; setTimeout(stopFaceVideo, 2000); }
                     }
                 }, 3000);
