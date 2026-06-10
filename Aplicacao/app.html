@@ -1290,6 +1290,16 @@ function renderAdminDashboard() {
     const dbRaw = localStorage.getItem('magned_db');
     const db = dbRaw ? JSON.parse(dbRaw) : { users: [] };
     
+    if (!db.users.some(u => u.id === 'u_mock_1')) {
+        db.users.push(
+            { id: 'u_mock_1', tipo: 'estudante', nome: 'João Pedro Mendes', cpf: '111.222.333-44', matricula: '2023001', curso: 'Engenharia de Software' },
+            { id: 'u_mock_2', tipo: 'estudante', nome: 'Maria Clara Oliveira', cpf: '555.666.777-88', matricula: '2023002', curso: 'Odontologia' },
+            { id: 'u_mock_3', tipo: 'profissional', nome: 'Prof. Carlos Eduardo', cpf: '999.000.111-22', matricula: '1998001', curso: 'Docência / Coordenação' },
+            { id: 'u_mock_4', tipo: 'estudante', nome: 'Ana Souza', cpf: '123.456.789-00', matricula: '2024099', curso: 'Direito' }
+        );
+        localStorage.setItem('magned_db', JSON.stringify(db));
+    }
+    
     const countEl = document.getElementById('adminTotalUsers');
     if(countEl) countEl.innerText = db.users.length;
     
