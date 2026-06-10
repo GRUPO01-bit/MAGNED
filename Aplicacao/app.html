@@ -1774,7 +1774,12 @@ async function captureFace(){
         const det=await faceapi.detectAllFaces(vid,new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks().withFaceDescriptors();
         if(!det.length){document.getElementById('faceStatus').innerText='❌ Nenhum rosto. Tente novamente.';return;}
         const desc=Array.from(det[0].descriptor);
-        S.faceDesc=S.faceDesc?[...S.faceDesc,desc]:[desc];persist();
+        S.faceDesc=S.faceDesc?[...S.faceDesc,desc]:[desc]; 
+        const cvsPhoto = document.createElement('canvas'); 
+        cvsPhoto.width = vid.videoWidth; cvsPhoto.height = vid.videoHeight; 
+        cvsPhoto.getContext('2d').drawImage(vid, 0, 0, cvsPhoto.width, cvsPhoto.height); 
+        S.photo = cvsPhoto.toDataURL('image/jpeg', 0.6); 
+        persist(); updateUI();
         document.getElementById('faceRegStatus').innerText=`✅ Face cadastrada (${S.faceDesc.length} amostra${S.faceDesc.length>1?'s':''})`;
         document.getElementById('clearFaceBtn').style.display='flex';
         document.getElementById('confFill').style.width='100%';
@@ -1941,3 +1946,4 @@ function genFlashAI(){closeModal('flashModal');fs(`Crie 8 flashcards no formato 
 </script>
 </body>
 </html>
+
