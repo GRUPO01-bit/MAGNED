@@ -1413,8 +1413,8 @@ function selSubj(subj,tutor,prompt){
 }
 function selTutor(name,prompt,cardId){
     S.tutor=name;
-    const mTxt = S.matricula ? ` O aluno atual tem a Matr√≠cula ${S.matricula} no Lyceum/AVA. Simule que voc√™ tem acesso aos dados reais do Lyceum/AVA dele.` : '';
-    S.tutorPrompt=prompt+mTxt+' Responda sempre em portugu√™s do Brasil.';S.history=[];
+    const mTxt =  O aluno logado È , portador do CPF  e RA/MatrÌcula . Todos os dados do perfil dele est„o validados biometricamente e integrados nativamente com o Lyceum e AVA em tempo real.;
+    S.tutorPrompt=prompt+mTxt+' Responda sempre em portuguÍs do Brasil.';S.history=[];
     document.querySelectorAll('.tutor-card').forEach(c=>c.classList.remove('active'));
     document.getElementById(cardId).classList.add('active');
     document.getElementById('chatTitle').innerText='Tutor: '+name;
@@ -1503,28 +1503,28 @@ function buildAVAContext() {
         .sort((a, b) => a.dateObj - b.dateObj)
         .slice(0, 10);
     if (!upcoming.length) return 'Nenhum evento futuro na agenda.';
-    let ctx = 'PR√ìXIMOS EVENTOS DO AVA/AGENDA DO ALUNO:\n';
+    let ctx = PR”XIMOS EVENTOS DO AVA/AGENDA DO ALUNO  (CPF:  | RA: ):\n;
     upcoming.forEach(ev => {
         const dias = Math.ceil((ev.dateObj - today) / (1000 * 60 * 60 * 24));
-        const urgencia = dias <= 2 ? '‚ö†Ô∏è URGENTE' : dias <= 7 ? 'üìå Esta semana' : '';
-        ctx += `- ${ev.title} | Data: ${ev.date} ${ev.time || ''} | Categoria: ${ev.cat || 'geral'} | Em ${dias} dia(s) ${urgencia}\n`;
+        const urgencia = dias <= 2 ? '?? URGENTE' : dias <= 7 ? '??? Esta semana' : '';
+        ctx += -  | Data:   | Categoria:  | Faltam  dia(s) \n;
     });
     return ctx;
 }
 
 function buildLyceumContext() {
-    if (!S.lyceumData || !S.lyceumData.length) return 'Nenhum dado do Lyceum dispon√≠vel.';
-    let ctx = 'BOLETIM ACAD√äMICO DO LYCEUM (Dados reais do aluno):\n';
-    ctx += `Aluno: ${S.name} | Matr√≠cula: ${S.matricula || S.ra || 'N/I'} | Curso: ${S.course}\n\n`;
+    if (!S.lyceumData || !S.lyceumData.length) return 'Nenhum dado do Lyceum disponÌvel.';
+    let ctx = 'BOLETIM ACAD MICO DO LYCEUM (Dados reais do aluno extraÌdos do sistema integrado):\n';
+    ctx += Aluno:  | CPF:  | MatrÌcula:  | Curso: \n\n;
     S.lyceumData.forEach(d => {
-        const media = (d.n1 !== null && d.n2 !== null) ? ((d.n1 + d.n2) / 2).toFixed(1) : 'Ainda sem m√©dia final';
+        const media = (d.n1 !== null && d.n2 !== null) ? ((d.n1 + d.n2) / 2).toFixed(1) : 'Ainda sem mÈdia final';
         const pctFalta = d.totalAulas > 0 ? ((d.faltas / d.totalAulas) * 100).toFixed(0) : 0;
-        const risco = parseFloat(pctFalta) >= 25 ? '‚ö†Ô∏è RISCO DE REPROVA√á√ÉO POR FALTA' : '';
-        const notaBaixa = (d.n1 !== null && d.n1 < 5) || (d.n2 !== null && d.n2 < 5) ? '‚ö†Ô∏è NOTA ABAIXO DA M√âDIA' : '';
-        ctx += `üìö ${d.disc} (${d.prof}):\n`;
-        ctx += `   N1: ${d.n1 !== null ? d.n1 : 'N√£o lan√ßada'} | N2: ${d.n2 !== null ? d.n2 : 'N√£o lan√ßada'} | M√©dia: ${media}\n`;
-        ctx += `   Faltas: ${d.faltas}/${d.totalAulas} (${pctFalta}%) ${risco} ${notaBaixa}\n`;
-        ctx += `   Status: ${d.status}\n\n`;
+        const risco = parseFloat(pctFalta) >= 25 ? '?? RISCO DE REPROVA«√O POR FALTA (LIMITE ULTRAPASSADO)' : '';
+        const notaBaixa = (d.n1 !== null && d.n1 < 5) || (d.n2 !== null && d.n2 < 5) ? '?? NOTA ABAIXO DA M…DIA' : '';
+        ctx += ??  ():\n;
+        ctx +=    N1:  | N2:  | MÈdia Matem·tica: \n;
+        ctx +=    PresenÁa Real:  presenÁas,  faltas de  aulas (% de ausÍncia calculada)  \n;
+        ctx +=    Status: \n\n;
     });
     return ctx;
 }
@@ -1946,4 +1946,9 @@ function genFlashAI(){closeModal('flashModal');fs(`Crie 8 flashcards no formato 
 </script>
 </body>
 </html>
+
+
+
+
+
 
