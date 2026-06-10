@@ -954,6 +954,9 @@
         </div>
     </div>
 
+    <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-database-compat.js"></script>
+
     <script>
         if ('serviceWorker' in navigator) { window.addEventListener('load', () => { navigator.serviceWorker.register('sw.js'); }); }
 
@@ -982,8 +985,32 @@
             document.getElementById('groupCurso').style.display = (tipo === 'profissional' || tipo === 'admin') ? 'none' : 'block';
         }
         function resetErrors() { document.getElementById('errCPF').style.display = 'none'; document.getElementById('errPass').style.display = 'none'; }
-        function getDB() { return JSON.parse(localStorage.getItem('magned_db') || '{"users":[]}'); }
-        function saveDB(db) { localStorage.setItem('magned_db', JSON.stringify(db)); }
+
+        // Inicialização do Firebase
+        const firebaseConfig = {
+          apiKey: "AIzaSyCOZrLUSBnt9hCh8xZstyPLvKAclGE8nNY",
+          authDomain: "magned-66375.firebaseapp.com",
+          projectId: "magned-66375",
+          storageBucket: "magned-66375.firebasestorage.app",
+          messagingSenderId: "795492792939",
+          appId: "1:795492792939:web:e83b03bb6109330276cf2e",
+          measurementId: "G-8Q1F8BLPCE"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const fbDB = firebase.database();
+
+        async function getDB() {
+            try {
+                const snapshot = await fbDB.ref('magned_db').once('value');
+                if (snapshot.exists()) return snapshot.val();
+            } catch (e) { console.error("Firebase error (regras bloqueadas?):", e); }
+            return JSON.parse(localStorage.getItem('magned_db') || '{"users":[]}');
+        }
+
+        async function saveDB(db) {
+            try { await fbDB.ref('magned_db').set(db); } catch (e) { console.error(e); }
+            localStorage.setItem('magned_db', JSON.stringify(db));
+        }
 
         let tempFaceDescriptor = null;
 
@@ -1003,7 +1030,7 @@
             if (pass.length < 4) { document.getElementById('errPass').style.display = 'block'; hasError = true; }
             if (hasError) return;
 
-            const db = getDB();
+            const db = await getDB();
             if (db.users.find(u => u.cpf === cpf)) { alert("CPF já cadastrado!"); return; }
 
             const newUser = {
@@ -1012,21 +1039,21 @@
                 photo: tempFacePhoto,
                 frequencia: 100, xp: 0, historicoChat: []
             };
-            db.users.push(newUser); saveDB(db);
+            if(!db.users) db.users = [];
+            db.users.push(newUser); await saveDB(db);
             alert("Conta criada com sucesso! Faça login."); switchForm('login');
         }
 
         let failedLogins = 0;
         let loginLocked = false;
-        function doLogin() {
+        async function doLogin() {
             if (loginLocked) { alert("Muitas tentativas! Aguarde 30 segundos (Proteção Anti-Brute Force)."); return; }
             const id = document.getElementById('loginId').value.trim();
             const pass = document.getElementById('loginPass').value;
             if (!id || !pass) { alert("Preencha CPF/E-mail e Senha."); return; }
 
-
-
-            const db = getDB(); const user = db.users.find(u => u.cpf === id && u.pass === pass);
+            const db = await getDB(); 
+            const user = db.users && db.users.find(u => u.cpf === id && u.pass === pass);
             if (user) { 
                 failedLogins = 0;
                 finishLogin(user); 
@@ -1087,7 +1114,9 @@
                         tempFacePhoto = photoBase64;
                         msg.innerText = "Rosto cadastrado com sucesso! ✅"; msg.style.color = "var(--mint)"; setTimeout(stopFaceVideo, 2000);
                     } else {
-                        msg.innerText = "Buscando base..."; const faceUser = getDB().users.find(u => u.faceDescriptor !== null);
+                        msg.innerText = "Buscando base na nuvem..."; 
+                        const db = await getDB();
+                        const faceUser = db.users && db.users.find(u => u.faceDescriptor !== null);
                         if (faceUser) { 
                             if(!faceUser.photo) faceUser.photo = photoBase64;
                             msg.innerText = "Reconhecido! ✅"; msg.style.color = "var(--mint)"; setTimeout(() => finishLogin(faceUser), 1000); 

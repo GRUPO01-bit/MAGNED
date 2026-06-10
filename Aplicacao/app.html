@@ -1011,17 +1011,29 @@ option { background: var(--bg-elevated); color: var(--text-1); }
 // FIREBASE CLOUD DATABASE
 // ═══════════════════════════════════════════════
 const firebaseConfig = {
-  apiKey: "AIzaSyCTK10jh0G4lvE7g83Mu9OvhbJJdCKsva8",
-  authDomain: "magned-bit.firebaseapp.com",
-  databaseURL: "https://magned-bit-default-rtdb.firebaseio.com",
-  projectId: "magned-bit",
-  storageBucket: "magned-bit.firebasestorage.app",
-  messagingSenderId: "966721449158",
-  appId: "1:966721449158:web:60c7054b2985b485e4bbc7",
-  measurementId: "G-DHKHM7QPD9"
+  apiKey: "AIzaSyCOZrLUSBnt9hCh8xZstyPLvKAclGE8nNY",
+  authDomain: "magned-66375.firebaseapp.com",
+  projectId: "magned-66375",
+  storageBucket: "magned-66375.firebasestorage.app",
+  messagingSenderId: "795492792939",
+  appId: "1:795492792939:web:e83b03bb6109330276cf2e",
+  measurementId: "G-8Q1F8BLPCE"
 };
 firebase.initializeApp(firebaseConfig);
-const db = firebase.database();
+const fbDB = firebase.database();
+
+async function getDB() {
+    try {
+        const snapshot = await fbDB.ref('magned_db').once('value');
+        if (snapshot.exists()) return snapshot.val();
+    } catch (e) { console.error("Firebase error:", e); }
+    return JSON.parse(localStorage.getItem('magned_db') || '{"users":[]}');
+}
+
+async function saveDB(dbData) {
+    try { await fbDB.ref('magned_db').set(dbData); } catch (e) { console.error(e); }
+    localStorage.setItem('magned_db', JSON.stringify(dbData));
+}
 
 // ═══════════════════════════════════════════════
 // STATE & PERSISTENCE
@@ -1064,9 +1076,11 @@ function persist(){
     
     // Cloud Sync
     if(S.ra) {
-        db.ref('users/' + S.ra.replace(/\W/g, '')).set({
-            data: d, chat, notes
-        });
+        try {
+            fbDB.ref('users/' + S.ra.replace(/\W/g, '')).set({
+                data: d, chat, notes
+            });
+        } catch(e) {}
     }
 }
 function hydrate(){
@@ -1286,9 +1300,9 @@ function renderMaterias() {
 // ═══════════════════════════════════════════════
 // ADMIN FUNCTIONS
 // ═══════════════════════════════════════════════
-function renderAdminDashboard() {
-    const dbRaw = localStorage.getItem('magned_db');
-    const db = dbRaw ? JSON.parse(dbRaw) : { users: [] };
+async function renderAdminDashboard() {
+    const db = await getDB();
+    if (!db.users) db.users = [];
     
     if (!db.users.some(u => u.id === 'u_mock_1')) {
         db.users.push(
@@ -1297,7 +1311,7 @@ function renderAdminDashboard() {
             { id: 'u_mock_3', tipo: 'profissional', nome: 'Prof. Carlos Eduardo', cpf: '999.000.111-22', matricula: '1998001', curso: 'Docência / Coordenação' },
             { id: 'u_mock_4', tipo: 'estudante', nome: 'Ana Souza', cpf: '123.456.789-00', matricula: '2024099', curso: 'Direito' }
         );
-        localStorage.setItem('magned_db', JSON.stringify(db));
+        await saveDB(db);
     }
     
     const countEl = document.getElementById('adminTotalUsers');
@@ -1323,11 +1337,11 @@ function renderAdminDashboard() {
     `).join('');
 }
 
-function adminClearDB() {
-    if (confirm('ATENÇÃO: Você está prestes a apagar TODOS os usuários cadastrados neste dispositivo. Isso não pode ser desfeito. Deseja continuar?')) {
-        localStorage.removeItem('magned_db');
+async function adminClearDB() {
+    if (confirm('ATENÇÃO: Você está prestes a apagar TODOS os usuários cadastrados da nuvem. Isso não pode ser desfeito. Deseja continuar?')) {
+        await saveDB({ users: [] });
         renderAdminDashboard();
-        toast('🗑️ Dados Apagados', 'O banco de dados local foi resetado.');
+        toast('🗑️ Dados Apagados', 'O banco de dados em nuvem foi resetado.');
     }
 }
 
