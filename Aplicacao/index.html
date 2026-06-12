@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pt-BR">
 
 <head>
@@ -140,6 +140,7 @@
             background: linear-gradient(90deg, #fff, var(--amber), var(--ember));
             background-size: 200%;
             -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
             animation: splashTextEntry 0.6s 0.3s ease forwards, splashGradientShift 3s ease infinite;
             opacity: 0;
@@ -472,6 +473,7 @@
             margin-bottom: 20px;
             background: linear-gradient(to right, #fff, var(--amber));
             -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
@@ -1184,7 +1186,7 @@
             wrap.style.display = 'block'; msg.style.display = 'block'; msg.innerText = "Acessando câmera segura..."; msg.style.color = "var(--ember)";
             try {
                 videoStream = await navigator.mediaDevices.getUserMedia({ video: true }); video.srcObject = videoStream;
-                setTimeout(() => {
+                setTimeout(async () => {
                     if (!videoStream) return;
                     const canvas = document.createElement('canvas');
                     canvas.width = video.videoWidth || 640;
