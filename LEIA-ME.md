@@ -1,4 +1,4 @@
-﻿# MAGNED — Entrega Final (Ciclo 3) · Grupo 01
+# MAGNED — Entrega Final (Ciclo 3) · Grupo 01
 
 ## 📂 Conteúdo desta Entrega
 
@@ -16,14 +16,14 @@ Todos os arquivos necessários para rodar a aplicação no navegador:
 ### 📁 Documentacao/
 - `Relatorio_Tecnico_Final_Ciclo3.html` — Relatório técnico completo (principal)
 - `Relatorio_Entrega_Ciclo3.pdf` — Relatório resumido em PDF
-- `screenshot_*.png` — Capturas de tela usadas no relatório
 
 ### 📁 Screenshots/
-Capturas de tela da aplicação em funcionamento.
+- `screenshot_*.png` — Capturas de tela da aplicação em funcionamento usadas no relatório.
 
 ### 📄 Arquivos na Raiz
-- `LEIA_ME_Manual_Professor.pdf` — Manual de Execução para o Professor (passo a passo + funcionalidades)
-- `ROTEIRO_APRESENTACAO.pdf` — Roteiro completo com as falas de cada integrante
+- `01_COMO_EXECUTAR_O_MAGNED.pdf` — Manual de Execução para o Professor (passo a passo + funcionalidades)
+- `02_ROTEIRO_APRESENTACAO.pdf` — Roteiro completo com as falas de cada integrante
+- `02_ROTEIRO_APRESENTACAO_ATUALIZADO.md` — Roteiro atualizado em Markdown
 
 ## 👥 Grupo 01
 Augusto César, Eduardo Felipe, Gabriel de Freitas, Marcel Eduardo, Nicolas Vinícus, Davi

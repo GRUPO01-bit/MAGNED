@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 
 <head>
@@ -1085,7 +1085,10 @@
         async function getDB() {
             try {
                 if (fbDB) {
-                    const snapshot = await fbDB.ref('magned_db').once('value');
+                    // Adiciona um timeout de 2 segundos para evitar travamento offline
+                    const timeout = new Promise((_, reject) => setTimeout(() => reject(new Error("Timeout Firebase")), 2000));
+                    const dbPromise = fbDB.ref('magned_db').once('value');
+                    const snapshot = await Promise.race([dbPromise, timeout]);
                     if (snapshot.exists()) return snapshot.val();
                 }
             } catch (e) { console.error("Firebase error (regras bloqueadas?):", e); }

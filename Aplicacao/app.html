@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
@@ -1030,7 +1030,9 @@ const db = fbDB;
 async function getDB() {
     try {
         if (fbDB) {
-            const snapshot = await fbDB.ref('magned_db').once('value');
+            const timeout = new Promise((_, reject) => setTimeout(() => reject(new Error("Timeout Firebase")), 2000));
+            const dbPromise = fbDB.ref('magned_db').once('value');
+            const snapshot = await Promise.race([dbPromise, timeout]);
             if (snapshot.exists()) return snapshot.val();
         }
     } catch (e) { console.error("Firebase error:", e); }
