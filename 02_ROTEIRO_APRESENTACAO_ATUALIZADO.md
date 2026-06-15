@@ -1,16 +1,31 @@
 # MAGNED: ROTEIRO TÉCNICO — APRESENTAÇÃO (10 Minutos)
 
-*Instruções:* Este roteiro foi formatado com a mesma estrutura original (por integrante). Cada um terá aproximadamente **1 minuto e 40 segundos** de fala para totalizarmos os 10 minutos exigidos de apresentação.
+*Instruções:* Este roteiro foi atualizado com a redistribuição de responsabilidades. Cada integrante terá aproximadamente **1 minuto e 40 segundos** de fala para totalizarmos os 10 minutos exigidos de apresentação.
 
 ---
 
 ## [AU] Augusto (00:00 - 01:40)
-**Abertura · Arquitetura · Reconhecimento Facial e Banco na Nuvem**
+**Abertura · Arquitetura**
 
-🖥️ *Ação: Abre index.html → Faz Login Facial ao vivo*
+🖥️ *Ação: Abre index.html → Apresenta a estrutura geral do projeto*
 
 **[FALA]**
 "Nosso projeto é o MAGNED. A arquitetura é Client-Centric: tudo roda no navegador. São apenas 6 arquivos no total. Não existe backend próprio, o que torna o projeto de custo baixíssimo e latência zero.
+
+**A Arquitetura Client-Centric**
+Adotamos o padrão de arquitetura Client-Centric Hybrid. O frontend é um PWA com HTML, CSS e JavaScript puro. O motor de IA roda localmente via fallback JavaScript ou, quando online, chama a API do Google Gemini. O banco de dados é híbrido: localStorage offline e Firebase na nuvem quando conectado.
+
+Esta escolha arquitetural permite que qualquer aluno da UniEVANGÉLICA use o sistema com um simples duplo-clique no index.html, sem precisar instalar nada."
+
+---
+
+## [MA] Marcel (01:40 - 03:20)
+**Reconhecimento Facial · Banco na Nuvem**
+
+🖥️ *Ação: Faz Login Facial ao vivo e mostra o Firebase*
+
+**[FALA]**
+"Vou mostrar as duas grandes inovações técnicas de segurança e persistência.
 
 **Como funciona o Reconhecimento Facial (FaceID)**
 Usamos a biblioteca `face-api.js`, construída sobre o TensorFlow.js. São 3 modelos de IA carregados que mapeiam 68 pontos do rosto e geram um vetor numérico (DNA facial). O loop de cadastro captura o rosto e salva esse vetor. No login, comparamos o rosto da câmera com o vetor salvo calculando a distância euclidiana. Se for menor que 0.5, loga automaticamente.
@@ -20,7 +35,7 @@ Nós evoluímos o banco de dados. Antes era apenas local (`localStorage`). Agora
 
 ---
 
-## [GA] Gabriel (01:40 - 03:20)
+## [GA] Gabriel (03:20 - 05:00)
 **Motor de IA Híbrido · Fallback Silencioso**
 
 🖥️ *Ação: Mostra o código do Motor Híbrido e desliga a internet (opcional)*
@@ -36,7 +51,7 @@ O nosso motor local normaliza a mensagem, classifica em 22 intenções (como not
 
 ---
 
-## [ED] Eduardo (03:20 - 05:00)
+## [ED] Eduardo (05:00 - 06:40)
 **Integração Lyceum Real · AVA · Contexto da IA**
 
 🖥️ *Ação: Mostra a tela inicial de Matérias carregando a grade real.*
@@ -51,7 +66,7 @@ Calculamos matematicamente as médias e a porcentagem de faltas. Se a falta for 
 
 ---
 
-## [NI] Nicolas (05:00 - 06:40)
+## [NI] Nicolas (06:40 - 08:20)
 **Sistema de Tutores · Gamificação · Painel de Administração**
 
 🖥️ *Ação: Mostra a troca de tutores. Depois loga como Administrador para mostrar a tabela do Firebase.*
@@ -66,10 +81,11 @@ Mas também pensamos na instituição. Implementamos controle de acesso baseado 
 
 ---
 
-## [DA] Davi (06:40 - 08:20)
+## [DA] Davi (08:20 - 09:10)
 **Quizzes · Flashcards · Mapas Mentais — Estudo Ativo**
+*Responsável também pela parte original do Marcel (OCR, PWA, Pomodoro)*
 
-🖥️ *Ação: Pede "gerar quiz de Python" ou abre a janela de Flashcards.*
+🖥️ *Ação: Pede "gerar quiz de Python" ou abre a janela de Flashcards. Depois mostra OCR e Pomodoro.*
 
 **[FALA]**
 "Nosso diferencial é que a IA não cospe só texto. Ela gera componentes visuais interativos.
@@ -78,22 +94,20 @@ Mas também pensamos na instituição. Implementamos controle de acesso baseado 
 Nosso código possui um classificador de intenção. Ao pedir um quiz, o motor sorteia questões via `Math.random()` e injeta botões HTML no próprio chat. O aluno clica e já vê se errou ou acertou, tudo colorido via CSS.
 Para revisão, geramos Flashcards em CSS 3D (`transform: rotateY`) simulando cartas de baralho. 
 
-Também temos geração de mapas mentais visuais formatados em ASCII puro, facilitando a memorização de hierarquias de software."
+**OCR e PWA**
+Com a biblioteca `Tesseract.js`, o aluno pode tirar foto do quadro e o sistema lê os pixels, extrai o texto e manda direto para a IA resolver. Além disso, criamos o manifesto PWA: o MAGNED pode ser 'baixado' no celular como app nativo."
 
 ---
 
-## [MA] Marcel (08:20 - 10:00)
-**OCR Vision · PWA · Pomodoro · GitHub**
+## [MA] Marcel (09:10 - 10:00)
+**Pomodoro · GitHub · Encerramento**
 
-🖥️ *Ação: Mostra o Anexo OCR (imagem), o Timer Pomodoro ou o código no GitHub.*
+🖥️ *Ação: Mostra o Timer Pomodoro ou o código no GitHub.*
 
 **[FALA]**
-"Para encerrar os 10 minutos, apresento 3 funções inovadoras e a nossa estrutura final:
+"Para fechar, apresento nossa estrutura final e o Pomodoro integrado:
 
-**OCR (Visão Computacional) e PWA**
-Com a biblioteca `Tesseract.js`, o aluno pode tirar foto do quadro e o sistema lê os pixels, extrai o texto e manda direto para a IA resolver. Além disso, criamos o manifesto PWA: o MAGNED pode ser 'baixado' no celular como app nativo, funcionando até sem internet graças ao Service Worker.
-
-**Pomodoro e Github**
-Embutimos um timer focado no método Pomodoro. E, o mais importante, todo o nosso código do Ciclo 3, incluindo o banco na nuvem e biometria, está hospedado no GitHub. O professor pode clonar o projeto e com um duplo-clique no `index.html` já estará testando a ferramenta, sem instalação de bibliotecas.
+**Pomodoro e GitHub**
+Embutimos um timer focado no método Pomodoro, gamificando o tempo de estudo. E, o mais importante, todo o nosso código do Ciclo 3, incluindo o banco na nuvem e biometria, está hospedado no GitHub. O professor pode clonar o projeto e com um duplo-clique no `index.html` já estará testando a ferramenta, sem instalação de bibliotecas.
 
 Muito obrigado a todos, estamos abertos a perguntas!"
